@@ -3,6 +3,12 @@
 
 \usepackage{graphicx}
 \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+%% Big-O notation.
+\providecommand{\OO}[1]{\ensuremath{\operatorname{O}\bigl(#1\bigr)}}
+
 \begin{document}
 
 \title{Open source symbolic multibody dynamics software}
@@ -33,7 +39,97 @@
 
 \section{Derivation of linearization algorithm}
 \label{derivations}
-\input{linearization}
+The goal of the following calculations is to concretely establish the first
+order relationships (about an arbitrary equilibrium point) between an arbitary
+choice of independent coordinates and speeds, and the time-derivatives of all
+coordinates and speeds (both independent and dependent).  This enables several
+common tasks: (1) stability analysis of arbitrary equilibria, (2) traditional
+control system design, (3) control system design with output feedback based
+upon quantities that are dependent (i.e., not state variables), (4)
+determination of measurement equations for use in Kalman filter design when
+measured quantities are at the acceleration level (i.e., accelerometers).  The
+formalism presented here is generic enough to cover most examples of
+time-varying constrained multibody systems with arbitrary external inputs and
+arbitrary specified quantities.
+
+The complete configuration of the system is assumed to be described by
+generalized coordinates $\bm{q}\in\bm{R}^n$, its velocity completely described
+by generalized speeds $\bm{u}\in\bm{R}^o$.  It is assumed that there are $l$
+holonomic constraints ($f_h : \mathbf{R}^n \times \mathbf{R} \to
+\mathbf{R}^l$), and $m$ nonholonomic constraints ($f_{nh} : \mathbf{R}^n \times
+\mathbf{R}^o \times \mathbf{R} \to \mathbf{R}^l$). Two functions $\bm{f}_0 :
+\mathbf{R}^n \times \mathbf{R}^n \times \mathbf{R} \to \mathbf{R}^n$ and
+$\bm{f}_1 : \mathbf{R}^n \times \mathbf{R}^o \times \mathbf{R} \to
+\mathbf{R}^n$ relate the coordinate time derivatives to the generalized speeds,
+and two more functions $\bm{f}_2 : \mathbf{R}^n \times \mathbf{R}^o \times
+\mathbf{R}^p \times \mathbf{R} \to \mathbf{R}^n$ and $\bm{f}_3 : \mathbf{R}^n
+\times \mathbf{R}^n \times \mathbf{R}^o \times \mathbf{R}^p \times \mathbf{R}
+\to \mathbf{R}^n$ relate the time derivatives of the speeds $\bm{\dot{u}}$ to
+the externally applied inputs $\bm{r}\in\bm{R}^q$, coordinates $\bm{q}$ and
+their time derivatives $\bm{\dot{q}}$,  speeds $\bm{u}$, and time $t$. These
+assumptions can be summarized by the vector equations
+\begin{align}
+  \label{eq:holonomic}
+  \bm{f}_{h}(\bm{q}, t) &= \bm{0}\\
+  \label{eq:nonholonomic}
+  \bm{f}_{nh}(\bm{q}, \bm{u}, t) &= \bm{0}\\
+  \label{eq:kindiffs}
+  \bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t)
+    + \bm{f}_{1}(\bm{q}, \bm{u}, t) &= \bm{0} \\
+  \label{eq:dyndiffs}
+  \bm{f}_{2}(\bm{q}, \bm{\dot{u}}, \bm{r}, t)
+    + \bm{f}_{3}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{r}, t) & = \bm{0}
+\end{align}
+where (\ref{eq:holonomic}) is the holonomic constraints,
+(\ref{eq:nonholonomic}) is the nonholonomic and time-differentiated holonomic
+constraints, (\ref{eq:kindiffs}) is the kinematic differential equations
+(linear in both $\bm{\dot{q}}$ and $\bm{u}$ and in the trivial case,
+$\bm{\dot{q}} = \bm{u}$, so $f_0 = -f_1$), and (\ref{eq:dyndiffs}) include both
+the dynamic differential equations (arising from application of Kane's method)
+and the time-differentiated version of equation \ref{eq:nonholonomic}.
+Equation (\ref{eq:dyndiffs}) will necessarily by linear in $\bm{\dot{u}}$, but
+generally nonlinear in all other quantities (though often linear in the
+external inputs $\bm{r}$).  In this formalism, both independent and dependent
+quantities (coordinates and speeds) appear in these equations; we will address
+this is shortly.
+
+The system described by equations \ref{eq:holonomic}-\ref{eq:dyndiffs} has
+$o-m$ velocity degrees of freedom.  In state space form, the trajectories of
+the system exist in a $p \triangleq n - l + o - m$ dimensional space, though
+conserved quantities (e.g., total mechanical energy) may restrict trajectories
+to a lower dimensional manifold embedded in this $p$ dimensional space.  In
+general this cannot be assumed, however, especially in the presence of external
+inputs which may change the total mechanical energy of the system.  While more
+than $p$ of the state variables may be of interest (i.e., dependent coordinates
+or speeds may be of interest in themselves), only $p$ quantities are truly
+independent.  Which of these $p$ coordinates and speeds should be chosen as
+independent out of the possible $n + o$ may be obvious for small systems where
+there is intuition about the system behavior, but in general the optimal choice
+depends on how the configuration $\bm{q}$ affects the gradients of equations
+\ref{eq:holonomic} and \ref{eq:nonholonomic}.  On the other hand, in systems
+with cyclic (ignorable) coordinates, fewer than $p$ state variables may be of
+interest; one example is the Whipple bicycle model where $p=10$ but 5 of these
+state variables are cyclic coordinates (coordinates of rear wheel contact
+point, heading, and both wheel angles) and are often not of much interest in
+themselves, nor are they neccessary for most analyses.
+
+We begin with a Taylor series expansion of equations
+\ref{eq:holonomic}-\ref{eq:dyndiffs} about an equilibrium $\bm{q}=\bm{q}^*$,
+$\bm{\dot{q}}=\bm{\dot{q}}^*$, $\bm{u}=\bm{u}^*$,
+$\bm{\dot{u}}=\bm{\dot{u}}^*$.  It assumed that $\bm{q}^*, \bm{\dot{q}}^*,
+\bm{u}^*, \bm{\dot{u}}^*$ satisify equations
+\ref{eq:holonomic}-\ref{eq:dyndiffs}.  The Taylor series expansion of the
+constraint equations (\ref{eq:holonomic}) and (\ref{eq:nonholonomic}) about the
+equilibrium is
+\begin{align}
+  \label{eq:holonomic_expansion}
+  \bm{f}_{h}(\bm{q}, t) &\approx \underbrace{f_{h}(\bm{q}^*, t)}_{\bm{0}} +
+    \nabla_{\bm{q}}f_{h}(\bm{q}^*, t)\delta \bm{q}\\
+  \label{eq:nonholonomic_expansion}
+  \bm{f}_{nh}(\bm{q}, \bm{u}, t) &\approx \underbrace{\bm{f}_{nh}(\bm{q}^*,
+  \bm{u}^*, t)}_{\bm{0}} +  \nabla_{\bm{q}}f_{nh}(\bm{q}^*, \bm{u}^*, t)\delta \bm{q} + \nabla_{\bm{u}}f_{nh}(\bm{q}^*, \bm{u}^*, t)\delta \bm{u}
+\end{align}
+The 
 
 
 \begin{acknowledgements}

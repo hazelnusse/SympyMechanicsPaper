@@ -1,0 +1,50 @@
+\documentclass{svjour3}                     % onecolumn (standard format)
+\RequirePackage{fix-cm}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\begin{document}
+
+\title{Open source symbolic multibody dynamics software}
+
+\titlerunning{Open source symbolic multibody dynamics software}        % if too long for running head
+
+\author{Dale L. Peterson\and Gilbert Gede\and Mont Hubbard}
+
+\institute{Dale L. Peterson, Gilbert Gede, Mont Hubbard \at
+           Sports Biomechanics Laboratory\\
+           Department of Mechanical and Aerospace Engineering\\
+           University of California Davis\\
+           Davis, CA 95616-5294\\
+           Tel.: +1 530 752 2163\\
+           \email{\{dlpeterson,ggede,mhubbard\}@ucdavis.edu}}
+
+\date{Received: date / Accepted: date}
+
+\maketitle
+
+\begin{abstract}
+  Abstract here.
+\keywords{symbolic dynamics software, nonholonomic systems, control}
+\end{abstract}
+
+\section{Introduction}
+\label{intro}
+
+\section{Derivation of linearization algorithm}
+\label{derivations}
+\input{linearization}
+
+
+\begin{acknowledgements}
+  This material is based upon work partially supported by the National Science
+  Foundation under award 0928339 and two Google Summer of Code projects (2009,
+  2011).  Aaron Muerer, Brian Granger, Mateuz Paprocki, and Ondrej Certik
+  provided valuable help with SymPy and Python.  Jason Moore, Thomas Johnston,
+  Evan Sperber, and Andrew Kickertz provided valuable feedback during
+  discussions of multibody dynamics and control related issues.
+\end{acknowledgements}
+
+%\bibliographystyle{spmpsci}      % mathematics and physical sciences
+%\bibliography{}   % name your BibTeX data base
+\end{document}

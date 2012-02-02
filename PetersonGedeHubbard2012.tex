@@ -62,9 +62,9 @@ holonomic constraints ($f_h : \mathbf{R}^n \times \mathbf{R} \to
 $\bm{f}_1 : \mathbf{R}^n \times \mathbf{R}^o \times \mathbf{R} \to
 \mathbf{R}^n$ relate the coordinate time derivatives to the generalized speeds,
 and two more functions $\bm{f}_2 : \mathbf{R}^n \times \mathbf{R}^o \times
-\mathbf{R}^p \times \mathbf{R} \to \mathbf{R}^n$ and $\bm{f}_3 : \mathbf{R}^n
+\mathbf{R} \to \mathbf{R}^o$ and $\bm{f}_3 : \mathbf{R}^n
 \times \mathbf{R}^n \times \mathbf{R}^o \times \mathbf{R}^p \times \mathbf{R}
-\to \mathbf{R}^n$ relate the time derivatives of the speeds $\bm{\dot{u}}$ to
+\to \mathbf{R}^o$ relate the time derivatives of the speeds $\bm{\dot{u}}$ to
 the externally applied inputs $\bm{r}\in\bm{R}^q$, coordinates $\bm{q}$ and
 their time derivatives $\bm{\dot{q}}$,  speeds $\bm{u}$, and time $t$. These
 assumptions can be summarized by the vector equations
@@ -77,21 +77,24 @@ assumptions can be summarized by the vector equations
   \bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t)
     + \bm{f}_{1}(\bm{q}, \bm{u}, t) &= \bm{0} \\
   \label{eq:dyndiffs}
-  \bm{f}_{2}(\bm{q}, \bm{\dot{u}}, \bm{r}, t)
+  \bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t)
     + \bm{f}_{3}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{r}, t) & = \bm{0}
 \end{align}
-where (\ref{eq:holonomic}) is the holonomic constraints,
-(\ref{eq:nonholonomic}) is the nonholonomic and time-differentiated holonomic
-constraints, (\ref{eq:kindiffs}) is the kinematic differential equations
+where equations (\ref{eq:holonomic}) and (\ref{eq:nonholonomic}) are the
+holonomic and nonholonomic constraints (and possibly time differentiated holonomic
+constraints), respectively. Equations (\ref{eq:kindiffs}) are the kinematic differential equations
 (linear in both $\bm{\dot{q}}$ and $\bm{u}$ and in the trivial case,
-$\bm{\dot{q}} = \bm{u}$, so $f_0 = -f_1$), and (\ref{eq:dyndiffs}) include both
-the dynamic differential equations (arising from application of Kane's method)
-and the time-differentiated version of equation \ref{eq:nonholonomic}.
+$\bm{\dot{q}} = \bm{u}$, so $f_0 = -f_1$).  Equations (\ref{eq:dyndiffs}) are
+the dynamic differential equations
+and the time differentiated version of equation \ref{eq:nonholonomic}.
 Equation (\ref{eq:dyndiffs}) will necessarily by linear in $\bm{\dot{u}}$, but
 generally nonlinear in all other quantities (though often linear in the
 external inputs $\bm{r}$).  In this formalism, both independent and dependent
 quantities (coordinates and speeds) appear in these equations; we will address
-this is shortly.
+this is shortly.  This following calculations formalism is exceedingly generic;
+in practice there is a lot of structure in equations
+(\ref{eq:nonholonomic}-\ref{eq:dyndiffs}) that can be leveraged to simplify the
+following calculations.  This will be expanded upon below.
 
 The system described by equations \ref{eq:holonomic}-\ref{eq:dyndiffs} has
 $o-m$ velocity degrees of freedom.  In state space form, the trajectories of
@@ -113,24 +116,162 @@ state variables are cyclic coordinates (coordinates of rear wheel contact
 point, heading, and both wheel angles) and are often not of much interest in
 themselves, nor are they neccessary for most analyses.
 
-We begin with a Taylor series expansion of equations
-\ref{eq:holonomic}-\ref{eq:dyndiffs} about an equilibrium $\bm{q}=\bm{q}^*$,
-$\bm{\dot{q}}=\bm{\dot{q}}^*$, $\bm{u}=\bm{u}^*$,
-$\bm{\dot{u}}=\bm{\dot{u}}^*$.  It assumed that $\bm{q}^*, \bm{\dot{q}}^*,
-\bm{u}^*, \bm{\dot{u}}^*$ satisify equations
-\ref{eq:holonomic}-\ref{eq:dyndiffs}.  The Taylor series expansion of the
-constraint equations (\ref{eq:holonomic}) and (\ref{eq:nonholonomic}) about the
-equilibrium is
+We begin with a first order Taylor series expansion of equations
+(\ref{eq:holonomic})-(\ref{eq:dyndiffs}) about an equilibrium
+$\bm{q}=\bm{q}^*$, $\bm{\dot{q}}=\bm{\dot{q}}^*$, $\bm{u}=\bm{u}^*$,
+$\bm{\dot{u}}=\bm{\dot{u}}^*$, $\bm{r}=\bm{r}^*$ that satisfies equations
+(\ref{eq:holonomic})-(\ref{eq:dyndiffs}).  Determining these equilibrium values
+generally involves solving (\ref{eq:holonomic})-(\ref{eq:dyndiffs}).  In the interest of brevity, we omit writing this equilibrium after
+each gradient in the calculations below; all are evaluated at these equilibrium
+conditions.  Taylor series expansion of the constraint equations
+(\ref{eq:holonomic}) and (\ref{eq:nonholonomic}) about the equilibrium is
 \begin{align}
   \label{eq:holonomic_expansion}
   \bm{f}_{h}(\bm{q}, t) &\approx \underbrace{f_{h}(\bm{q}^*, t)}_{\bm{0}} +
-    \nabla_{\bm{q}}f_{h}(\bm{q}^*, t)\delta \bm{q}\\
+    \nabla_{\bm{q}}f_{h} \cdot \delta \bm{q}\\
   \label{eq:nonholonomic_expansion}
   \bm{f}_{nh}(\bm{q}, \bm{u}, t) &\approx \underbrace{\bm{f}_{nh}(\bm{q}^*,
-  \bm{u}^*, t)}_{\bm{0}} +  \nabla_{\bm{q}}f_{nh}(\bm{q}^*, \bm{u}^*, t)\delta \bm{q} + \nabla_{\bm{u}}f_{nh}(\bm{q}^*, \bm{u}^*, t)\delta \bm{u}
+  \bm{u}^*, t)}_{\bm{0}} +  \nabla_{\bm{q}}f_{nh} \cdot \delta \bm{q} +
+  \nabla_{\bm{u}}f_{nh} \cdot \delta \bm{u}
 \end{align}
-The 
+and the first terms are identically zero because of the assumption that the
+equilibrium point satisfies the constraints.  The Taylor series expansions of
+the functions appearing in the left hand side of equations (\ref{eq:kindiffs})
+are
+\begin{align}
+  \label{eq:f0_expansion}
+  \bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) &\approx \bm{f}_{0}(\bm{q}^*,
+  \bm{\dot{q}}^*, t) + \nabla_{\bm{q}}\bm{f}_{0} \cdot \delta\bm{q} +
+  \nabla_{\bm{\dot{q}}}\bm{f}_{0} \cdot \delta\bm{\dot{q}}\\
+  \label{eq:f1_expansion}
+  \bm{f}_{1}(\bm{q}, \bm{u}, t) &\approx \bm{f}_{1}(\bm{q}^*,
+  \bm{u}^*, t) + \nabla_{\bm{q}}\bm{f}_{1} \cdot \delta\bm{q} +
+  \nabla_{\bm{u}}\bm{f}_{1} \cdot \delta\bm{u}
+\end{align}
+Summing (\ref{eq:f0_expansion}) and (\ref{eq:f1_expansion}) and recognizing
+that the sum of the first term on the right hand side of each equation must
+equal zero, we obtain
+\begin{align}
+  \label{eq:f0_plus_f1_expansion}
+  \bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) + \bm{f}_{1}(\bm{q}, \bm{u}, t) &\approx
+  \nabla_{\bm{q}}(\bm{f}_{0} + \bm{f}_{1}) \cdot \delta\bm{q} +
+  \nabla_{\bm{\dot{q}}}\bm{f}_{0} \cdot \delta\bm{\dot{q}} +
+  \nabla_{\bm{u}}\bm{f}_{1} \cdot \delta\bm{u}
+\end{align}
+Similarly, a Taylor series expansion of the functions appearing in
+the left hand side of (\ref{eq:dyndiffs}) yields
+\begin{align}
+  \label{eq:f2_expansion}
+  \bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t) &\approx
+      \bm{f}_{2}(\bm{q}^*, \bm{\dot{u}}^*, t) +
+      \nabla_{\bm{q}}\bm{f}_{2} \cdot \delta\bm{q}
+      + \nabla_{\bm{\dot{u}}}\bm{f}_{2} \cdot \delta\bm{\dot{u}}\\
+  \bm{f}_{3}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{r}, t) &\approx
+  \bm{f}_{3}(\bm{q}^*, \bm{\dot{q}}^*, \bm{u}^*, \bm{r}^*, t) +
+  \nabla_{\bm{q}}\bm{f}_{3} \cdot \delta\bm{q}\notag\\
+  \label{eq:f3_expansion}
+  &+ \nabla_{\bm{\dot{q}}}\bm{f}_{3} \cdot \delta\bm{\dot{q}}
+  + \nabla_{\bm{u}}\bm{f}_{3} \cdot \delta \bm{u}
+  + \nabla_{\bm{r}}\bm{f}_{3} \cdot \delta\bm{r}
+\end{align}
+Summing (\ref{eq:f2_expansion}) and (\ref{eq:f3_expansion}) and recognizing
+that the sum of the first term on the right hand sides of these equations must
+equal zero, we obtain
+\begin{align}
+  \bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t) + \bm{f}_{3}(\bm{q}, \bm{\dot{q}},
+  \bm{u}, \bm{r}, t) &\approx \nabla_{\bm{q}}(\bm{f}_2 + \bm{f}_3) \cdot
+  \delta\bm{q} + \nabla_{\bm{\dot{q}}}\bm{f}_{3} \cdot \delta\bm{\dot{q}}\notag\\
+  \label{eq:f2_plus_f3_expansion}
+  &+ \nabla_{\bm{u}}\bm{f}_{3} \cdot \delta\bm{u} +
+  \nabla_{\bm{\dot{u}}}\bm{f}_{2} \cdot \delta\bm{\dot{u}} + \nabla_{\bm{r}}\bm{f}_{3} \cdot \delta\bm{r}
+\end{align}
 
+Utilizing equations (\ref{eq:kindiffs}), (\ref{eq:f0_plus_f1_expansion}),
+(\ref{eq:dyndiffs}), and (\ref{eq:f2_plus_f3_expansion}), we introduce the
+following quantities
+\begin{align}
+  M_{00} &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_0 \\
+  M_{11} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_2 \\
+  A_{00} &\triangleq -\nabla_{\bm{q}}(\bm{f}_0 + \bm{f}_1) \\
+  A_{01} &\triangleq -\nabla_{\bm{u}}\bm{f}_1 \\
+  A_{10} &\triangleq \nabla_{\bm{q}}(\bm{f}_2 + \bm{f}_3)
+  -\nabla_{\bm{\dot{q}}}\bm{f}_3 (\nabla_{\bm{\dot{q}}}\bm{f}_{0})^{-1}
+  \nabla_{\bm{q}}(\bm{f}_0 + \bm{f}_1) \\
+  A_{11} &\triangleq \nabla_{\bm{u}} \bm{f}_{3} - \nabla_{\bm{\dot{q}}}\bm{f}_{3}
+  (\nabla_{\bm{\dot{q}}}\bm{f}_0)^{-1} \nabla_{\bm{u}}\bm{f}_{1} \\
+  B_{1} &\triangleq \nabla_{\bm{r}}\bm{f}_{3}
+\end{align}
+
+Equating the right hand side of equations (\ref{eq:f0_plus_f1_expansion}) and
+(\ref{eq:f2_plus_f3_expansion}) each to zero, eliminating $\bm{\dot{q}}$ from
+(\ref{eq:f2_plus_f3_expansion}), and rewriting in matrix form, we obtain
+\begin{align}
+  \label{eq:state_space_unconstrained}
+  \left[
+    \begin{array}{cc}
+      M_{00} & \bm{0}_{n \times o} \\
+      \bm{0}_{o \times n} & M_{11}
+    \end{array}
+    \right]
+    \left[
+      \begin{array}{c}
+        \delta \bm{\dot{q}} \\
+        \delta \bm{\dot{u}}
+      \end{array}
+    \right]
+   &=
+   \left[
+     \begin{array}{cc}
+       A_{00} & A_{01} \\
+       A_{10} & A_{11}
+     \end{array}
+   \right]
+    \left[
+      \begin{array}{c}
+        \delta \bm{q} \\
+        \delta \bm{u}
+      \end{array}
+    \right]
+    +
+    \left[
+      \begin{array}{c}
+        \bm{0}_{n \times q} \\
+        B_{1}
+      \end{array}
+    \right]
+    \delta \bm{r}
+\end{align}
+Equation (\ref{eq:state_space_unconstrained}) has a state space of dimension $n
++ o$, yet as was discussed earlier, only $p = n - l + o - m$ of these
+quantities are independent.  To address this issue, one must pick a particular
+set of independent coordinates and speeds and appeal to equations
+(\ref{eq:holonomic_expansion}) and (\ref{eq:nonholonomic_expansion}).  To this
+end, consider the following partitioning of the generalized coordinates and
+generalized speeds:
+\begin{equation*}
+  \tilde{\bm{q}} \triangleq \left[\begin{array}{cc}\bm{q}_{i} &
+      \bm{q}_{d}\end{array}\right]^{T} =  P_{q}^{-1} \bm{q}
+      \qquad\qquad
+  \tilde{\bm{u}} \triangleq \left[\begin{array}{cc}\bm{u}_{i} &
+      \bm{u}_{d}\end{array}\right]^{T} =  P_{u}^{-1} \bm{u}
+\end{equation*}
+where $P_q \in \mathbf{R}^{n \times n}$ and $P_u \in \mathbf{R}^{o \times o}$
+are invertible permutation matrices which map an ordering which has the
+independent quantities ($\bm{q}_{i}\in\mathbf{R}^{n-l},\,
+\bm{u}_{i}\in\mathbf{R}^{o-m})$ first, followed by the dependent quantities
+($\bm{q}_{d}\in\mathbf{R}^{l},\, \bm{u}_{d}\in\mathbf{R}^{m}$) to the
+original ordering of the coordinates and speeds.
+
+Setting the right hand side of equation (\ref{eq:holonomic_expansion}) equal to
+zero, and making use of $P_q$, we have
+\begin{align}
+  \nabla_{\bm{q}}\bm{f}_{h} P_{q} \delta \bm{\tilde{q}} &=
+  \nabla_{\bm{q}}\bm{f}_{h} P_{qi} \delta \bm{q_i} +
+  \nabla_{\bm{q}}\bm{f}_{h} P_{qd} \delta \bm{q_d}\notag\\
+  &= \bm{0}\notag\\
+  \implies \delta \bm{q}_d &= -(\nabla_{\bm{q}}\bm{f}_{h} P_{qd})^{-1}
+  (\nabla_{\bm{q}}\bm{f}_{h} P_{qi}) \delta \bm{q}_i
+\end{align}
 
 \begin{acknowledgements}
   This material is based upon work partially supported by the National Science

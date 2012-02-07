@@ -242,12 +242,12 @@ Equating the right hand side of equations (\ref{eq:f0_plus_f1_expansion}) and
     \delta \bm{r}
 \end{align}
 Equation (\ref{eq:state_space_unconstrained}) has a state space of dimension $n
-+ o$, yet as was discussed earlier, only $p = n - l + o - m$ of these
-quantities are independent.  To address this issue, one must pick a particular
-set of independent coordinates and speeds and appeal to equations
-(\ref{eq:holonomic_expansion}) and (\ref{eq:nonholonomic_expansion}).  To this
-end, consider the following partitioning of the generalized coordinates and
-generalized speeds:
++ o$, yet  only $p = n - l + o - m$ of these quantities are independent, due to
+the constraints (equations (\ref{eq:holonomic} and (\ref{eq:nonholonomic})).
+To address this issue, one must pick a particular set of independent
+coordinates and speeds and appeal to equations (\ref{eq:holonomic_expansion})
+and (\ref{eq:nonholonomic_expansion}).  To this end, consider the following
+partitioning of the generalized coordinates and generalized speeds:
 \begin{equation*}
   \tilde{\bm{q}} \triangleq \left[\begin{array}{cc}\bm{q}_{i} &
       \bm{q}_{d}\end{array}\right]^{T} =  P_{q}^{-1} \bm{q}
@@ -260,18 +260,118 @@ are invertible permutation matrices which map an ordering which has the
 independent quantities ($\bm{q}_{i}\in\mathbf{R}^{n-l},\,
 \bm{u}_{i}\in\mathbf{R}^{o-m})$ first, followed by the dependent quantities
 ($\bm{q}_{d}\in\mathbf{R}^{l},\, \bm{u}_{d}\in\mathbf{R}^{m}$) to the
-original ordering of the coordinates and speeds.
+original ordering of the coordinates and speeds.  We use the notation $P_{qi}$
+and $P_{qd}$ to denote the first $n-l$ and last $l$ columns of $P_q$,
+respectively; similarly, $P_{ui}$ is the first $o-m$ colums of $P_{u}$ while
+$P_{ud}$ is the last $m$ columns of $P_u$.
 
 Setting the right hand side of equation (\ref{eq:holonomic_expansion}) equal to
 zero, and making use of $P_q$, we have
 \begin{align}
-  \nabla_{\bm{q}}\bm{f}_{h} P_{q} \delta \bm{\tilde{q}} &=
-  \nabla_{\bm{q}}\bm{f}_{h} P_{qi} \delta \bm{q_i} +
-  \nabla_{\bm{q}}\bm{f}_{h} P_{qd} \delta \bm{q_d}\notag\\
+  \nabla_{\bm{q}}\bm{f}_{h} P_{q} \cdot \delta \bm{\tilde{q}} &=
+  \nabla_{\bm{q}}\bm{f}_{h} P_{qi} \cdot \delta \bm{q_i} +
+  \nabla_{\bm{q}}\bm{f}_{h} P_{qd} \cdot \delta \bm{q_d}\notag\\
   &= \bm{0}\notag\\
   \implies \delta \bm{q}_d &= -(\nabla_{\bm{q}}\bm{f}_{h} P_{qd})^{-1}
-  (\nabla_{\bm{q}}\bm{f}_{h} P_{qi}) \delta \bm{q}_i
+  (\nabla_{\bm{q}}\bm{f}_{h} P_{qi}) \cdot \delta \bm{q}_i \notag\\
+  \implies \delta \bm{q} &= \left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
+    \bm{f}_{h} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{h} \right] P_{qi} \cdot \delta
+    \bm{q}_i
 \end{align}
+For convenience, we define
+\begin{equation}
+  \label{eq:C_0}
+  C_0 \triangleq \left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
+    \bm{f}_{h} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{h} \right] P_{qi}
+\end{equation}
+which enables us to write
+\begin{align}
+  \label{eq:delta_q}
+  \delta \bm{q} &= C_0 \cdot \delta \bm{q}
+\end{align}
+
+Applying the same approach to (\ref{eq:nonholonomic_expansion}), we obtain
+\begin{align}
+\nabla_{\bm{q}}f_{nh} \cdot \delta \bm{q} +
+\nabla_{\bm{u}}f_{nh} \cdot \delta \bm{u} &= \nabla_{\bm{q}} \bm{f}_{nh} \cdot
+\delta \bm{q} + \nabla_{\bm{u}} \bm{f}_{nh} P_{ui} \cdot \delta \bm{u}_i +
+\nabla_{\bm{u}} \bm{f}_{nh} P_{ud} \cdot \delta \bm{u}_d \notag\\
+&= \bm{0}\notag\\
+\implies \delta \bm{u}_d &= -\left(\nabla_{\bm{u}} \bm{f}_{nh}
+P_{ud}\right)^{-1}\left[\nabla_{\bm{q}}\bm{f}_{nh} \cdot \delta\bm{q} +
+  \nabla_{\bm{u}} \bm{f}_{nh} P_{ui} \cdot \delta \bm{u}_i \right]\notag
+\end{align}
+We define
+\begin{align}
+  \label{eq:C_1}
+  C_1 &\triangleq -\left(\nabla_{\bm{u}} \bm{f}_{nh} P_{ud}\right)^{-1}
+  \nabla_{\bm{q}}\bm{f}_{nh} \\
+  \label{eq:C_2}
+  C_2 &\triangleq -\left(\nabla_{\bm{u}} \bm{f}_{nh} P_{ud}\right)^{-1} \nabla_{\bm{u}} \bm{f}_{nh} P_{ui}
+\end{align}
+which enables us to write
+\begin{align}
+  \label{eq:delta_u}
+  \delta \bm{u} &= C_1 \cdot \delta \bm{q} + C_2 \cdot \delta \bm{u}_i\notag\\
+  &= C_1 C_0 \cdot \delta \bm{q}_i + C_2 \cdot \delta \bm{u}_i
+\end{align}
+
+By making use of equations (\ref{eq:delta_q}) and (\ref{eq:delta_u}), we can
+rewrite equation (\ref{eq:state_space_unconstrained}) as
+\begin{align}
+  \label{eq:state_space_constrained}
+  \left[
+    \begin{array}{cc}
+      M_{00} & \bm{0}_{n \times o} \\
+      \bm{0}_{o \times n} & M_{11}
+    \end{array}
+    \right]
+    \left[
+      \begin{array}{c}
+        \delta \bm{\dot{q}} \\
+        \delta \bm{\dot{u}}
+      \end{array}
+    \right]
+   &=
+   \left[
+     \begin{array}{cc}
+       (A_{00} + A_{01} C_{1}) C_{0} & A_{01} C_{2} \\
+       (A_{10} + A_{11} C_{1}) C_{0} & A_{11} C_{2}
+     \end{array}
+   \right]
+    \left[
+      \begin{array}{c}
+        \delta \bm{q}_i \\
+        \delta \bm{u}_i
+      \end{array}
+    \right]
+    +
+    \left[
+      \begin{array}{c}
+        \bm{0}_{n \times q} \\
+        B_{1}
+      \end{array}
+    \right]
+    \delta \bm{r}
+\end{align}
+
+There are two requirements for this method to work, namely, both
+$\nabla_{\bm{q}}\bm{f}_{h} P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_{nh} P_{ud}$
+must be nonsingular.  Because of the presence of the permutation matrices, this
+implies proper selection of dependent coordinates and dependent speeds is
+critical.  The permutation matrices effectively select the columns of the
+constraint gradient matrices, and may be selected by examination of the
+constraint gradient matrix through a SVD or other numerical techniques; for
+small systems it may be possible to choose dependent speeds without resorting
+to numerical techniques if the system trajectories stay with the configuration
+space where these matrices are nonsingular.
+
+For stability analyses, one must examine the stability of the mapping $\delta
+\bm{q}_i \to \bm{\dot{q}}_i$.  This can be done by first solving for
+$\delta\bm{\dot{x}} = \left[\delta\bm{\dot{q}},\,\delta\bm{\dot{u}}\right]^{T}$, then selecting
+the independent rows of these equations ($n-l+o-m$ of them) to form a square
+matrix whose eigenvalues govern the stability of the system about the point of
+linearization.
 
 \begin{acknowledgements}
   This material is based upon work partially supported by the National Science

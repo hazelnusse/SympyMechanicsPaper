@@ -287,7 +287,7 @@ For convenience, we define
 which enables us to write
 \begin{align}
   \label{eq:delta_q}
-  \delta \bm{q} &= C_0 \cdot \delta \bm{q}
+  \delta \bm{q} &= C_0 \cdot \delta \bm{q}_i
 \end{align}
 
 Applying the same approach to (\ref{eq:nonholonomic_expansion}), we obtain
@@ -299,15 +299,20 @@ Applying the same approach to (\ref{eq:nonholonomic_expansion}), we obtain
 &= \bm{0}\notag\\
 \implies \delta \bm{u}_d &= -\left(\nabla_{\bm{u}} \bm{f}_{nh}
 P_{ud}\right)^{-1}\left[\nabla_{\bm{q}}\bm{f}_{nh} \cdot \delta\bm{q} +
-  \nabla_{\bm{u}} \bm{f}_{nh} P_{ui} \cdot \delta \bm{u}_i \right]\notag
+  \nabla_{\bm{u}} \bm{f}_{nh} P_{ui} \cdot \delta \bm{u}_i \right]\notag\\
+  \implies \delta \bm{u} &= -P_{ud}(\nabla_{\bm{u}} \bm{f}_{nh} P_{ud})^{-1}
+  \nabla_{\bm{q}} \bm{f}_{nh} \cdot \delta \bm{q}\notag\\
+  &+ \left[I - P_{ud} (\nabla_{\bm{u}}\bm{f}_{nh} P_{ud})^{-1} \nabla_{\bm{u}}
+    \bm{f}_{nh} \right] P_{ui} \cdot \delta \bm{u}_i
 \end{align}
 We define
 \begin{align}
   \label{eq:C_1}
-  C_1 &\triangleq -\left(\nabla_{\bm{u}} \bm{f}_{nh} P_{ud}\right)^{-1}
-  \nabla_{\bm{q}}\bm{f}_{nh} \\
+  C_1 &\triangleq -P_{ud}(\nabla_{\bm{u}} \bm{f}_{nh} P_{ud})^{-1}
+  \nabla_{\bm{q}} \bm{f}_{nh} \\
   \label{eq:C_2}
-  C_2 &\triangleq -\left(\nabla_{\bm{u}} \bm{f}_{nh} P_{ud}\right)^{-1} \nabla_{\bm{u}} \bm{f}_{nh} P_{ui}
+  C_2 &\triangleq \left[I - P_{ud} (\nabla_{\bm{u}}\bm{f}_{nh} P_{ud})^{-1} \nabla_{\bm{u}}
+    \bm{f}_{nh} \right] P_{ui}
 \end{align}
 which enables us to write
 \begin{align}

@@ -53,91 +53,130 @@ time-varying constrained multibody systems with arbitrary external inputs and
 arbitrary specified quantities.
 
 The complete configuration of the system is assumed to be described by
-generalized coordinates $\bm{q}\in\bm{R}^n$, its velocity completely described
-by generalized speeds $\bm{u}\in\bm{R}^o$.  It is assumed that there are $l$
-holonomic constraints ($f_h : \mathbf{R}^n \times \mathbf{R} \to
-\mathbf{R}^l$), and $m$ nonholonomic constraints ($f_{nh} : \mathbf{R}^n \times
-\mathbf{R}^o \times \mathbf{R} \to \mathbf{R}^l$). Two functions $\bm{f}_0 :
-\mathbf{R}^n \times \mathbf{R}^n \times \mathbf{R} \to \mathbf{R}^n$ and
-$\bm{f}_1 : \mathbf{R}^n \times \mathbf{R}^o \times \mathbf{R} \to
-\mathbf{R}^n$ relate the coordinate time derivatives to the generalized speeds,
-and two more functions $\bm{f}_2 : \mathbf{R}^n \times \mathbf{R}^o \times
-\mathbf{R} \to \mathbf{R}^o$ and $\bm{f}_3 : \mathbf{R}^n
-\times \mathbf{R}^n \times \mathbf{R}^o \times \mathbf{R}^p \times \mathbf{R}
-\to \mathbf{R}^o$ relate the time derivatives of the speeds $\bm{\dot{u}}$ to
-the externally applied inputs $\bm{r}\in\bm{R}^q$, coordinates $\bm{q}$ and
-their time derivatives $\bm{\dot{q}}$,  speeds $\bm{u}$, and time $t$. These
-assumptions can be summarized by the vector equations
-\begin{align}
-  \label{eq:holonomic}
-  \bm{f}_{h}(\bm{q}, t) &= \bm{0}\\
-  \label{eq:nonholonomic}
-  \bm{f}_{nh}(\bm{q}, \bm{u}, t) &= \bm{0}\\
-  \label{eq:kindiffs}
-  \bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t)
-    + \bm{f}_{1}(\bm{q}, \bm{u}, t) &= \bm{0} \\
-  \label{eq:dyndiffs}
-  \bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t)
-    + \bm{f}_{3}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{r}, t) & = \bm{0}
-\end{align}
-where equations (\ref{eq:holonomic}) and (\ref{eq:nonholonomic}) are the
-holonomic and nonholonomic constraints (and possibly time differentiated holonomic
-constraints), respectively. Equations (\ref{eq:kindiffs}) are the kinematic differential equations
-(linear in both $\bm{\dot{q}}$ and $\bm{u}$ and in the trivial case,
-$\bm{\dot{q}} = \bm{u}$, so $f_0 = -f_1$).  Equations (\ref{eq:dyndiffs}) are
-the dynamic differential equations
-and the time differentiated version of equation \ref{eq:nonholonomic}.
-Equation (\ref{eq:dyndiffs}) will necessarily by linear in $\bm{\dot{u}}$, but
-generally nonlinear in all other quantities (though often linear in the
-external inputs $\bm{r}$).  In this formalism, both independent and dependent
-quantities (coordinates and speeds) appear in these equations; we will address
-this is shortly.  This following calculations formalism is exceedingly generic;
-in practice there is a lot of structure in equations
-(\ref{eq:nonholonomic}-\ref{eq:dyndiffs}) that can be leveraged to simplify the
-following calculations.  This will be expanded upon below.
+generalized coordinates $\bm{q}\in\bm{R}^n$ and its velocity completely
+described by generalized speeds $\bm{u}\in\bm{R}^o$, with $n \ne o$ in general.
+All coordinates and speeds, not only the independent ones, are represented by
+$\bm{q}$ and $\bm{u}$.  The system is assumed to be governed by the
+relationships described in table \ref{table:assumptions}.  The system is
+described by $l + m + n + o$ equations which relate $2n + 2o + 2p + 1$
+quantities, which implies that $n - l + o - m + p + 1$ of these quantities are
+independent.  This paper discusses the first order relationship between these
+independent quantities ($n-l$ independent coordinates, $o-m$ independent
+speeds, $p$ control inputs, and time $t$) and the time derivatives of the $n$
+coordinates and $o$ speeds.
+%It is assumed that there are $l$
+%configuration constraints (), and $m$ velocity constraints , and $m$ acceleration
+%constraints (). Two functions $ relate the coordinate time derivatives to the generalized speeds,
+%and two more functions $\bm{f}_2 : \mathbf{R}^n \times \mathbf{R}^o \times
+%\mathbf{R} \to \mathbf{R}^{o-m}$ and $\bm{f}_3 : \mathbf{R}^n
+%\times \mathbf{R}^n \times \mathbf{R}^o \times \mathbf{R}^p \times \mathbf{R}
+%\to \mathbf{R}^{o-m}$ relate the time derivatives of the speeds $\bm{\dot{u}}$ to
+%the externally applied inputs $\bm{r}\in\bm{R}^q$, coordinates $\bm{q}$ and
+%their time derivatives $\bm{\dot{q}}$,  speeds $\bm{u}$, and time $t$. These
+%assumptions can be summarized by the following equations
+%\begin{align}
+%  \label{eq:configuration}
+%  \bm{f}_{c}(\bm{q}, t) &= \bm{0}\\
+%  \label{eq:velocity}
+%  \bm{f}_{v}(\bm{q}, \bm{u}, t) &= \bm{0}\\
+%  \label{eq:acceleration}
+%  \bm{f}_{a}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{\dot{u}}, t) &= \bm{0}\\
+%  \label{eq:kindiffs}
+%  \bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t)
+%    + \bm{f}_{1}(\bm{q}, \bm{u}, t) &= \bm{0} \\
+%  \label{eq:dyndiffs}
+%  \bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t)
+%    + \bm{f}_{3}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{r}, t) & = \bm{0}
+%\end{align}
+\begin{table}[htbp]
+  \centering
+  \caption{Constrained multibody system governing equations}
+  \begin{tabular}[c]{r @{ $=$ } l l}
+    \multicolumn{2}{c}{Equation} & Mathematical definition \\
+    \hline
+    $\bm{f}_{c}(\bm{q}, t)$ & $\bm{0}$ & $f_c : \mathbf{R}^n \times \mathbf{R} \to
+\mathbf{R}^l$ \\
+$\bm{f}_{v}(\bm{q}, \bm{u}, t)$ & $\bm{0}$ & $f_v : \mathbf{R}^n \times
+\mathbf{R}^o \times \mathbf{R} \to \mathbf{R}^m$ \\
+$\bm{f}_{a}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{\dot{u}}, t)$ & $\bm{0}$ &
+$f_a : \mathbf{R}^n \times \mathbf{R}^n \times \mathbf{R}^o \times
+\mathbf{R}^o \times \mathbf{R} \to \mathbf{R}^m$ \\
+$\bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) + \bm{f}_{1}(\bm{q}, \bm{u}, t)$ &
+$\bm{0}$ & $\bm{f}_0 : \mathbf{R}^n \times \mathbf{R}^n \times \mathbf{R} \to
+\mathbf{R}^n$\\
+\multicolumn{2}{c}{} & $\bm{f}_1 : \mathbf{R}^n \times \mathbf{R}^o \times \mathbf{R}
+\to \mathbf{R}^n$ \\
+$\bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t) + \bm{f}_{3}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{r}, t)$ &
+$\bm{0}$ & $\bm{f}_2 : \mathbf{R}^n \times \mathbf{R}^o \times \mathbf{R} \to
+\mathbf{R}^{o-m}$,\\
+\multicolumn{2}{c}{} & $\bm{f}_3 : \mathbf{R}^n \times \mathbf{R}^n \times
+\mathbf{R}^o \times \mathbf{R}^p \times \mathbf{R} \to \mathbf{R}^{o-m}$
+  \end{tabular}
+  \label{table:assumptions}
+\end{table}
+The first three equations in table \ref{table:assumptions} represent
+constraints derived purely from kinematic considerations at the configuration,
+velocity, and acceleration levels, respectively.  The velocity constraints may
+be nonholonomic or differentiated holonomic, while the acceleration constraints
+are assumed to be differentiated versions of the velocity constraints.  The
+fourth equation represents kinematic differential equations which relate
+$\bm{\dot{q}}$ and $\bm{u}$ and will be linear in both of these quantities.
+The fifth equation represents the constraint free nonholonomic dynamic
+differential equations~\cite{Kane1985}, and will necessarily by linear in
+$\bm{\dot{u}}$ and input forces and torques $\bm{r}$, but generally nonlinear
+in all other quantities.  This formalism is exceedingly generic; in practice,
+the structure of the functions in table \ref{table:assumptions} can be
+leveraged to simplify the following calculations.  This will be discussed
+subsequently.
 
-The system described by equations \ref{eq:holonomic}-\ref{eq:dyndiffs} has
-$o-m$ velocity degrees of freedom.  In state space form, the trajectories of
-the system exist in a $p \triangleq n - l + o - m$ dimensional space, though
-conserved quantities (e.g., total mechanical energy) may restrict trajectories
-to a lower dimensional manifold embedded in this $p$ dimensional space.  In
-general this cannot be assumed, however, especially in the presence of external
-inputs which may change the total mechanical energy of the system.  While more
-than $p$ of the state variables may be of interest (i.e., dependent coordinates
-or speeds may be of interest in themselves), only $p$ quantities are truly
-independent.  Which of these $p$ coordinates and speeds should be chosen as
-independent out of the possible $n + o$ may be obvious for small systems where
-there is intuition about the system behavior, but in general the optimal choice
-depends on how the configuration $\bm{q}$ affects the gradients of equations
-\ref{eq:holonomic} and \ref{eq:nonholonomic}.  On the other hand, in systems
-with cyclic (ignorable) coordinates, fewer than $p$ state variables may be of
-interest; one example is the Whipple bicycle model where $p=10$ but 5 of these
-state variables are cyclic coordinates (coordinates of rear wheel contact
-point, heading, and both wheel angles) and are often not of much interest in
-themselves, nor are they neccessary for most analyses.
+%The system described by equations \ref{eq:configuration}-\ref{eq:dyndiffs} has
+%$o-m$ velocity degrees of freedom.
+Trajectories of the system exist on a $p \triangleq n - l + o - m$ dimensional
+manifold embedded in a $n + o$ dimensional space, though conserved quantities
+(e.g., total mechanical energy) may restrict trajectories to a lower
+dimensional manifold.  In general this cannot be assumed, however, especially
+in the presence of external control inputs $\bm{r}$ which may change the total
+mechanical energy of the system.  While more than $p$ of the independent state
+variables may be of interest (i.e., dependent coordinates or speeds may be of
+interest in themselves), only $p$ quantities are truly independent.  Which of
+these $p$ coordinates and speeds should be chosen as independent out of the
+possible $n + o$ may be obvious for small systems where there is intuition
+about the system behavior, but in general the optimal choice depends on how the
+configuration $\bm{q}$ affects the gradients of $f_c$ and $f_v$.  On the other
+hand, in systems with cyclic/ignorable coordinates (i.e., coordinates which do
+not appear in the dynamic equations of motion), fewer than $p$ state
+variables may be of interest; one example is the Whipple bicycle model where
+$p=10$ but 5 of these state variables are cyclic coordinates (coordinates of
+rear wheel contact point, heading, and both wheel angles) and are often not of
+much interest in themselves, nor are they necessary for most analyses.
 
-We begin with a first order Taylor series expansion of equations
-(\ref{eq:holonomic})-(\ref{eq:dyndiffs}) about an equilibrium
-$\bm{q}=\bm{q}^*$, $\bm{\dot{q}}=\bm{\dot{q}}^*$, $\bm{u}=\bm{u}^*$,
-$\bm{\dot{u}}=\bm{\dot{u}}^*$, $\bm{r}=\bm{r}^*$ that satisfies equations
-(\ref{eq:holonomic})-(\ref{eq:dyndiffs}).  Determining these equilibrium values
-generally involves solving (\ref{eq:holonomic})-(\ref{eq:dyndiffs}).  In the interest of brevity, we omit writing this equilibrium after
-each gradient in the calculations below; all are evaluated at these equilibrium
-conditions.  Taylor series expansion of the constraint equations
-(\ref{eq:holonomic}) and (\ref{eq:nonholonomic}) about the equilibrium is
+We begin with a first order Taylor series expansion of the equations in Table
+\ref{table:assumptions} about $\bm{q}=\bm{q}^*$, $\bm{\dot{q}}=\bm{\dot{q}}^*$,
+$\bm{u}=\bm{u}^*$, $\bm{\dot{u}}=\bm{\dot{u}}^*$, $\bm{r}=\bm{r}^*$; it is
+assumed that all of the equations in Table \ref{table:assumptions} are
+satisfied by these quantities.  In the interest of brevity, we omit writing
+this equilibrium after each gradient in the calculations below; all are
+evaluated at these equilibrium conditions.  Expansion of the three constraint
+equations yields
 \begin{align}
-  \label{eq:holonomic_expansion}
-  \bm{f}_{h}(\bm{q}, t) &\approx \underbrace{f_{h}(\bm{q}^*, t)}_{\bm{0}} +
-    \nabla_{\bm{q}}f_{h} \cdot \delta \bm{q}\\
-  \label{eq:nonholonomic_expansion}
-  \bm{f}_{nh}(\bm{q}, \bm{u}, t) &\approx \underbrace{\bm{f}_{nh}(\bm{q}^*,
-  \bm{u}^*, t)}_{\bm{0}} +  \nabla_{\bm{q}}f_{nh} \cdot \delta \bm{q} +
-  \nabla_{\bm{u}}f_{nh} \cdot \delta \bm{u}
+  \label{eq:configuration_expansion}
+  \bm{f}_{c}(\bm{q}, t) &\approx \underbrace{f_{c}(\bm{q}^*, t)}_{\bm{0}} +
+    \nabla_{\bm{q}}f_{c} \cdot \delta \bm{q}\\
+  \label{eq:velocity_expansion}
+  \bm{f}_{v}(\bm{q}, \bm{u}, t) &\approx \underbrace{\bm{f}_{v}(\bm{q}^*,
+  \bm{u}^*, t)}_{\bm{0}} +  \nabla_{\bm{q}}f_{v} \cdot \delta \bm{q} +
+  \nabla_{\bm{u}}f_{v} \cdot \delta \bm{u} \\
+  \label{eq:acceleration_expansion}
+  \bm{f}_{a}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{\dot{u}}, t) &\approx
+  \underbrace{\bm{f}_{a}(\bm{q}^*, \bm{\dot{q}}^*, \bm{u}^*, \bm{\dot{u}}^*,
+t)}_{\bm{0}} +  \nabla_{\bm{q}}f_{a} \cdot \delta \bm{q} + \nabla_{\bm{\dot{q}}}f_{a}
+\cdot \delta \bm{\dot{q}} \notag\\
+&+ \nabla_{\bm{u}}f_{a} \cdot \delta \bm{u} + \nabla_{\bm{\dot{u}}}f_{a} \cdot
+\delta \bm{\dot{u}}
 \end{align}
-and the first terms are identically zero because of the assumption that the
-equilibrium point satisfies the constraints.  The Taylor series expansions of
-the functions appearing in the left hand side of equations (\ref{eq:kindiffs})
-are
+The first terms are identically zero because of the assumption that the
+equilibrium point satisfies the constraints.  The Taylor series expansion of
+the kinematic differential equations is
 \begin{align}
   \label{eq:f0_expansion}
   \bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) &\approx \bm{f}_{0}(\bm{q}^*,
@@ -158,8 +197,8 @@ equal zero, we obtain
   \nabla_{\bm{\dot{q}}}\bm{f}_{0} \cdot \delta\bm{\dot{q}} +
   \nabla_{\bm{u}}\bm{f}_{1} \cdot \delta\bm{u}
 \end{align}
-Similarly, a Taylor series expansion of the functions appearing in
-the left hand side of (\ref{eq:dyndiffs}) yields
+Similarly, a Taylor series expansion of the dynamic differential equations, we
+obtain
 \begin{align}
   \label{eq:f2_expansion}
   \bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t) &\approx
@@ -186,31 +225,30 @@ equal zero, we obtain
   \nabla_{\bm{\dot{u}}}\bm{f}_{2} \cdot \delta\bm{\dot{u}} + \nabla_{\bm{r}}\bm{f}_{3} \cdot \delta\bm{r}
 \end{align}
 
-Utilizing equations (\ref{eq:kindiffs}), (\ref{eq:f0_plus_f1_expansion}),
-(\ref{eq:dyndiffs}), and (\ref{eq:f2_plus_f3_expansion}), we introduce the
-following quantities
+Equating the right hand sides of equations (\ref{eq:f0_plus_f1_expansion}),
+(\ref{eq:acceleration_expansion}),
+and (\ref{eq:f2_plus_f3_expansion}) to zero (as per table
+\ref{table:assumptions}), and introducing the following definitions
 \begin{align}
-  M_{00} &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_0 \\
-  M_{11} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_2 \\
-  A_{00} &\triangleq -\nabla_{\bm{q}}(\bm{f}_0 + \bm{f}_1) \\
-  A_{01} &\triangleq -\nabla_{\bm{u}}\bm{f}_1 \\
-  A_{10} &\triangleq \nabla_{\bm{q}}(\bm{f}_2 + \bm{f}_3)
-  -\nabla_{\bm{\dot{q}}}\bm{f}_3 (\nabla_{\bm{\dot{q}}}\bm{f}_{0})^{-1}
-  \nabla_{\bm{q}}(\bm{f}_0 + \bm{f}_1) \\
-  A_{11} &\triangleq \nabla_{\bm{u}} \bm{f}_{3} - \nabla_{\bm{\dot{q}}}\bm{f}_{3}
-  (\nabla_{\bm{\dot{q}}}\bm{f}_0)^{-1} \nabla_{\bm{u}}\bm{f}_{1} \\
-  B_{1} &\triangleq \nabla_{\bm{r}}\bm{f}_{3}
+\tilde{M}_{qq}  &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_0 \\
+\tilde{M}_{uuc} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_a \\
+\tilde{M}_{uud} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_2 \\
+\tilde{A}_{qq}  &\triangleq -\nabla_{\bm{q}}(\bm{f}_0 + \bm{f}_1) \\
+\tilde{A}_{qu}  &\triangleq -\nabla_{\bm{u}}\bm{f}_1 \\
+\tilde{A}_{uqc} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_a \tilde{M}_{qq}^{-1} \tilde{A}_{qq} + \nabla_{\bm{q}} \bm{f}_a\right] \\
+\tilde{A}_{uuc} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_a \tilde{M}_{qq}^{-1} \tilde{A}_{qu} + \nabla_{\bm{u}} \bm{f}_a\right] \\
+\tilde{A}_{uqd} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_3 \tilde{M}_{qq}^{-1} \tilde{A}_{qq} + \nabla_{\bm{q}} (\bm{f}_2 + \bm{f}_3)\right] \\
+\tilde{A}_{uud} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_3 \tilde{M}_{qq}^{-1} \tilde{A}_{qu} + \nabla_{\bm{u}} \bm{f}_u\right] \\
+\tilde{B}_{u}   &\triangleq \nabla_{\bm{r}}\bm{f}_{3}
 \end{align}
-
-Equating the right hand side of equations (\ref{eq:f0_plus_f1_expansion}) and
-(\ref{eq:f2_plus_f3_expansion}) each to zero, eliminating $\bm{\dot{q}}$ from
-(\ref{eq:f2_plus_f3_expansion}), and rewriting in matrix form, we obtain
+enables the unconstrained linear state space equations to be written as
 \begin{align}
   \label{eq:state_space_unconstrained}
   \left[
     \begin{array}{cc}
-      M_{00} & \bm{0}_{n \times o} \\
-      \bm{0}_{o \times n} & M_{11}
+      \tilde{M}_{qq} & \bm{0}_{n \times o} \\
+      \bm{0}_{m \times n} & \tilde{M}_{uuc} \\
+      \bm{0}_{(o-m) \times n} & \tilde{M}_{uud}
     \end{array}
     \right]
     \left[
@@ -222,8 +260,9 @@ Equating the right hand side of equations (\ref{eq:f0_plus_f1_expansion}) and
    &=
    \left[
      \begin{array}{cc}
-       A_{00} & A_{01} \\
-       A_{10} & A_{11}
+       \tilde{A}_{qq} & \tilde{A}_{qu} \\
+       \tilde{A}_{uqc} & \tilde{A}_{uuc} \\
+       \tilde{A}_{uqd} & \tilde{A}_{uud}
      \end{array}
    \right]
     \left[
@@ -235,18 +274,16 @@ Equating the right hand side of equations (\ref{eq:f0_plus_f1_expansion}) and
     +
     \left[
       \begin{array}{c}
-        \bm{0}_{n \times q} \\
-        B_{1}
+        \bm{0}_{(n + m) \times q} \\
+        \tilde{B}_{u}
       \end{array}
     \right]
     \delta \bm{r}
 \end{align}
 Equation (\ref{eq:state_space_unconstrained}) has a state space of dimension $n
-+ o$, yet  only $p = n - l + o - m$ of these quantities are independent, due to
-the constraints (equations (\ref{eq:holonomic} and (\ref{eq:nonholonomic})).
-To address this issue, one must pick a particular set of independent
-coordinates and speeds and appeal to equations (\ref{eq:holonomic_expansion})
-and (\ref{eq:nonholonomic_expansion}).  To this end, consider the following
++ o$, yet only $p = n - l + o - m$ of these quantities are independent.
+To address this issue, a particular set of independent
+coordinates and speeds must be selected. To this end, consider the following
 partitioning of the generalized coordinates and generalized speeds:
 \begin{equation*}
   \tilde{\bm{q}} \triangleq \left[\begin{array}{cc}\bm{q}_{i} &
@@ -265,7 +302,7 @@ and $P_{qd}$ to denote the first $n-l$ and last $l$ columns of $P_q$,
 respectively; similarly, $P_{ui}$ is the first $o-m$ colums of $P_{u}$ while
 $P_{ud}$ is the last $m$ columns of $P_u$.
 
-Setting the right hand side of equation (\ref{eq:holonomic_expansion}) equal to
+Setting the right hand side of equation (\ref{eq:configuration_expansion}) equal to
 zero, and making use of $P_q$, we have
 \begin{align}
   \nabla_{\bm{q}}\bm{f}_{h} P_{q} \cdot \delta \bm{\tilde{q}} &=
@@ -290,7 +327,7 @@ which enables us to write
   \delta \bm{q} &= C_0 \cdot \delta \bm{q}_i
 \end{align}
 
-Applying the same approach to (\ref{eq:nonholonomic_expansion}), we obtain
+Applying the same approach to (\ref{eq:velocity_expansion}), we obtain
 \begin{align}
 \nabla_{\bm{q}}f_{nh} \cdot \delta \bm{q} +
 \nabla_{\bm{u}}f_{nh} \cdot \delta \bm{u} &= \nabla_{\bm{q}} \bm{f}_{nh} \cdot
@@ -327,8 +364,9 @@ rewrite equation (\ref{eq:state_space_unconstrained}) as
   \label{eq:state_space_constrained}
   \left[
     \begin{array}{cc}
-      M_{00} & \bm{0}_{n \times o} \\
-      \bm{0}_{o \times n} & M_{11}
+      \tilde{M}_{qq} & \bm{0}_{n \times o} \\
+      \bm{0}_{m \times n} & \tilde{M}_{uuc} \\
+      \bm{0}_{(o-m) \times n} & \tilde{M}_{uud}
     \end{array}
     \right]
     \left[
@@ -340,8 +378,9 @@ rewrite equation (\ref{eq:state_space_unconstrained}) as
    &=
    \left[
      \begin{array}{cc}
-       (A_{00} + A_{01} C_{1}) C_{0} & A_{01} C_{2} \\
-       (A_{10} + A_{11} C_{1}) C_{0} & A_{11} C_{2}
+       (\tilde{A}_{qq} + A_{qu} C_1 ) C_0 & \tilde{A}_{qu} C_2 \\
+       (\tilde{A}_{uqc} + A_{uuc} C_1 ) C_0 & \tilde{A}_{uuc} C_2\\
+       (\tilde{A}_{uqd} + A_{uud} C_1 ) C_0 & \tilde{A}_{uud} C_2
      \end{array}
    \right]
     \left[
@@ -353,8 +392,8 @@ rewrite equation (\ref{eq:state_space_unconstrained}) as
     +
     \left[
       \begin{array}{c}
-        \bm{0}_{n \times q} \\
-        B_{1}
+        \bm{0}_{(n+m) \times q} \\
+        \tilde{B}_{u}
       \end{array}
     \right]
     \delta \bm{r}
@@ -388,8 +427,8 @@ linearization.
 \end{acknowledgements}
 
 % Not sure which bibliography style we are supposed to use
-%\bibliographystyle{spbasic}      % basic style, author-year citations
-%\bibliographystyle{spmpsci}      % mathematics and physical sciences
 %\bibliographystyle{spphys}       % APS-like style for physics
-%\bibliography{}   % name your BibTeX data base
+%\bibliographystyle{spbasic}      % basic style, author-year citations
+\bibliography{library}   % name your BibTeX data base
+\bibliographystyle{spmpsci}      % mathematics and physical sciences
 \end{document}

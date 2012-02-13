@@ -40,11 +40,10 @@
 \section{Derivation of linearization algorithm}
 \label{derivations}
 The goal of the following calculations is to concretely establish the first
-order relationships (about an arbitrary equilibrium point) between an arbitary
+order relationships (about an arbitrary equilibrium point) between an arbitrary
 choice of independent coordinates and speeds, and the time-derivatives of all
 coordinates and speeds (both independent and dependent).  This enables several
-common tasks: (1) stability analysis of arbitrary equilibria, (2) traditional
-control system design, (3) control system design with output feedback based
+common tasks: (1) stability analysis, (2) control system design, (3) control system design with output feedback based
 upon quantities that are dependent (i.e., not state variables), (4)
 determination of measurement equations for use in Kalman filter design when
 measured quantities are at the acceleration level (i.e., accelerometers).  The
@@ -94,12 +93,12 @@ coordinates and $o$ speeds.
   \begin{tabular}[c]{r @{ $=$ } l l}
     \multicolumn{2}{c}{Equation} & Mathematical definition \\
     \hline
-    $\bm{f}_{c}(\bm{q}, t)$ & $\bm{0}$ & $f_c : \mathbf{R}^n \times \mathbf{R} \to
+    $\bm{f}_{c}(\bm{q}, t)$ & $\bm{0}$ & $\bm{f}_c : \mathbf{R}^n \times \mathbf{R} \to
 \mathbf{R}^l$ \\
-$\bm{f}_{v}(\bm{q}, \bm{u}, t)$ & $\bm{0}$ & $f_v : \mathbf{R}^n \times
+$\bm{f}_{v}(\bm{q}, \bm{u}, t)$ & $\bm{0}$ & $\bm{f}_v : \mathbf{R}^n \times
 \mathbf{R}^o \times \mathbf{R} \to \mathbf{R}^m$ \\
 $\bm{f}_{a}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{\dot{u}}, t)$ & $\bm{0}$ &
-$f_a : \mathbf{R}^n \times \mathbf{R}^n \times \mathbf{R}^o \times
+$\bm{f}_a : \mathbf{R}^n \times \mathbf{R}^n \times \mathbf{R}^o \times
 \mathbf{R}^o \times \mathbf{R} \to \mathbf{R}^m$ \\
 $\bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) + \bm{f}_{1}(\bm{q}, \bm{u}, t)$ &
 $\bm{0}$ & $\bm{f}_0 : \mathbf{R}^n \times \mathbf{R}^n \times \mathbf{R} \to
@@ -238,8 +237,8 @@ and (\ref{eq:f2_plus_f3_expansion}) to zero (as per table
 \tilde{A}_{uqc} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_a \tilde{M}_{qq}^{-1} \tilde{A}_{qq} + \nabla_{\bm{q}} \bm{f}_a\right] \\
 \tilde{A}_{uuc} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_a \tilde{M}_{qq}^{-1} \tilde{A}_{qu} + \nabla_{\bm{u}} \bm{f}_a\right] \\
 \tilde{A}_{uqd} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_3 \tilde{M}_{qq}^{-1} \tilde{A}_{qq} + \nabla_{\bm{q}} (\bm{f}_2 + \bm{f}_3)\right] \\
-\tilde{A}_{uud} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_3 \tilde{M}_{qq}^{-1} \tilde{A}_{qu} + \nabla_{\bm{u}} \bm{f}_u\right] \\
-\tilde{B}_{u}   &\triangleq \nabla_{\bm{r}}\bm{f}_{3}
+\tilde{A}_{uud} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_3 \tilde{M}_{qq}^{-1} \tilde{A}_{qu} + \nabla_{\bm{u}} \bm{f}_3\right] \\
+\tilde{B}_{u}   &\triangleq -\nabla_{\bm{r}}\bm{f}_{3}
 \end{align}
 enables the unconstrained linear state space equations to be written as
 \begin{align}
@@ -299,27 +298,27 @@ independent quantities ($\bm{q}_{i}\in\mathbf{R}^{n-l},\,
 ($\bm{q}_{d}\in\mathbf{R}^{l},\, \bm{u}_{d}\in\mathbf{R}^{m}$) to the
 original ordering of the coordinates and speeds.  We use the notation $P_{qi}$
 and $P_{qd}$ to denote the first $n-l$ and last $l$ columns of $P_q$,
-respectively; similarly, $P_{ui}$ is the first $o-m$ colums of $P_{u}$ while
+respectively; similarly, $P_{ui}$ is the first $o-m$ columns of $P_{u}$ while
 $P_{ud}$ is the last $m$ columns of $P_u$.
 
 Setting the right hand side of equation (\ref{eq:configuration_expansion}) equal to
 zero, and making use of $P_q$, we have
 \begin{align}
-  \nabla_{\bm{q}}\bm{f}_{h} P_{q} \cdot \delta \bm{\tilde{q}} &=
-  \nabla_{\bm{q}}\bm{f}_{h} P_{qi} \cdot \delta \bm{q_i} +
-  \nabla_{\bm{q}}\bm{f}_{h} P_{qd} \cdot \delta \bm{q_d}\notag\\
+  \nabla_{\bm{q}}\bm{f}_{c} P_{q} \cdot \delta \bm{\tilde{q}} &=
+  \nabla_{\bm{q}}\bm{f}_{c} P_{qi} \cdot \delta \bm{q_i} +
+  \nabla_{\bm{q}}\bm{f}_{c} P_{qd} \cdot \delta \bm{q_d}\notag\\
   &= \bm{0}\notag\\
-  \implies \delta \bm{q}_d &= -(\nabla_{\bm{q}}\bm{f}_{h} P_{qd})^{-1}
-  (\nabla_{\bm{q}}\bm{f}_{h} P_{qi}) \cdot \delta \bm{q}_i \notag\\
+  \implies \delta \bm{q}_d &= -(\nabla_{\bm{q}}\bm{f}_{c} P_{qd})^{-1}
+  (\nabla_{\bm{q}}\bm{f}_{c} P_{qi}) \cdot \delta \bm{q}_i \notag\\
   \implies \delta \bm{q} &= \left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
-    \bm{f}_{h} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{h} \right] P_{qi} \cdot \delta
+    \bm{f}_{c} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{c} \right] P_{qi} \cdot \delta
     \bm{q}_i
 \end{align}
 For convenience, we define
 \begin{equation}
   \label{eq:C_0}
   C_0 \triangleq \left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
-    \bm{f}_{h} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{h} \right] P_{qi}
+    \bm{f}_{c} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{c} \right] P_{qi}
 \end{equation}
 which enables us to write
 \begin{align}
@@ -329,27 +328,27 @@ which enables us to write
 
 Applying the same approach to (\ref{eq:velocity_expansion}), we obtain
 \begin{align}
-\nabla_{\bm{q}}f_{nh} \cdot \delta \bm{q} +
-\nabla_{\bm{u}}f_{nh} \cdot \delta \bm{u} &= \nabla_{\bm{q}} \bm{f}_{nh} \cdot
-\delta \bm{q} + \nabla_{\bm{u}} \bm{f}_{nh} P_{ui} \cdot \delta \bm{u}_i +
-\nabla_{\bm{u}} \bm{f}_{nh} P_{ud} \cdot \delta \bm{u}_d \notag\\
+  \nabla_{\bm{q}}\bm{f}_{v} \cdot \delta \bm{q} +
+  \nabla_{\bm{u}}\bm{f}_{v} \cdot \delta \bm{u} &= \nabla_{\bm{q}} \bm{f}_{v} \cdot
+\delta \bm{q} + \nabla_{\bm{u}} \bm{f}_{v} P_{ui} \cdot \delta \bm{u}_i +
+\nabla_{\bm{u}} \bm{f}_{v} P_{ud} \cdot \delta \bm{u}_d \notag\\
 &= \bm{0}\notag\\
-\implies \delta \bm{u}_d &= -\left(\nabla_{\bm{u}} \bm{f}_{nh}
-P_{ud}\right)^{-1}\left[\nabla_{\bm{q}}\bm{f}_{nh} \cdot \delta\bm{q} +
-  \nabla_{\bm{u}} \bm{f}_{nh} P_{ui} \cdot \delta \bm{u}_i \right]\notag\\
-  \implies \delta \bm{u} &= -P_{ud}(\nabla_{\bm{u}} \bm{f}_{nh} P_{ud})^{-1}
-  \nabla_{\bm{q}} \bm{f}_{nh} \cdot \delta \bm{q}\notag\\
-  &+ \left[I - P_{ud} (\nabla_{\bm{u}}\bm{f}_{nh} P_{ud})^{-1} \nabla_{\bm{u}}
-    \bm{f}_{nh} \right] P_{ui} \cdot \delta \bm{u}_i
+\implies \delta \bm{u}_d &= -\left(\nabla_{\bm{u}} \bm{f}_{v}
+P_{ud}\right)^{-1}\left[\nabla_{\bm{q}}\bm{f}_{v} \cdot \delta\bm{q} +
+  \nabla_{\bm{u}} \bm{f}_{v} P_{ui} \cdot \delta \bm{u}_i \right]\notag\\
+  \implies \delta \bm{u} &= -P_{ud}(\nabla_{\bm{u}} \bm{f}_{v} P_{ud})^{-1}
+  \nabla_{\bm{q}} \bm{f}_{v} \cdot \delta \bm{q}\notag\\
+  &+ \left[I - P_{ud} (\nabla_{\bm{u}}\bm{f}_{v} P_{ud})^{-1} \nabla_{\bm{u}}
+    \bm{f}_{v} \right] P_{ui} \cdot \delta \bm{u}_i
 \end{align}
 We define
 \begin{align}
   \label{eq:C_1}
-  C_1 &\triangleq -P_{ud}(\nabla_{\bm{u}} \bm{f}_{nh} P_{ud})^{-1}
-  \nabla_{\bm{q}} \bm{f}_{nh} \\
+  C_1 &\triangleq -P_{ud}(\nabla_{\bm{u}} \bm{f}_{v} P_{ud})^{-1}
+  \nabla_{\bm{q}} \bm{f}_{v} \\
   \label{eq:C_2}
-  C_2 &\triangleq \left[I - P_{ud} (\nabla_{\bm{u}}\bm{f}_{nh} P_{ud})^{-1} \nabla_{\bm{u}}
-    \bm{f}_{nh} \right] P_{ui}
+  C_2 &\triangleq \left[I - P_{ud} (\nabla_{\bm{u}}\bm{f}_{v} P_{ud})^{-1} \nabla_{\bm{u}}
+    \bm{f}_{v} \right] P_{ui}
 \end{align}
 which enables us to write
 \begin{align}
@@ -378,9 +377,9 @@ rewrite equation (\ref{eq:state_space_unconstrained}) as
    &=
    \left[
      \begin{array}{cc}
-       (\tilde{A}_{qq} + A_{qu} C_1 ) C_0 & \tilde{A}_{qu} C_2 \\
-       (\tilde{A}_{uqc} + A_{uuc} C_1 ) C_0 & \tilde{A}_{uuc} C_2\\
-       (\tilde{A}_{uqd} + A_{uud} C_1 ) C_0 & \tilde{A}_{uud} C_2
+       (\tilde{A}_{qq} + \tilde{A}_{qu} C_1 ) C_0 & \tilde{A}_{qu} C_2 \\
+       (\tilde{A}_{uqc} + \tilde{A}_{uuc} C_1 ) C_0 & \tilde{A}_{uuc} C_2\\
+       (\tilde{A}_{uqd} + \tilde{A}_{uud} C_1 ) C_0 & \tilde{A}_{uud} C_2
      \end{array}
    \right]
     \left[
@@ -400,7 +399,7 @@ rewrite equation (\ref{eq:state_space_unconstrained}) as
 \end{align}
 
 There are two requirements for this method to work, namely, both
-$\nabla_{\bm{q}}\bm{f}_{h} P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_{nh} P_{ud}$
+$\nabla_{\bm{q}}\bm{f}_{c} P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_{v} P_{ud}$
 must be nonsingular.  Because of the presence of the permutation matrices, this
 implies proper selection of dependent coordinates and dependent speeds is
 critical.  The permutation matrices effectively select the columns of the

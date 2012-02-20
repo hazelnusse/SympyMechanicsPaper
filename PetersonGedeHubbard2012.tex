@@ -31,7 +31,8 @@
 
 \begin{abstract}
   Abstract here.
-\keywords{symbolic dynamics software, nonholonomic systems, control}
+\keywords{symbolic dynamics software, control, nonholonomic systems,
+          constrained systems}
 \end{abstract}
 
 \section{Introduction}
@@ -230,14 +231,16 @@ and (\ref{eq:f2_plus_f3_expansion}) to zero (as per table
 \ref{table:assumptions}), and introducing the following definitions
 \begin{align}
 \tilde{M}_{qq}  &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_0 \\
+\tilde{M}_{uqc} &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_a \\
 \tilde{M}_{uuc} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_a \\
+\tilde{M}_{uqd} &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_2 \\
 \tilde{M}_{uud} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_2 \\
 \tilde{A}_{qq}  &\triangleq -\nabla_{\bm{q}}(\bm{f}_0 + \bm{f}_1) \\
 \tilde{A}_{qu}  &\triangleq -\nabla_{\bm{u}}\bm{f}_1 \\
-\tilde{A}_{uqc} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_a \tilde{M}_{qq}^{-1} \tilde{A}_{qq} + \nabla_{\bm{q}} \bm{f}_a\right] \\
-\tilde{A}_{uuc} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_a \tilde{M}_{qq}^{-1} \tilde{A}_{qu} + \nabla_{\bm{u}} \bm{f}_a\right] \\
-\tilde{A}_{uqd} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_3 \tilde{M}_{qq}^{-1} \tilde{A}_{qq} + \nabla_{\bm{q}} (\bm{f}_2 + \bm{f}_3)\right] \\
-\tilde{A}_{uud} &\triangleq -\left[ \nabla_{\bm{\dot{q}}}\bm{f}_3 \tilde{M}_{qq}^{-1} \tilde{A}_{qu} + \nabla_{\bm{u}} \bm{f}_3\right] \\
+\tilde{A}_{uqc} &\triangleq -\tilde{A}_{qq} + \nabla_{\bm{q}} \bm{f}_a \\
+\tilde{A}_{uuc} &\triangleq -\tilde{A}_{qu} + \nabla_{\bm{u}} \bm{f}_a \\
+\tilde{A}_{uqd} &\triangleq -\tilde{A}_{qq} + \nabla_{\bm{q}} (\bm{f}_2 + \bm{f}_3) \\
+\tilde{A}_{uud} &\triangleq -\tilde{A}_{qu} + \nabla_{\bm{u}} \bm{f}_3 \\
 \tilde{B}_{u}   &\triangleq -\nabla_{\bm{r}}\bm{f}_{3}
 \end{align}
 enables the unconstrained linear state space equations to be written as
@@ -246,8 +249,8 @@ enables the unconstrained linear state space equations to be written as
   \left[
     \begin{array}{cc}
       \tilde{M}_{qq} & \bm{0}_{n \times o} \\
-      \bm{0}_{m \times n} & \tilde{M}_{uuc} \\
-      \bm{0}_{(o-m) \times n} & \tilde{M}_{uud}
+      \tilde{M}_{uqc} & \tilde{M}_{uuc} \\
+      \tilde{M}_{uqd} & \tilde{M}_{uud}
     \end{array}
     \right]
     \left[
@@ -364,8 +367,8 @@ rewrite equation (\ref{eq:state_space_unconstrained}) as
   \left[
     \begin{array}{cc}
       \tilde{M}_{qq} & \bm{0}_{n \times o} \\
-      \bm{0}_{m \times n} & \tilde{M}_{uuc} \\
-      \bm{0}_{(o-m) \times n} & \tilde{M}_{uud}
+      \tilde{M}_{uqc} & \tilde{M}_{uuc} \\
+      \tilde{M}_{uqd} & \tilde{M}_{uud}
     \end{array}
     \right]
     \left[

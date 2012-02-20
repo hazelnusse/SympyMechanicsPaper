@@ -38,8 +38,6 @@
 \section{Introduction}
 \label{intro}
 
-\section{Derivation of linearization algorithm}
-\label{derivations}
 The goal of the following calculations is to concretely establish the first
 order relationships (about an arbitrary equilibrium point) between an arbitrary
 choice of independent coordinates and speeds, and the time-derivatives of all
@@ -90,27 +88,32 @@ coordinates and $o$ speeds.
 %\end{align}
 \begin{table}[htbp]
   \centering
-  \caption{Constrained multibody system governing equations}
-  \begin{tabular}[c]{r @{ $=$ } l l}
-    \multicolumn{2}{c}{Equation} & Mathematical definition \\
+  \caption{Constrained multibody system governing definitions and equations}
+
+  \begin{tabular}[c]{l l l}
+    Quantity & Shape & Description\\
     \hline
-    $\bm{f}_{c}(\bm{q}, t)$ & $\bm{0}$ & $\bm{f}_c : \mathbf{R}^n \times \mathbf{R} \to
-\mathbf{R}^l$ \\
-$\bm{f}_{v}(\bm{q}, \bm{u}, t)$ & $\bm{0}$ & $\bm{f}_v : \mathbf{R}^n \times
-\mathbf{R}^o \times \mathbf{R} \to \mathbf{R}^m$ \\
-$\bm{f}_{a}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{\dot{u}}, t)$ & $\bm{0}$ &
-$\bm{f}_a : \mathbf{R}^n \times \mathbf{R}^n \times \mathbf{R}^o \times
-\mathbf{R}^o \times \mathbf{R} \to \mathbf{R}^m$ \\
-$\bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) + \bm{f}_{1}(\bm{q}, \bm{u}, t)$ &
-$\bm{0}$ & $\bm{f}_0 : \mathbf{R}^n \times \mathbf{R}^n \times \mathbf{R} \to
-\mathbf{R}^n$\\
-\multicolumn{2}{c}{} & $\bm{f}_1 : \mathbf{R}^n \times \mathbf{R}^o \times \mathbf{R}
-\to \mathbf{R}^n$ \\
-$\bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t) + \bm{f}_{3}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{r}, t)$ &
-$\bm{0}$ & $\bm{f}_2 : \mathbf{R}^n \times \mathbf{R}^o \times \mathbf{R} \to
-\mathbf{R}^{o-m}$,\\
-\multicolumn{2}{c}{} & $\bm{f}_3 : \mathbf{R}^n \times \mathbf{R}^n \times
-\mathbf{R}^o \times \mathbf{R}^p \times \mathbf{R} \to \mathbf{R}^{o-m}$
+    $\bm{q}$ & $\mathbf{R}^n$ & Coordinates \\
+    $\bm{\dot{q}}$ & $\mathbf{R}^n$ & Time derivatives of coordinates \\
+    $\bm{u}$ & $\mathbf{R}^o$ & Speeds \\
+    $\bm{\dot{u}}$ & $\mathbf{R}^o$ & Time derivatives of speeds \\
+    $\bm{r}$ & $\mathbf{R}^p$ & Control inputs \\
+  \end{tabular}
+  \begin{tabular}[c]{r @{ $=$ } l l}
+    \multicolumn{3}{c}{ } \\
+    \multicolumn{2}{c}{Equation} & Description \\
+    \hline
+    $\bm{f}_{c}(\bm{q}, t)$ & $\bm{0}_{l \times 1}$ & Configuration (holonomic)
+    constraints \\
+    $\bm{f}_{v}(\bm{q}, \bm{u}, t)$ & $\bm{0}_{m \times 1}$ & Velocity
+    (nonholonomic) constraints \\
+    $\bm{f}_{a}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{\dot{u}}, t)$ & $\bm{0}_{m
+    \times 1}$ & Acceleration constraints \\
+    $\bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) + \bm{f}_{1}(\bm{q}, \bm{u}, t)$ &
+    $\bm{0}_{n \times 1}$ & Kinematic differential equations \\
+    $\bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t) + \bm{f}_{3}(\bm{q}, \bm{\dot{q}},
+    \bm{u}, \bm{r}, t)$ & $\bm{0}_{(o - m) \times 1}$ & Dynamic differential
+    equations \\
   \end{tabular}
   \label{table:assumptions}
 \end{table}
@@ -149,6 +152,9 @@ variables may be of interest; one example is the Whipple bicycle model where
 $p=10$ but 5 of these state variables are cyclic coordinates (coordinates of
 rear wheel contact point, heading, and both wheel angles) and are often not of
 much interest in themselves, nor are they necessary for most analyses.
+
+\section{Derivation of linearization algorithm}
+\label{derivations}
 
 We begin with a first order Taylor series expansion of the equations in Table
 \ref{table:assumptions} about $\bm{q}=\bm{q}^*$, $\bm{\dot{q}}=\bm{\dot{q}}^*$,
@@ -401,7 +407,39 @@ rewrite equation (\ref{eq:state_space_unconstrained}) as
     \delta \bm{r}
 \end{align}
 
-There are two requirements for this method to work, namely, both
+
+\section{Implementation and Examples}
+
+There are a number of additional steps needed to use these linear equations or
+form them more efficiently. There are also non-singularity requirements
+involved in selection of independent quantities.
+
+In order to use these equations in the state space representation, 2 things
+need to happen. First, matrices $\tilde{A}$ and $\tilde{B}$ need to be
+multiplied by the mass matrix inverse. We can then define
+
+\begin{align}
+    \prime{A} &\triangleq \tilde{M}^{-1} \tilde{A} \\
+    \prime{B} &\triangleq \tilde{M}^{-1} \tilde{B}
+\end{align}
+
+Now we will have matrices $\prime{A}$ and $\prime{B}$ which are of size $(o +
+n) \times (o - m + n - l)$ and $(o + n) \times p)$. We need to now extract only
+the rows which are associated with the independent quantities. We will define
+% Is there a better way to write transforming A' to A, B' to B?
+% Could we use the permutation matrices here?
+the reduced matrices as $A$ and $B$. We will also define the state space vector
+$x = \left[\delta\bm{q}_i,\,\delta\bm{u}_i\right]^{T}$; we now have the
+traditional state space representation.
+
+%For stability analyses, one must examine the stability of the mapping $\delta
+%\bm{q}_i \to \bm{\dot{q}}_i$.  This can be done by first solving for
+%$\delta\bm{\dot{x}} = \left[\delta\bm{\dot{q}},\,\delta\bm{\dot{u}}\right]^{T}$, then selecting
+%the independent rows of these equations ($n-l+o-m$ of them) to form a square
+%matrix whose eigenvalues govern the stability of the system about the point of
+%linearization.
+
+Additionally, there are two requirements for this method to work, namely, both
 $\nabla_{\bm{q}}\bm{f}_{c} P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_{v} P_{ud}$
 must be nonsingular.  Because of the presence of the permutation matrices, this
 implies proper selection of dependent coordinates and dependent speeds is
@@ -412,12 +450,10 @@ small systems it may be possible to choose dependent speeds without resorting
 to numerical techniques if the system trajectories stay with the configuration
 space where these matrices are nonsingular.
 
-For stability analyses, one must examine the stability of the mapping $\delta
-\bm{q}_i \to \bm{\dot{q}}_i$.  This can be done by first solving for
-$\delta\bm{\dot{x}} = \left[\delta\bm{\dot{q}},\,\delta\bm{\dot{u}}\right]^{T}$, then selecting
-the independent rows of these equations ($n-l+o-m$ of them) to form a square
-matrix whose eigenvalues govern the stability of the system about the point of
-linearization.
+The computational cost of computing the jacobian matrices can also be reduced
+if the point of linearization is known ahead of time. 
+
+
 
 \begin{acknowledgements}
   This material is based upon work partially supported by the National Science

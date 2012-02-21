@@ -89,33 +89,28 @@ coordinates and $o$ speeds.
 \begin{table}[htbp]
   \centering
   \caption{Constrained multibody system governing definitions and equations}
-
+  \label{table:assumptions}
   \begin{tabular}[c]{l l l}
     Quantity & Shape & Description\\
     \hline
-    $\bm{q}$ & $\mathbf{R}^n$ & Coordinates \\
-    $\bm{\dot{q}}$ & $\mathbf{R}^n$ & Time derivatives of coordinates \\
-    $\bm{u}$ & $\mathbf{R}^o$ & Speeds \\
-    $\bm{\dot{u}}$ & $\mathbf{R}^o$ & Time derivatives of speeds \\
+    $\bm{q},\bm{\dot{q}}$ & $\mathbf{R}^n$ & Coordinates and their time
+    derivatives\\
+    $\bm{u}, \bm{\dot{u}}$ & $\mathbf{R}^o$ & Speeds and their time derivatives\\
     $\bm{r}$ & $\mathbf{R}^p$ & Control inputs \\
   \end{tabular}
   \begin{tabular}[c]{r @{ $=$ } l l}
     \multicolumn{3}{c}{ } \\
     \multicolumn{2}{c}{Equation} & Description \\
     \hline
-    $\bm{f}_{c}(\bm{q}, t)$ & $\bm{0}_{l \times 1}$ & Configuration (holonomic)
-    constraints \\
-    $\bm{f}_{v}(\bm{q}, \bm{u}, t)$ & $\bm{0}_{m \times 1}$ & Velocity
-    (nonholonomic) constraints \\
+    $\bm{f}_{c}(\bm{q}, t)$ & $\bm{0}_{l \times 1}$ & Configuration constraints \\
+    $\bm{f}_{v}(\bm{q}, \bm{u}, t)$ & $\bm{0}_{m \times 1}$ & Velocity constraints \\
     $\bm{f}_{a}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{\dot{u}}, t)$ & $\bm{0}_{m
     \times 1}$ & Acceleration constraints \\
     $\bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) + \bm{f}_{1}(\bm{q}, \bm{u}, t)$ &
     $\bm{0}_{n \times 1}$ & Kinematic differential equations \\
     $\bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t) + \bm{f}_{3}(\bm{q}, \bm{\dot{q}},
-    \bm{u}, \bm{r}, t)$ & $\bm{0}_{(o - m) \times 1}$ & Dynamic differential
-    equations \\
+    \bm{u}, \bm{r}, t)$ & $\bm{0}_{(o - m) \times 1}$ & Dynamic differential equations
   \end{tabular}
-  \label{table:assumptions}
 \end{table}
 The first three equations in table \ref{table:assumptions} represent
 constraints derived purely from kinematic considerations at the configuration,
@@ -441,16 +436,15 @@ We will also define the state space vector $x =
 \left[\delta\bm{q}_i,\,\delta\bm{u}_i\right]^{T}$; we now have the traditional
 state space representation which only contains independent quantities.
 
-Additionally, there are two requirements for this method to work, namely, both
-$\nabla_{\bm{q}}\bm{f}_{c} P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_{v} P_{ud}$
-must be nonsingular.  Because of the presence of the permutation matrices, this
-implies proper selection of dependent coordinates and dependent speeds is
-critical.  The permutation matrices effectively select the columns of the
-constraint gradient matrices, and may be selected by examination of the
-constraint gradient matrix through a SVD or other numerical techniques; for
-small systems it may be possible to choose dependent speeds without resorting
-to numerical techniques if the system trajectories stay with the configuration
-space where these matrices are nonsingular.
+This method relies on the nonsingularity of $\nabla_{\bm{q}}\bm{f}_{c} P_{qd}$
+and $\nabla_{\bm{u}} \bm{f}_{v} P_{ud}$.  The implication of this is that
+selection of dependent coordinates and dependent speeds is critical.  The
+permutation matrices effectively select the columns of the constraint gradient
+matrices, and may be selected by examination of the constraint gradient matrix
+through a SVD or other numerical techniques; for small systems it may be
+possible to choose dependent speeds without resorting to numerical techniques
+if the system trajectories stay with the configuration space where these
+matrices are nonsingular.
 
 The computational cost of computing the jacobian matrices can also be reduced
 if the point of linearization is known ahead of time. 

@@ -414,22 +414,22 @@ need to happen. First, matrices $\tilde{A}$ and $\tilde{B}$ need to be
 multiplied by the mass matrix inverse. We can then define
 
 \begin{align}
-    A\prime &\triangleq \tilde{M}^{-1} \tilde{A} \\
-    B\prime &\triangleq \tilde{M}^{-1} \tilde{B}
+    A^\prime &\triangleq \tilde{M}^{-1} \tilde{A} \\
+    B^\prime &\triangleq \tilde{M}^{-1} \tilde{B}
 \end{align}
 
-Now we will have matrices $A\prime$ and $B\prime$ which are of size $(o +
+Now we will have matrices $A^\prime$ and $B^\prime$ which are of size $(o +
 n) \times (o - m + n - l)$ and $(o + n) \times p)$. We need to now extract only
 the rows which are associated with the independent quantities. We will call the
-new matrices reduced matrices $A$ and $B$ and compute them with the following
+new reduced matrices $A$ and $B$ and compute them with the following
 
 \begin{align}
-    P \prime &\triangleq \begin{matrix}
+    P^\prime &\triangleq \begin{bmatrix}
         P_{qi} & \bm{O}_{(n - l) \times (o - m)} \\
         \bm{O}_{(o - m) \times (n - l)} & P_{ui}
-    \end{matrix} \\
-    A &\triangleq P\prime^T A\prime \\
-    B &\triangleq P\prime^T B\prime \\
+    \end{bmatrix} \\
+    A &\triangleq P^{\prime T} A^\prime \\
+    B &\triangleq P^{\prime T} B^\prime \\
 \end{align}
 
 We will also define the state space vector $x =

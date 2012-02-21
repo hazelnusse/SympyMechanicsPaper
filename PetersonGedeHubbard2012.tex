@@ -446,9 +446,18 @@ possible to choose dependent speeds without resorting to numerical techniques
 if the system trajectories stay with the configuration space where these
 matrices are nonsingular.
 
-The computational cost of computing the jacobian matrices can also be reduced
-if the point of linearization is known ahead of time. 
-
+If it is found that substatial computational time is spent in computing the
+jacobian matrices, it might be possible to reduce the time if the point of
+linearization is known. We are taking the partial derivatives with respect to
+$q$, $\dot{q}$, $u$, and $\dot{u}$ in a number of vectors. If we know the point
+of linearization (have numerical values for $q$, $\dot{q}$, $u$, $\dot{u}$), we
+can substitute all of the quantities except for those we are taking the
+derivative with respect to; e.g. when computing $\nabla_{\mb{u}} \bm{f}_3$ we
+substitute in the known values for $q$, $\dot{q}$, and $u$. In this situation,
+the cost of symbolic substitution needs to be considered. In practice, it has
+sometimes been computationally expensive. The potential speed-up needs to be
+considered next to the loss of generality of choosing a point of linearization
+after the fact.
 
 
 \begin{acknowledgements}

@@ -425,8 +425,8 @@ new reduced matrices $A$ and $B$ and compute them with the following
 
 \begin{align}
     P^\prime &\triangleq \begin{bmatrix}
-        P_{qi} & \bm{O}_{(n - l) \times (o - m)} \\
-        \bm{O}_{(o - m) \times (n - l)} & P_{ui}
+        P_{qi} & \bm{O}_{n \times (o - m)} \\
+        \bm{O}_{o \times (n - l)} & P_{ui}
     \end{bmatrix} \\
     A &\triangleq P^{\prime T} A^\prime \\
     B &\triangleq P^{\prime T} B^\prime \\

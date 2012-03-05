@@ -32,15 +32,15 @@
 \begin{abstract}
   We present a systematic procedure for linearizing equations of motion
   governing constrained multibody systems which have been derived with Kane's
-  method.  Systems with configuration and velocity level constraints are
-  address by the procedure.  The procedure avoids differential algebraic
-  equations and yields first order relationships between time derivatives of
-  generalized coordinates/speeds (both independent and dependent) and
-  independent generalized coordinates/speeds and exogenous inputs.  The
-  procedure enables stability analysis and control system design in a fashion
-  that ensures that all constraints are satisfied.  We present an
-  implementation of the algorithm and numerically validate the results on a
-  well studied model of a bicycle.
+  method.  The procedure avoids differential algebraic equations and yields
+  linear relationships between time derivatives of generalized
+  coordinates/speeds (both independent and dependent) and independent
+  generalized coordinates/speeds and exogenous inputs.  These minimal
+  linearized equations effectively embed the constraints within them, and
+  enable stability analysis and control system design without the need to
+  explicitly address the constraints.  We numerically validate the results on a
+  well studied model of a bicycle which includes both configuration and
+  velocity constraints.
 \keywords{symbolic dynamics, control, constrained multibody systems}
 \end{abstract}
 
@@ -483,6 +483,8 @@ point of linearization at a later time.
 % Not sure which bibliography style we are supposed to use
 %\bibliographystyle{spphys}       % APS-like style for physics
 %\bibliographystyle{spbasic}      % basic style, author-year citations
+\section{Conclusion}
+
 \bibliography{library}   % name your BibTeX data base
 \bibliographystyle{spmpsci}      % mathematics and physical sciences
 \end{document}

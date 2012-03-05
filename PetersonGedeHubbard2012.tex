@@ -231,18 +231,20 @@ Equating the right hand sides of equations (\ref{eq:f0_plus_f1_expansion}),
 and (\ref{eq:f2_plus_f3_expansion}) to zero (as per table
 \ref{table:assumptions}), and introducing the following definitions
 \begin{align}
-\tilde{M}_{qq}  &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_0 \\
+    \begin{array}{llcll}
+\tilde{M}_{qq}  &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_0 & \quad &
 \tilde{M}_{uqc} &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_a \\
-\tilde{M}_{uuc} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_a \\
+\tilde{M}_{uuc} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_a & \quad &
 \tilde{M}_{uqd} &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_2 \\
-\tilde{M}_{uud} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_2 \\
+\tilde{M}_{uud} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_2 & \quad &
 \tilde{A}_{qq}  &\triangleq -\nabla_{\bm{q}}(\bm{f}_0 + \bm{f}_1) \\
-\tilde{A}_{qu}  &\triangleq -\nabla_{\bm{u}}\bm{f}_1 \\
+\tilde{A}_{qu}  &\triangleq -\nabla_{\bm{u}}\bm{f}_1 & \quad &
 \tilde{A}_{uqc} &\triangleq -\tilde{A}_{qq} - \nabla_{\bm{q}} \bm{f}_a \\
-\tilde{A}_{uuc} &\triangleq -\tilde{A}_{qu} - \nabla_{\bm{u}} \bm{f}_a \\
+\tilde{A}_{uuc} &\triangleq -\tilde{A}_{qu} - \nabla_{\bm{u}} \bm{f}_a & \quad &
 \tilde{A}_{uqd} &\triangleq -\tilde{A}_{qq} - \nabla_{\bm{q}} (\bm{f}_2 + \bm{f}_3) \\
-\tilde{A}_{uud} &\triangleq -\tilde{A}_{qu} - \nabla_{\bm{u}} \bm{f}_3 \\
+\tilde{A}_{uud} &\triangleq -\tilde{A}_{qu} - \nabla_{\bm{u}} \bm{f}_3 & \quad &
 \tilde{B}_{u}   &\triangleq -\nabla_{\bm{r}}\bm{f}_{3}
+\end{array}
 \end{align}
 enables the unconstrained linear state space equations to be written as
 \begin{align}
@@ -453,11 +455,11 @@ $q$, $\dot{q}$, $u$, and $\dot{u}$ in a number of vectors. If we know the point
 of linearization (have numerical values for $q$, $\dot{q}$, $u$, $\dot{u}$), we
 can substitute all of the quantities except for those we are taking the
 derivative with respect to; e.g. when computing $\nabla_{\bm{u}} \bm{f}_3$ we
-substitute in the known values for $q$, $\dot{q}$, and $u$. In this situation,
-the cost of symbolic substitution needs to be considered. In practice, it has
-sometimes been computationally expensive. The potential speed-up needs to be
-considered next to the loss of generality of choosing a point of linearization
-after the fact.
+substitute in the known values for $q$, $\dot{q}$, and $r$. In this situation,
+the cost of symbolic substitution needs to be considered. In practice,
+substituion is sometimes computationally expensive. A speed-up, which is not
+not guaranteed, needs to be weighed against the loss of flexibility to choose a
+point of linearization at a later time.
 
 
 \begin{acknowledgements}

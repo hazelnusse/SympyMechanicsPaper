@@ -30,9 +30,18 @@
 \maketitle
 
 \begin{abstract}
-  Abstract here.
-\keywords{symbolic dynamics software, control, nonholonomic systems,
-          constrained systems}
+  We present a systematic procedure for linearizing equations of motion
+  governing constrained multibody systems which have been derived with Kane's
+  method.  Systems with configuration and velocity level constraints are
+  address by the procedure.  The procedure avoids differential algebraic
+  equations and yields first order relationships between time derivatives of
+  generalized coordinates/speeds (both independent and dependent) and
+  independent generalized coordinates/speeds and exogenous inputs.  The
+  procedure enables stability analysis and control system design in a fashion
+  that ensures that all constraints are satisfied.  We present an
+  implementation of the algorithm and numerically validate the results on a
+  well studied model of a bicycle.
+\keywords{symbolic dynamics, control, constrained multibody systems}
 \end{abstract}
 
 \section{Introduction}
@@ -411,7 +420,7 @@ speeds, and exogenous inputs.
 \section{Implementation and Examples}
 
 There are a number of additional steps needed to use these linear equations or
-form them more efficiently. There are also non-singularity requirements
+lorm them more efficiently. There are also non-singularity requirements
 involved in selection of independent quantities.
 
 In order to use these equations in the state space representation, 2 things

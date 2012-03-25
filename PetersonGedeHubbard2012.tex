@@ -51,18 +51,16 @@ The goal of the following calculations is to concretely establish the first
 order relationships (about an arbitrary equilibrium point) between an arbitrary
 choice of independent coordinates and speeds, and the time-derivatives of all
 coordinates and speeds (both independent and dependent).  This enables several
-common tasks: (1) stability analysis, (2) control system design, (3) control system design with output feedback based
-upon quantities that are dependent (i.e., not state variables), (4)
-determination of measurement equations for use in Kalman filter design when
-measured quantities are at the acceleration level (i.e., accelerometers).  The
-formalism presented here is generic enough to cover most examples of
-time-varying constrained multibody systems with arbitrary external inputs and
-arbitrary specified quantities.  This procedure has been created for systems
-whose equations of motion have been found with Kane's Method; this ensures that
-only ordinary differential equations are generated and no differential
-algebraic equations arise.  While the use of Kane's Method is not required for
-this procedure, equations of motion which can be completely described by a series
-of ODEs is a requirement.
+common tasks: (1) stability analysis, (2) control system design, (3) control
+system design with output feedback based upon quantities that are dependent
+(i.e., not state variables), (4) determination of measurement equations for use
+in Kalman filter design when measured quantities are at the acceleration level
+(i.e., accelerometers).  The formalism presented here is generic enough to
+cover most examples of time-varying constrained multibody systems with
+arbitrary external inputs and arbitrary specified quantities.  This procedure
+has been created for systems whose equations of motion have been derived with
+Kane's Method; while this is not a strict requirement, systems
+which can be completely described by a set of ODEs is (i.e., no DAEs).
 
 The complete configuration of the system is assumed to be described by
 generalized coordinates $\bm{q}\in\bm{R}^n$ and its velocity completely

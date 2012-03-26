@@ -438,7 +438,7 @@ speeds, and exogenous inputs.
 \section{Discussion}
 
 There are a number of additional steps needed to use these linear equations or
-lorm them more efficiently. There are also non-singularity requirements
+form them more efficiently. There are also non-singularity requirements
 involved in selection of independent quantities.
 
 In order to use these equations in the state space representation, 2 things
@@ -482,34 +482,20 @@ matrices are nonsingular.
 %\bibliographystyle{spphys}       % APS-like style for physics
 %\bibliographystyle{spbasic}      % basic style, author-year citations
 \section{Conclusion}
-In this paper, we have presented a procedure for creating linear equations of
+We have presented a procedure for creating linear equations of
 motion for a system with holonomic and nonholonomic constraints. We have also
 described some of the considerations that must be made when following this
-procedure as well as a numerical example showing the results of and validating
-our procedure.
+procedure as well validating it with examples.
 
 In summary, the procedure is:
-
 \begin{enumerate}
     \item Describe the system in the form of the equations shown in Table
         \ref{table:assumptions}.
     \item Compute the quantities shown in equation (\ref{eq:quant_to_compute}).
-    \item Either through inspection or performing a SVD on
-        $\nabla_{\bm{q}}\bm{f}_{c} P_{qd}$
-        and $\nabla_{\bm{u}} \bm{f}_{v} P_{ud}$, create the partition matrices
-        $P_u$ and $P_q$ which correctly identify the independent coordinates and
-        speeds.
+    \item Identify independent coordinates and speeds.
     \item Form the quantities in equations (\ref{eq:C_0}), (\ref{eq:C_1}), and
-        (\ref{eq:C_2}); using these terms and those from equation
-        (\ref{eq:quant_to_compute}), form equation
-        (\ref{eq:state_space_constrained}).
-    \item Choose a point of linearization and:
-        \begin{enumerate}
-            \item integrate the equations of motion.
-            \item reformulate the equations into the traditional state space form.
-            \item perform stability analysis.
-            \item perform other analyses.
-        \end{enumerate}
+        (\ref{eq:C_2}).
+    \item From the results of steps 2 and 4, for equation (\ref{eq:state_space_constrained}).
 \end{enumerate}
 
 \begin{acknowledgements}

@@ -186,18 +186,19 @@ evaluated at these equilibrium conditions.  Expansion of the three constraint
 equations yields
 \begin{align}
   \label{eq:configuration_expansion}
-  \bm{f}_{c}(\bm{q}, t) &\approx \underbrace{f_{c}(\bm{q}^*, t)}_{\bm{0}} +
-    \nabla_{\bm{q}}f_{c} \cdot \delta \bm{q}\\
+  \bm{f}_{c}(\bm{q}, t) &\approx \underbrace{\bm{f}_{c}(\bm{q}^*, t)}_{\bm{0}} +
+  \nabla_{\bm{q}}\bm{f}_{c} \cdot \delta \bm{q}\\
   \label{eq:velocity_expansion}
   \bm{f}_{v}(\bm{q}, \bm{u}, t) &\approx \underbrace{\bm{f}_{v}(\bm{q}^*,
-  \bm{u}^*, t)}_{\bm{0}} +  \nabla_{\bm{q}}f_{v} \cdot \delta \bm{q} +
-  \nabla_{\bm{u}}f_{v} \cdot \delta \bm{u} \\
+  \bm{u}^*, t)}_{\bm{0}} +  \nabla_{\bm{q}}\bm{f}_{v} \cdot \delta \bm{q} +
+  \nabla_{\bm{u}}\bm{f}_{v} \cdot \delta \bm{u} \\
   \label{eq:acceleration_expansion}
   \bm{f}_{a}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{\dot{u}}, t) &\approx
   \underbrace{\bm{f}_{a}(\bm{q}^*, \bm{\dot{q}}^*, \bm{u}^*, \bm{\dot{u}}^*,
-t)}_{\bm{0}} +  \nabla_{\bm{q}}f_{a} \cdot \delta \bm{q} + \nabla_{\bm{\dot{q}}}f_{a}
+t)}_{\bm{0}} +  \nabla_{\bm{q}}\bm{f}_{a} \cdot \delta \bm{q} +
+\nabla_{\bm{\dot{q}}}\bm{f}_{a}
 \cdot \delta \bm{\dot{q}} \notag\\
-&+ \nabla_{\bm{u}}f_{a} \cdot \delta \bm{u} + \nabla_{\bm{\dot{u}}}f_{a} \cdot
+&+ \nabla_{\bm{u}}\bm{f}_{a} \cdot \delta \bm{u} + \nabla_{\bm{\dot{u}}}\bm{f}_{a} \cdot
 \delta \bm{\dot{u}}
 \end{align}
 The first terms are identically zero because of the assumption that the
@@ -516,8 +517,7 @@ In summary, the procedure is:
         (\ref{eq:C_2}); using these terms and those from equation
         (\ref{eq:quant_to_compute}), form equation
         (\ref{eq:state_space_constrained}).
-    \item Choose a point of linearization which satisfies the equations in
-        Table \ref{table:assumptions} and:
+    \item Choose a point of linearization and:
         \begin{enumerate}
             \item integrate the equations of motion.
             \item reformulate the equations into the traditional state space form.

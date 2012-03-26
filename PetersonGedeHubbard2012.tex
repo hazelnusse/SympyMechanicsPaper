@@ -168,7 +168,7 @@ describe our system. The goal of this procedure is to create linear equations
 of motion with the following structure:
 \begin{align}
     \label{eq:structure}
-    \tilde{M} \dot{\bm{x}} = \tilde{A} \bm{x}_i + \tilde{B} r
+    \tilde{M} \dot{\bm{x}} = \tilde{A} \bm{x}_i + \tilde{B} \bm{r}
 \end{align}
 where $\bm{x}$ is the state vector of all the coordinates and speeds and
 $\bm{x}_i$ is the state vector of only the independent coordinates and speeds.
@@ -434,7 +434,7 @@ We now have a linear system of equations which relates the time derivatives of a
 states, dependent or independent, to the independent coordinates, independent
 speeds, and exogenous inputs.
 
-\section{Implementation and Examples}
+\section{Discussion}
 
 There are a number of additional steps needed to use these linear equations or
 lorm them more efficiently. There are also non-singularity requirements
@@ -476,20 +476,6 @@ through a SVD or other numerical techniques; for small systems it may be
 possible to choose dependent speeds without resorting to numerical techniques
 if the system trajectories stay with the configuration space where these
 matrices are nonsingular.
-
-If it is found that substatial computational time is spent in computing the
-jacobian matrices, it might be possible to reduce the time if the point of
-linearization is known. We are taking the partial derivatives with respect to
-$q$, $\dot{q}$, $u$, and $\dot{u}$ in a number of vectors. If we know the point
-of linearization (have numerical values for $q$, $\dot{q}$, $u$, $\dot{u}$), we
-can substitute all of the quantities except for those we are taking the
-derivative with respect to; e.g. when computing $\nabla_{\bm{u}} \bm{f}_3$ we
-substitute in the known values for $q$, $\dot{q}$, and $r$. In this situation,
-the cost of symbolic substitution needs to be considered. In practice,
-substituion is sometimes computationally expensive. A speed-up, which is not
-not guaranteed, needs to be weighed against the loss of flexibility to choose a
-point of linearization at a later time.
-
 
 % Not sure which bibliography style we are supposed to use
 %\bibliographystyle{spphys}       % APS-like style for physics

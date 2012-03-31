@@ -122,7 +122,7 @@ coordinates and $o$ speeds.
     \bm{u}, \bm{r}, t)$ & $\bm{0}_{(o - m) \times 1}$ & Dynamic differential equations
   \end{tabular}
 \end{table}
-The first three equations in table \ref{table:assumptions} represent
+The first three equations in Table \ref{table:assumptions} represent
 constraints derived purely from kinematic considerations at the configuration,
 velocity, and acceleration levels, respectively.  The velocity constraints may
 be nonholonomic or differentiated holonomic, while the acceleration constraints
@@ -159,10 +159,10 @@ rear wheel contact point, heading, and both wheel angles) and are often not of
 much interest in themselves, nor are they necessary for most analyses.
 
 \section{Derivation of linearization algorithm}
-\label{derivations}
+\label{sec:derivations}
 
 We see in Table \ref{table:assumptions} the differential equations which
-describe our system. The goal of this procedure is to create linear equations
+describe our system. The goal of this section is to create linear equations
 of motion with the following structure:
 \begin{align}
     \label{eq:structure}
@@ -170,9 +170,9 @@ of motion with the following structure:
 \end{align}
 where $\bm{x}$ is the state vector of all the coordinates and speeds and
 $\bm{x}_i$ is the state vector of only the independent coordinates and speeds.
-From this equation we can perform numerical integration or stability analysis,
+This equation can be used for simulation, stability analysis,
 or it can be reformulated into the traditional state space equations for
-controller design.
+controller design; these topics are discussed in \ref{sec:discussion}
 
 We begin with a first order Taylor series expansion of the equations in Table
 \ref{table:assumptions} about $\bm{q}=\bm{q}^*$, $\bm{\dot{q}}=\bm{\dot{q}}^*$,
@@ -430,29 +430,21 @@ rewrite equation (\ref{eq:state_space_unconstrained}) as
 \end{align}
 
 We now have a linear system of equations which relates the time derivatives of all
-states, dependent or independent, to the independent coordinates, independent
-speeds, and exogenous inputs.
+states (dependent and independent) to the independent states and exogenous inputs.
+
 
 \section{Discussion}
-
-There are a number of additional steps needed to use these linear equations or
-form them more efficiently. There are also non-singularity requirements
-involved in selection of independent quantities.
-
-In order to use these equations in the state space representation, 2 things
-need to happen. First, matrices $\tilde{A}$ and $\tilde{B}$ need to be
-multiplied by the mass matrix inverse. We can then define
-
+\label{sec:discussion}
+Equation \ref{eq:state_space_constrained} doesn't fit into the standard linear
+system framework because it is non-square.  To obtain a square system (useful
+in stability analysis and control system design) we define
 \begin{align}
     A^\prime &\triangleq \tilde{M}^{-1} \tilde{A} \\
     B^\prime &\triangleq \tilde{M}^{-1} \tilde{B}
 \end{align}
-
-Now we will have matrices $A^\prime$ and $B^\prime$ which are of size $(o +
-n) \times (o - m + n - l)$ and $(o + n) \times p)$. We need to now extract only
-the rows which are associated with the independent quantities. We will call the
-new reduced matrices $A$ and $B$ and compute them with the following
-
+where  $A^\prime \in \bm{R}^{(o + n) \times (o - m + n -l)}$, $B^\prime \in
+\bm{R}^{(o + n) \times p)}$.  We can extract the rows corresponding to the
+independent states by defining
 \begin{align}
     P^\prime &\triangleq \begin{bmatrix}
         P_{qi} & \bm{O}_{n \times (o - m)} \\
@@ -461,20 +453,27 @@ new reduced matrices $A$ and $B$ and compute them with the following
     A &\triangleq P^{\prime T} A^\prime \\
     B &\triangleq P^{\prime T} B^\prime
 \end{align}
+where $P^\prime \in \bm{R}^{(o - m + n - l) \times (o - m + n - l)}$.  Defining
+$\bm{x}_i = \left[\delta\bm{q}_i,\,\delta\bm{u}_i\right]^{T}$ yields the square
+state space system $\dot{\bm{x}}_i = A \bm{x}_i + B \bm{r}$.  The standard
+linear systems analyses may now be applied.  It is worth noting that the rows
+of $A^\prime$ and $B^\prime$ which correspond to dependent states can be used
+in the output or measurement equations of a linear state space model, as would
+be the case when the control task is to control a dependent state or when
+measurements of dependent state(s) are made.
 
-We will also define the state space vector $x =
-\left[\delta\bm{q}_i,\,\delta\bm{u}_i\right]^{T}$; we now have the traditional
-state space representation which only contains independent quantities.
-
-This method relies on the nonsingularity of $\nabla_{\bm{q}}\bm{f}_{c} P_{qd}$
-and $\nabla_{\bm{u}} \bm{f}_{v} P_{ud}$.  The implication of this is that
-selection of dependent coordinates and dependent speeds is critical.  The
-permutation matrices effectively select the columns of the constraint gradient
-matrices, and may be selected by examination of the constraint gradient matrix
-through a SVD or other numerical techniques; for small systems it may be
-possible to choose dependent speeds without resorting to numerical techniques
-if the system trajectories stay with the configuration space where these
-matrices are nonsingular.
+The choice on which state variables are taken to be independent may determine
+whether $\nabla_{\bm{q}}\bm{f}_{c} P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_{v}
+P_{ud}$ are nonsingular.  These matrices depend upon the
+configuration variables and parameters; for certain configurations or
+parameters, it may be that the choice of independent state variables cannot be
+arbitrary.  While some systems may permit a choice of independent state
+variables which are valid for all configurations of interest, others may not.
+Methods for automatically selecting the ``best'' choice of independent state
+variables are discussed in \cite{Reckdahl1996}; they involve computing
+the SVD of the Jacobian of the constraint matrices to determine a set of
+indepedent speeds which will ensure the nonsingularity of the aforementioned
+matrices.
 
 % Not sure which bibliography style we are supposed to use
 %\bibliographystyle{spphys}       % APS-like style for physics

@@ -430,12 +430,11 @@ independent states by defining
 \end{align}
 where $P^\prime \in \bm{R}^{(o - m + n - l) \times (o - m + n - l)}$.  Defining
 $\bm{x}_i = \left[\delta\bm{q}_i,\,\delta\bm{u}_i\right]^{T}$ yields the square
-state space system $\dot{\bm{x}}_i = A \bm{x}_i + B \bm{r}$.  The standard
-linear systems analyses may now be applied.  It is worth noting that the rows
+state space system $\dot{\bm{x}}_i = A \bm{x}_i + B \bm{r}$ to which standard
+linear systems analyses may applied.  It is worth noting that the rows
 of $A^\prime$ and $B^\prime$ which correspond to dependent states can be used
-in the output or measurement equations of a linear state space model, as would
-be the case when the control task is to control a dependent state or when
-measurements of dependent state(s) are made.
+in the output or measurement equations of a linear state space model, as in the
+case when the controlling or measuring dependent state(s).
 
 The choice on which state variables are taken to be independent may determine
 whether $\nabla_{\bm{q}}\bm{f}_{c} P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_{v}

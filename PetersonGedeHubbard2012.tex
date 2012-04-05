@@ -35,7 +35,7 @@
   method.  The procedure avoids differential algebraic equations and yields
   linear relationships between time derivatives of generalized
   coordinates/speeds (both independent and dependent) and independent
-  generalized coordinates/speeds and exogenous inputs.  These linear ODE's
+  generalized coordinates/speeds and exogenous inputs.  These linear ODEs
   effectively embed the constraints, and enable stability analysis and control
   system design without the need to explicitly address the constraints.  We
   numerically validate the results on a well studied model of a bicycle which
@@ -112,8 +112,6 @@ quantities.  This formalism is exceedingly generic; in practice, the structure
 of the functions in Table \ref{table:assumptions} can be leveraged to simplify
 the following calculations.  This will be discussed subsequently.
 
-%The system described by equations \ref{eq:configuration}-\ref{eq:dyndiffs} has
-%$o-m$ velocity degrees of freedom.
 Trajectories of the system exist on a $p \triangleq n - l + o - m$ dimensional
 manifold embedded in a $n + o$ dimensional space, though conserved quantities
 (e.g., total mechanical energy) may restrict trajectories to a lower
@@ -448,8 +446,8 @@ systems may permit a choice of independent state variables which are valid for
 all configurations of interest, others may not.  Methods for automatically
 selecting the ``best'' choice of independent state variables are discussed in
 \cite{Reckdahl1996}; they involve computing the SVD of the Jacobian of the
-constraint matrices to determine a set of indepedent speeds which will ensure
-the nonsingularity of the aforementioned matrices.
+constraint matrices to determine a set of independent speeds which will ensure
+the non-singularity of the aforementioned matrices.
 
 This algorithm as been applied to two well studied systems: the rolling disc
 and an extended version of the Whipple bicycle model\cite{Meijaard2007}.
@@ -481,7 +479,7 @@ In summary, the procedure is:
   Foundation under award 0928339 and two Google Summer of Code projects (2009,
   2011).  Jason Moore, Thomas Johnston, Evan Sperber, and Andrew Kickertz
   provided valuable feedback during discussions of multibody dynamics and
-  control related issues.
+  control.
 \end{acknowledgements}
 
 % Not sure which bibliography style we are supposed to use

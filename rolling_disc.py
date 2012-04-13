@@ -23,7 +23,7 @@ C.v2pt_theory(O, N, R)
 ccons = [r * (L.z & Y.z) - oz]
 vcons = [C.vel(N) & Y.x, C.vel(N) & Y.y, C.vel(N) & Y.z]
 
-Disk = RigidBody('Disk', O, R, m, (inertia(L, I, I, J), O))
+Disk = RigidBody('Disk', O, R, m, (inertia(L, I, J, I), O))
 
 v_o_exp_n = O.vel(N).express(N)
 
@@ -40,6 +40,7 @@ KM.kindiffeq(kd)
 KM.kanes_equations(Forces, Bodies)
 
 mm = KM.mass_matrix_full
+mprint(mm)
 f = KM.forcing_full
 f.simplify()
 f = f.subs(KM.kindiffdict())

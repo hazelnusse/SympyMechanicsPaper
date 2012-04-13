@@ -6,9 +6,6 @@
 \usepackage{amssymb}
 \usepackage{bm}
 
-%% Big-O notation.
-\providecommand{\OO}[1]{\ensuremath{\operatorname{O}\bigl(#1\bigr)}}
-
 \begin{document}
 
 \title{A linearization procedure for constrained multibody systems}
@@ -51,7 +48,7 @@ order relationships (about an arbitrary equilibrium point) between an arbitrary
 choice of independent coordinates and speeds, and the time-derivatives of all
 coordinates and speeds (both independent and dependent).  This is necessary for
 tasks which require a linear state space formulation.  Common examples include
-stability analysis, controller and estimator design (including control or
+stability analysis and controller and estimator design (including control or
 measurement of a dependent quantity).  The formalism presented here is generic
 enough to cover most examples of time-varying constrained multibody systems
 with arbitrary external inputs and arbitrary specified quantities.  This
@@ -59,7 +56,7 @@ procedure has been created for systems whose equations of motion have been
 derived with Kane's Method.  While this is not a strict requirement, systems
 which can be completely described by a set of ODEs is (i.e., no DAEs).
 
-The complete configuration of the system is assumed to be described by
+The complete configuration of the system is further assumed to be described by
 generalized coordinates $\bm{q}\in\bm{R}^n$ and its velocity completely
 described by generalized speeds $\bm{u}\in\bm{R}^o$, with $n \ne o$ in general.
 All coordinates and speeds, not only the independent ones, are represented by
@@ -104,7 +101,7 @@ velocity, and acceleration levels, respectively.  The velocity constraints may
 be nonholonomic or time differentiated holonomic.  The acceleration constraints
 can be time differentiated velocity constraints or kinematic acceleration
 constraints.  The fourth equation represents kinematic differential equations
-which relate $\bm{\dot{q}}$ to $\bm{u}$ and are linear in both of these
+which relate $\bm{\dot{q}}$ to $\bm{u}$ and are linear in both these
 quantities.  The fifth equation represents the constraint-free nonholonomic
 dynamic differential equations~\cite{Kane1985}, and will necessarily be linear
 in $\bm{\dot{u}}$ and the inputs $\bm{r}$, but generally nonlinear in all other
@@ -115,28 +112,27 @@ the following calculations.  This will be discussed subsequently.
 Trajectories of the system exist on a $p \triangleq n - l + o - m$ dimensional
 manifold embedded in a $n + o$ dimensional space, though conserved quantities
 (e.g., total mechanical energy) may restrict trajectories to a lower
-dimensional manifold.  In general this cannot be assumed, especially
-in the presence of external control inputs $\bm{r}$ which may change the total
+dimensional manifold.  In general this cannot be assumed, however, especially
+in the presence of exogenous inputs $\bm{r}$ which may change the total
 mechanical energy of the system.  While more than $p$ of the independent state
 variables may be of interest (i.e., dependent coordinates or speeds may be of
 interest in themselves), only $p$ quantities are truly independent.  Which of
 these $p$ coordinates and speeds should be chosen as independent out of the
 possible $n + o$ may be obvious for small systems where there is intuition
-about the system behavior, but in general the optimal choice depends on how the
+about system behavior, but in general the optimal choice depends on how the
 configuration $\bm{q}$ affects the gradients of $f_c$ and $f_v$.  On the other
-hand, in systems with cyclic/ignorable coordinates (i.e., coordinates which do
-not appear in the dynamic equations of motion), fewer than $p$ state
+hand, in systems with cyclic (ignorable) coordinates, fewer than $p$ state
 variables may be of interest; one example is the Whipple bicycle model where
-$p=10$ but 5 of these state variables are cyclic coordinates (coordinates of
-rear wheel contact point, heading, and both wheel angles) and may only be of
-secondary interest.
+$p=10$ but 5 of these state variables are cyclic coordinates (Cartesian
+coordinates of rear wheel contact point, heading, and both wheel angles) and
+may only be of secondary interest.
 
 \section{Derivation of linearization algorithm}
 \label{sec:derivations}
 
-We see in Table \ref{table:assumptions} the differential equations which
-describe our system. The goal of this section is to create linear equations
-of motion with the following structure:
+The system, is desribed (in part) by the kinematic and dynamic differential
+equations in Table \ref{table:assumptions} .  The goal of this section is to
+create linear equations of motion with the following structure:
 \begin{align}
     \label{eq:structure}
     \tilde{M} \dot{\bm{x}} = \tilde{A} \bm{x}_i + \tilde{B} \bm{r}
@@ -317,7 +313,7 @@ By assumption, equation
     \bm{f}_{c} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{c} \right] P_{qi} \delta
     \bm{q}_i
 \end{align}
-For convenience, we define
+We define
 \begin{equation}
   \label{eq:C_0}
   C_0 \triangleq \left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
@@ -400,8 +396,10 @@ rewrite equation (\ref{eq:state_space_unconstrained}) as
     \right]
     \delta \bm{r}
 \end{align}
-We now have a linear system of equations which relates the time derivatives of all
-states (dependent and independent) to the independent states and exogenous inputs.
+Equation \ref{eq:state_space_constrained} is a linear system of equations which
+relates the time derivatives of all states (dependent and independent) to the
+independent states and exogenous inputs; this is the precisely the form of
+equation \ref{eq:structure}.
 
 \section{Discussion}
 \label{sec:discussion}
@@ -436,7 +434,7 @@ of $A^\prime$ and $B^\prime$ which correspond to dependent states can be used
 in the output or measurement equations of a linear state space model, as in the
 case when the controlling or measuring dependent state(s).
 
-The choice on which state variables are taken to be independent may determine
+The choice of which state variables are taken to be independent may determine
 whether $\nabla_{\bm{q}}\bm{f}_{c} P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_{v}
 P_{ud}$ are nonsingular.  These matrices depend upon the configuration $\bm{q}$
 and constant parameters; for certain configurations or parameters, it may be

@@ -330,16 +330,125 @@ We apply this linearization technique to the well studied rolling disc.  Figure
 XX illustrates the choice of coordinates, speeds, and parameters.  The disc is
 assumed to be knife edged of radius $r$, mass $m$, spin inertia $J$, and
 transverse inertia $I$.  To illustrate the concept of dependent quantities, we
-purposefully choose a nonminimal set of coordinates and speeds.  In this
-particular example, this can be avoided, but in more complicated systems, it is
-difficult (if not impossible) to describe the system with a minimal choice.  The
-orientation of the disc fixed frame $C$ relative to the inertial frame $N$ is given by
-a sequence of angular rotations (Euler ZXY) by angles $q_0$ (yaw), $q_1$
-(lean), $q_2$ (spin).  The location
-of the center of disc relative to the inertial origin is defined by coordinates
-q3, q4, q5.  The angular velocity of the disc is defined by three speeds
-\[u_0 \triangleq {^{N}}\bm{\omega}^{C} \cdot \bm{c}_{x}\]
+purposefully choose to describe the configuration and velocity of the disc with
+a non-minimal set of coordinates and speeds.  This choice is not purely
+academic; a physical disc equipped with a rate gyroscope and accelerometer
+measure these body fixed quantities (or their time derivatives) directly,
+rather than the more traditional set which is chosen for analytic convenience.
+In more complicated systems with constraints, it is difficult (if not
+impossible) to describe the system with a minimal choice of coordinates and
+speeds; the ideas demonstrated by this simply example apply analogously to more
+complicated ones.
 
+The orientation of the disc fixed frame $C$ relative to the inertial frame $N$
+is given by a sequence of angular rotations (Euler ZXY) by angles $q_0$ (yaw),
+$q_1$ (lean), $q_2$ (spin).  The angular velocity of $C$ in $N$, the location
+of disc center $C^*$ relative to the inertial origin $N^*$, and the velocity of
+$C^*$ in $N$ are
+\begin{align}
+  \bm{\omega}^C &= u_0 \bm{c}_x + u_1 \bm{c}_y + u_2 \bm{c}_z \\
+  \bm{r}^{C^*} &= q_3 \bm{n}_x + q_4 \bm{n}_y + q_5 \bm{n}_z \\
+  \bm{v}^{C^*} &= u_3 \bm{c}_x + u_4 \bm{c}_y + u_5 \bm{c}_z
+\end{align}
+If the disc is to make contact with the ground, it should be obvious to the
+reader that there is a configuration constraint involving the height $q_5$ of
+the disc center and the lean $q_1$.  Similarly, if the disc rolls without
+slip, it should be obvious that there are constraints which relate the
+generalized speeds $u_i, (i = 0,\dots,5)$.  The derivation of these
+constraints and the equations of motion are presented in the electronic
+supplementary material and can be found in the literature (reference O'Reilly
+and others?).
+\begin{table}[htbp]
+  \centering
+  \caption{Rolling disc governing definitions and equations}
+  \label{table:rollingdisc}
+  \begin{tabular}[c]{l l l}
+    Quantity & Shape & Description\\
+    \hline
+    $\bm{q},\bm{\dot{q}}$ & $\mathbf{R}^6$ & Coordinates and their time
+    derivatives\\
+    $\bm{u}, \bm{\dot{u}}$ & $\mathbf{R}^6$ & Speeds and their time derivatives
+  \end{tabular}
+  \begin{tabular}[c]{r @{ $=$ } l l}
+    \multicolumn{3}{c}{ } \\
+    \multicolumn{2}{c}{Equation} &           \\
+    \hline
+    $rc_1 + q_5$ & $0$ & $\bm{f}_c = \bm{0}$ \\
+    $\left[\begin{array}{c}
+        r u_1 c_2 + u_3 \\
+        -r (u_0 c_2 + u_2 s_2) + u_4 \\
+        r u_1 s_2 + u_5
+    \end{array}\right] $ &
+    $\left[\begin{array}{c}$0$\\$0$\\$0$\end{array}\right]$
+      & $\bm{f}_v = \bm{0}$\\
+    $\left[\begin{array}{c}
+        -r (u_1 \dot{q}_2 s_2 + \dot{u}_1 c_2) + \dot{u}_3 \\
+        -r ((\dot{u}_2 - u_0 \dot{q}_2) s_2   + (\dot{u}_0 + u_2 \dot{q}_2)c_2) + \dot{u}_4 \\
+      r (u_1 \dot{q}_2 c_2 + s_2 \dot{u}_1) + \dot{u}_5
+      \end{array}\right]$ &
+      $\left[\begin{array}{c}$0$\\$0$\\$0$\end{array}\right]$ & $\bm{f}_a =
+        \bm{0}$\\
+        $\left[\begin{array}{c}
+-\dot{q}_0 s_2 c_1 + \dot{q}_1 c_2 \\
+\dot{q}_0 s_1 + \dot{q}_2 \\
+\dot{q}_0 c_1 c_2 + \dot{q}_1 s_2 \\
+\dot{q}_3 (-s_0 s_1 s_2 + c_0 c_2)
++ \dot{q}_4 (s_0 c_2 + s_1 s_2 c_0)
+- \dot{q}_5 s_2 c_1\\
+- \dot{q}_3 s_0 c_1 + \dot{q}_4 c_0 c_1 + \dot{q}_5 s_1 \\
+\dot{q}_3 (s_0s_1c_2 + s_2c_0) + \dot{q}_4 (s_0s_2 - s_1c_0c_2) + \dot{q}_5 c_1 c_2
+         \end{array}\right] + \left[\begin{array}{c}-u_0 \\ -u_1 \\ -u_2 \\
+             -u_3 \\ -u_4 \\ -u_5 \end{array}\right]$ &
+             $\left[\begin{array}{c} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{array}\right]$
+                 & $\bm{f}_0 + \bm{f}_1 = \bm{0}$\\
+                 $\left[\begin{array}{c}
+-I \dot{u}_0 - m r c_2 \dot{u}_4 \\
+-J \dot{u}_1 + m r s_2 \dot{u}_5 + m r c_2 \dot{u}_3 \\
+-I \dot{u}_2 - m r s_2 \dot{u}_4
+                   \end{array}\right]
++
+                 \left[\begin{array}{c}
+-I u_1 u_2 + J u_1 u_2 + g m r s_1 c_2 - m r (-u_0 u_5 + u_2 u_3) c_2 \\
+                m r (u_0 u_4 - u_1 u_3) s_2 + m r (u_1 u_5 - u_2 u_4) c_2 \\
+ I u_0 u_1 - J u_0 u_1 + g m r s_1 s_2 - m r (-u_0 u_5 + u_2 u_3) s_2
+                   \end{array}\right]$ &
+             $\left[\begin{array}{c} 0 \\ 0 \\ 0 \end{array}\right]$
+               & $\bm{f}_2 + \bm{f}_3 = \bm{0}$
+  \end{tabular}
+\end{table}
+
+%f_c:
+%[r*cos(q1) + q5]
+%f_v:
+%[                r*u1*cos(q2) + u3]
+%[-r*(u0*cos(q2) + u2*sin(q2)) + u4]
+%[                r*u1*sin(q2) + u5]
+%f_a:
+%[                                -r*u1*sin(q2)*q2' + r*cos(q2)*u1' + u3']
+%[-r*(-u0*sin(q2)*q2' + u2*cos(q2)*q2' + sin(q2)*u2' + cos(q2)*u0') + u4']
+%[                                 r*u1*cos(q2)*q2' + r*sin(q2)*u1' + u5']
+%f_0:
+%[                                                                                      -sin(q2)*cos(q1)*q0' + cos(q2)*q1']
+%[                                                                                                       sin(q1)*q0' + q2']
+%[                                                                                       sin(q2)*q1' + cos(q1)*cos(q2)*q0']
+%[(sin(q0)*cos(q2) + sin(q1)*sin(q2)*cos(q0))*q4' + (-sin(q0)*sin(q1)*sin(q2) + cos(q0)*cos(q2))*q3' - sin(q2)*cos(q1)*q5']
+%[                                                                -sin(q0)*cos(q1)*q3' + sin(q1)*q5' + cos(q0)*cos(q1)*q4']
+%[ (sin(q0)*sin(q2) - sin(q1)*cos(q0)*cos(q2))*q4' + (sin(q0)*sin(q1)*cos(q2) + sin(q2)*cos(q0))*q3' + cos(q1)*cos(q2)*q5']
+%f_1:
+%[-u0]
+%[-u1]
+%[-u2]
+%[-u3]
+%[-u4]
+%[-u5]
+%f_2:
+%[                  -I*u0' - m*r*cos(q2)*u4']
+%[-J*u1' + m*r*sin(q2)*u5' + m*r*cos(q2)*u3']
+%[                  -I*u2' - m*r*sin(q2)*u4']
+%f_3:
+%[-I*u1*u2 + J*u1*u2 + g*m*r*sin(q1)*cos(q2) - m*r*(-u0*u5 + u2*u3)*cos(q2)]
+%[                m*r*(u0*u4 - u1*u3)*sin(q2) + m*r*(u1*u5 - u2*u4)*cos(q2)]
+%[ I*u0*u1 - J*u0*u1 + g*m*r*sin(q1)*sin(q2) - m*r*(-u0*u5 + u2*u3)*sin(q2)]
 \section{Derivation of linearization algorithm}
 \label{sec:derivations}
 

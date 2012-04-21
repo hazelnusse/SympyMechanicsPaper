@@ -1,6 +1,6 @@
-from sympy import symbols, Matrix, eye, zeros
+from sympy import symbols, Matrix, eye, zeros, latex
 from sympy.physics.mechanics import (dynamicsymbols, ReferenceFrame, Point, dot,
-cross, mprint, RigidBody, inertia, Kane)
+cross, mprint, RigidBody, inertia, Kane, mlatex)
 
 # Symbols for time and constant parameters
 t, r, m, g, I, J = symbols('t r m g I J')
@@ -140,12 +140,22 @@ for i in [0, 1, 2]:
     # All other terms that don't have du/dt in them
     f_3[i] = gif_con[i].subs({udi : 0 for udi in ud}) + gaf_con[i]
 
-mprint(f_2)
-mprint(f_3)
-mprint(Muud)
+print("f_c:")
+mprint(f_c)
+print("f_v:")
+mprint(f_v)
+print("f_a:")
 mprint(f_a)
-
+print("f_0:")
+mprint(f_0)
+print("f_1:")
+mprint(f_1)
+print("f_2:")
+mprint(f_2)
+print("f_3:")
+mprint(f_3)
 stop
+
 # Kane's dynamic equations via sympy.physics.mechanics
 Bodies_List = [RigidBody('Disk', O, C, m, (inertia(C, I, J, I), O))]
 Forces_List = [(O, m*g*A.z)]

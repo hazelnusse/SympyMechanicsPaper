@@ -1,10 +1,11 @@
-\documentclass{svjour3}                     % onecolumn (standard format)
+\documentclass[smallcondensed]{svjour3}                     % onecolumn (standard format)
 \RequirePackage{fix-cm}
 
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{bm}
+%\usepackage[polutonikogreek]{babel}
 
 \begin{document}
 
@@ -40,34 +41,178 @@
 \keywords{symbolic dynamics, control, constrained multibody systems}
 \end{abstract}
 
+\section{Conclusions}
+\label{sec:conclusions}
+We have provided a procedure to obtain linear state space formulation for
+constrained multibody systems whose nonlinear dynamics are described only by
+ordinary differential equations. With this state space formulation, you can
+perform stability analysis, control system design, and other linear analyses.
+
+In some sense this work is simply applying the chain rule through matrix
+operations in a way that respects system constraints. An advanced C.A.S. system
+which possesses the ability to represent dependent quantities (as functions of
+independent quantities) could perform the chain rule directly, thereby
+eliminating the need for matrix operations. We leave an open question: how does
+computational performance depend on implementation details and problem size?
+
+%In summary, the procedure is:
+%\begin{enumerate}
+%    \item Describe the system in the form of the equations shown in Table
+%        \ref{table:assumptions}.
+%    \item Determine a point of linearization ($\bm{q}^*$, $\dot{\bm{q}}^*$,
+%      $\bm{u}^*$, $\dot{\bm{u}}^*$, and $\bm{r}^*$) which satisfies the
+%      equations in Table \ref{table:assumptions}.
+%    \item Compute the quantities in equation (\ref{eq:quant_to_compute}).
+%    \item Identify independent coordinates and speeds; form equations (\ref{eq:C_0}), (\ref{eq:C_1}), and
+%        (\ref{eq:C_2}).
+%    \item Form equation (\ref{eq:state_space_constrained}), and if needed,
+%      equations (\ref{eq:A_prime})-(\ref{eq:B}).
+%\end{enumerate}
+
 \section{Introduction}
-\label{intro}
+\label{sec:intro}
+Multibody systems, rigid or flexible, and particles often have constraints
+which limit how they can move. In this paper, we will discuss 3 types of
+constraints: configuration, velocity, and acceleration. Configuration
+constraints limit the location or orientation of parts of the system, relative
+to the external world or other parts of the system. Velocity constraints limit
+the speeds in which the configuration can change, either from configuration
+constraints (through time differentiation) or independent application. In this
+paper, acceleration constraints refer to time differentiated velocity
+constraints. Examples of multibody systems with constraints are closed
+kinematic loops or objects rolling without slip.
 
-The goal of the following calculations is to concretely establish the first
-order relationships (about an arbitrary equilibrium point) between an arbitrary
-choice of independent coordinates and speeds, and the time-derivatives of all
-coordinates and speeds (both independent and dependent).  This is necessary for
-tasks which require a linear state space formulation.  Common examples include
-stability analysis and controller and estimator design (including control or
-measurement of a dependent quantity).  The formalism presented here is generic
-enough to cover most examples of time-varying constrained multibody systems
-with arbitrary external inputs and arbitrary specified quantities.  This
-procedure has been created for systems whose equations of motion have been
-derived with Kane's Method.  While this is not a strict requirement, systems
-which can be completely described by a set of ODEs is (i.e., no DAEs).
+For these systems, a linear form of the equations of motion will be necessary
+for many different analyses.  Stability analysis and control system design are
+two possible scenarios.  Linearization of these constrained systems is not
+straightforward and presents significant challenges. Simply computing the
+jacobian matrix of the differential equations will give incorrect results, with
+no immediate indication that the results are wrong.
 
-The complete configuration of the system is further assumed to be described by
-generalized coordinates $\bm{q}\in\bm{R}^n$ and its velocity completely
-described by generalized speeds $\bm{u}\in\bm{R}^o$, with $n \ne o$ in general.
-All coordinates and speeds, not only the independent ones, are represented by
-$\bm{q}$ and $\bm{u}$.  The system is assumed to be governed by the
-relationships described in Table \ref{table:assumptions}.  The system is
-described by $l + m + n + o$ equations which relate $2n + 2o + s + 1$
-quantities, which implies that $n - l + o - m + s + 1$ of these quantities are
-independent.  This paper discusses the first order relationship between these
-independent quantities ($n-l$ independent coordinates, $o-m$ independent
-speeds, $s$ control inputs, and time $t$) and the time derivatives of the $n$
-coordinates and $o$ speeds.
+Currently, there are only a few approaches to linearizing constrained systems
+which have been presented (citations here). A limitation of these approaches is
+that they have been developed for equations of motion found using Lagrange¿s
+method, which contain Lagrange multipliers. Kane¿s method (citation here)
+allows for formulation of equations of motion for constrained systems in which
+no multipliers are present. The dynamics of these systems can be completely
+described by ordinary differential equations. This significantly different
+formulation requires a different approach to linearization than what the
+existing options provide.
+
+The goal of the following paper is to concretely establish the first order
+relationships (about an arbitrary equilibrium point) between a selection of
+independent coordinates and speeds and the time-derivatives of all of the
+coordinates and speeds (both independent and dependent). The formalism
+presented here is generic enough to cover most examples of time-varying
+constrained multibody systems with arbitrary external inputs and arbitrary
+specified quantities.  This procedure was created for systems whose equations
+of motion have been derived with Kane¿s Method. Although also applicable to
+dynamic system equations formulated using other methods, it is restricted to
+systems which can be completely described by a set of ODEs (i.e., no DAEs are
+present).
+
+We first present our linearization procedure. Next we will offer some
+discussion of the procedure, along with an example. The derivation of the
+procedure is provided in the appendix. Additionally, the electronic
+supplementary material provides more examples (in more detail) and an
+alternative ordering for the independent/dependent quantities.
+
+%The complete configuration of the system is further assumed to be described by
+%generalized coordinates $\bm{q}\in\bm{R}^n$ and its velocity completely
+%described by generalized speeds $\bm{u}\in\bm{R}^o$, with $n \ne o$ in general.
+%All coordinates and speeds, not only the independent ones, are represented by
+%$\bm{q}$ and $\bm{u}$.  The system is assumed to be governed by the
+%relationships described in Table \ref{table:assumptions}.  The system is
+%described by $l + m + n + o$ equations which relate $2n + 2o + s + 1$
+%quantities, which implies that $n - l + o - m + s + 1$ of these quantities are
+%independent.  This paper discusses the first order relationship between these
+%independent quantities ($n-l$ independent coordinates, $o-m$ independent
+%speeds, $s$ control inputs, and time $t$) and the time derivatives of the $n$
+%coordinates and $o$ speeds.
+%
+%The first three equations in Table \ref{table:assumptions} represent
+%constraints derived purely from kinematic considerations at the configuration,
+%velocity, and acceleration levels, respectively.  The velocity constraints may
+%be nonholonomic or time differentiated holonomic.  The acceleration constraints
+%can be time differentiated velocity constraints or kinematic acceleration
+%constraints.  The fourth equation represents kinematic differential equations
+%which relate $\bm{\dot{q}}$ to $\bm{u}$ and are linear in both these
+%quantities.  The fifth equation represents the constraint-free nonholonomic
+%dynamic differential equations~\cite{Kane1985}, and will necessarily be linear
+%in $\bm{\dot{u}}$ and the inputs $\bm{r}$, but generally nonlinear in all other
+%quantities.  This formalism is exceedingly generic; in practice, the structure
+%of the functions in Table \ref{table:assumptions} can be leveraged to simplify
+%the following calculations.  This will be discussed subsequently.
+%
+%Trajectories of the system exist on a $p \triangleq n - l + o - m$ dimensional
+%manifold embedded in a $n + o$ dimensional space, though conserved quantities
+%(e.g., total mechanical energy) may restrict trajectories to a lower
+%dimensional manifold.  In general this cannot be assumed, however, especially
+%in the presence of exogenous inputs $\bm{r}$ which may change the total
+%mechanical energy of the system.  While more than $p$ of the independent state
+%variables may be of interest (i.e., dependent coordinates or speeds may be of
+%interest in themselves), only $p$ quantities are truly independent.  Which of
+%these $p$ coordinates and speeds should be chosen as independent out of the
+%possible $n + o$ may be obvious for small systems where there is intuition
+%about system behavior, but in general the optimal choice depends on how the
+%configuration $\bm{q}$ affects the gradients of $f_c$ and $f_v$.  On the other
+%hand, in systems with cyclic (ignorable) coordinates, fewer than $p$ state
+%variables may be of interest; one example is the Whipple bicycle model where
+%$p=10$ but 5 of these state variables are cyclic coordinates (Cartesian
+%coordinates of rear wheel contact point, heading, and both wheel angles) and
+%may only be of secondary interest.
+
+\section{Results}
+\label{sec:results}
+The linearized equations of motion are
+\begin{align}
+  \label{eq:state_space_constrained}
+  \left[
+    \begin{array}{cc}
+      \tilde{M}_{qq} & \bm{0}_{n \times o} \\
+      \tilde{M}_{uqc} & \tilde{M}_{uuc} \\
+      \tilde{M}_{uqd} & \tilde{M}_{uud}
+    \end{array}
+    \right]
+    \left[
+      \begin{array}{c}
+        \delta \bm{\dot{q}} \\
+        \delta \bm{\dot{u}}
+      \end{array}
+    \right]
+   &=
+   \left[
+     \begin{array}{cc}
+       (\tilde{A}_{qq} + \tilde{A}_{qu} C_1 ) C_0 & \tilde{A}_{qu} C_2 \\
+       (\tilde{A}_{uqc} + \tilde{A}_{uuc} C_1 ) C_0 & \tilde{A}_{uuc} C_2\\
+       (\tilde{A}_{uqd} + \tilde{A}_{uud} C_1 ) C_0 & \tilde{A}_{uud} C_2
+     \end{array}
+   \right]
+    \left[
+      \begin{array}{c}
+        \delta \bm{q}_i \\
+        \delta \bm{u}_i
+      \end{array}
+    \right]
+    +
+    \left[
+      \begin{array}{c}
+        \bm{0}_{(n+m) \times s} \\
+        \tilde{B}_{u}
+      \end{array}
+    \right]
+    \delta \bm{r}
+\end{align}
+Table \ref{table:assumptions} provides the form in which the nonlinear
+equations of motion and constraints must be arranged.  Equations
+\ref{eq:quant_to_compute} provides the bulk of the terms in equation
+\ref{eq:state_space_constrained}; these terms are Jacobian matrices of the
+differential equations. Equations \ref{eq:C_0}-\ref{eq:C_2} provide the terms
+$C_0$, $C_1$, and $C_2$ which embed the constraints into
+\ref{eq:state_space_constrained}. Finally, the permutation matrices in
+equations \ref{eq:Pq} and \ref{eq:Pu} provide the means to separate the
+independent and dependent speeds.
+
 \begin{table}[htbp]
   \centering
   \caption{Constrained multibody system governing definitions and equations}
@@ -95,37 +240,105 @@ coordinates and $o$ speeds.
   \end{tabular}
 \end{table}
 
-The first three equations in Table \ref{table:assumptions} represent
-constraints derived purely from kinematic considerations at the configuration,
-velocity, and acceleration levels, respectively.  The velocity constraints may
-be nonholonomic or time differentiated holonomic.  The acceleration constraints
-can be time differentiated velocity constraints or kinematic acceleration
-constraints.  The fourth equation represents kinematic differential equations
-which relate $\bm{\dot{q}}$ to $\bm{u}$ and are linear in both these
-quantities.  The fifth equation represents the constraint-free nonholonomic
-dynamic differential equations~\cite{Kane1985}, and will necessarily be linear
-in $\bm{\dot{u}}$ and the inputs $\bm{r}$, but generally nonlinear in all other
-quantities.  This formalism is exceedingly generic; in practice, the structure
-of the functions in Table \ref{table:assumptions} can be leveraged to simplify
-the following calculations.  This will be discussed subsequently.
+\begin{align}
+\label{eq:quant_to_compute}
+  \begin{array}{llcll}
+    \tilde{M}_{qq}  &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_0 & \quad &
+    \tilde{M}_{uqc} &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_a \\
+    \tilde{M}_{uuc} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_a & \quad &
+    \tilde{M}_{uqd} &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_2 \\
+    \tilde{M}_{uud} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_2 & \quad &
+    \tilde{A}_{qq}  &\triangleq -\nabla_{\bm{q}}(\bm{f}_0 + \bm{f}_1) \\
+    \tilde{A}_{qu}  &\triangleq -\nabla_{\bm{u}}\bm{f}_1 & \quad &
+    \tilde{A}_{uqc} &\triangleq - \nabla_{\bm{q}} \bm{f}_a \\
+    \tilde{A}_{uuc} &\triangleq - \nabla_{\bm{u}} \bm{f}_a & \quad &
+    \tilde{A}_{uqd} &\triangleq - \nabla_{\bm{q}} (\bm{f}_2 + \bm{f}_3) \\
+    \tilde{A}_{uud} &\triangleq - \nabla_{\bm{u}} \bm{f}_3 & \quad &
+    \tilde{B}_{u}   &\triangleq -\nabla_{\bm{r}}\bm{f}_{3}
+  \end{array}
+\end{align}
 
-Trajectories of the system exist on a $p \triangleq n - l + o - m$ dimensional
-manifold embedded in a $n + o$ dimensional space, though conserved quantities
-(e.g., total mechanical energy) may restrict trajectories to a lower
-dimensional manifold.  In general this cannot be assumed, however, especially
-in the presence of exogenous inputs $\bm{r}$ which may change the total
-mechanical energy of the system.  While more than $p$ of the independent state
-variables may be of interest (i.e., dependent coordinates or speeds may be of
-interest in themselves), only $p$ quantities are truly independent.  Which of
-these $p$ coordinates and speeds should be chosen as independent out of the
-possible $n + o$ may be obvious for small systems where there is intuition
-about system behavior, but in general the optimal choice depends on how the
-configuration $\bm{q}$ affects the gradients of $f_c$ and $f_v$.  On the other
-hand, in systems with cyclic (ignorable) coordinates, fewer than $p$ state
-variables may be of interest; one example is the Whipple bicycle model where
-$p=10$ but 5 of these state variables are cyclic coordinates (Cartesian
-coordinates of rear wheel contact point, heading, and both wheel angles) and
-may only be of secondary interest.
+\begin{align}
+  \label{eq:C_0}
+  C_0 &\triangleq \left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
+    \bm{f}_{c} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{c} \right] P_{qi}\\
+  \label{eq:C_1}
+  C_1 &\triangleq -P_{ud}(\nabla_{\bm{u}} \bm{f}_{v} P_{ud})^{-1}
+  \nabla_{\bm{q}} \bm{f}_{v} \\
+  \label{eq:C_2}
+  C_2 &\triangleq \left[I - P_{ud} (\nabla_{\bm{u}}\bm{f}_{v} P_{ud})^{-1} \nabla_{\bm{u}}
+    \bm{f}_{v} \right] P_{ui}\\
+  \label{eq:Pq}
+  \bm{q} &= P_{qi} \bm{q}_{i} + P_{qd} \bm{q}_{d} \\
+  \label{eq:Pu}
+  \bm{u} &= P_{ui} \bm{u}_{i} + P_{ud} \bm{u}_{d}
+\end{align}
+
+\section{Discussion}
+\label{sec:discussion}
+Equation \ref{eq:state_space_constrained} doesn't fit into the standard linear
+system framework because it is non-square.  To obtain a square system (useful
+in stability analysis and control system design) we define
+\begin{align}
+  \label{eq:A_prime}
+    A^\prime &\triangleq \tilde{M}^{-1} \tilde{A} \\
+  \label{eq:B_prime}
+    B^\prime &\triangleq \tilde{M}^{-1} \tilde{B}
+\end{align}
+where  $A^\prime \in \bm{R}^{(o + n) \times (o - m + n -l)}$, $B^\prime \in
+\bm{R}^{(o + n) \times s}$.  We can extract the rows corresponding to the
+independent states by defining
+\begin{align}
+  \label{eq:P_prime}
+    P^\prime &\triangleq \begin{bmatrix}
+        P_{qi} & \bm{O}_{n \times (o - m)} \\
+        \bm{O}_{o \times (n - l)} & P_{ui}
+    \end{bmatrix} \\
+  \label{eq:A}
+    A &\triangleq P^{\prime T} A^\prime \\
+  \label{eq:B}
+    B &\triangleq P^{\prime T} B^\prime
+\end{align}
+where $P^\prime \in \bm{R}^{(o - m + n - l) \times (o - m + n - l)}$.  Defining
+$\bm{x}_i = \left[\delta\bm{q}_i,\,\delta\bm{u}_i\right]^{T}$ yields the square
+state space system $\dot{\bm{x}}_i = A \bm{x}_i + B \bm{r}$ to which standard
+linear systems analyses may applied.  It is worth noting that the rows
+of $A^\prime$ and $B^\prime$ which correspond to dependent states can be used
+in the output or measurement equations of a linear state space model, as in the
+case when the controlling or measuring dependent state(s).
+
+The choice of which state variables are taken to be independent may determine
+whether $\nabla_{\bm{q}}\bm{f}_{c} P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_{v}
+P_{ud}$ are nonsingular.  These matrices depend upon the configuration $\bm{q}$
+and constant parameters; for certain configurations or parameters, it may be
+that the choice of independent state variables cannot be arbitrary.  While some
+systems may permit a choice of independent state variables which are valid for
+all configurations of interest, others may not.  Methods for automatically
+selecting the ``best'' choice of independent state variables are discussed in
+\cite{Reckdahl1996}; they involve computing the SVD of the Jacobian of the
+constraint matrices to determine a set of independent speeds which will ensure
+the non-singularity of the aforementioned matrices.
+
+This algorithm as been applied to two well studied systems: the rolling disc
+and an extended version of the Whipple bicycle model\cite{Meijaard2007}.
+Detailed model description, derivation, and benchmarking results are presented
+in the electronic supplementary material.
+
+\section{Example}
+\label{example}
+We apply this linearization technique to the well studied rolling disc.  Figure
+XX illustrates the choice of coordinates, speeds, and parameters.  The disc is
+assumed to be knife edged of radius $r$, mass $m$, spin inertia $J$, and
+transverse inertia $I$.  To illustrate the concept of dependent quantities, we
+purposefully choose a nonminimal set of coordinates and speeds.  In this
+particular example, this can be avoided, but in more complicated systems, it is
+difficult (if not impossible) to describe the system with a minimal choice.  The
+orientation of the disc fixed frame $C$ relative to the inertial frame $N$ is given by
+a sequence of angular rotations (Euler ZXY) by angles $q_0$ (yaw), $q_1$
+(lean), $q_2$ (spin).  The location
+of the center of disc relative to the inertial origin is defined by coordinates
+q3, q4, q5.  The angular velocity of the disc is defined by three speeds
+\[u_0 \triangleq {^{N}}\bm{\omega}^{C} \cdot \bm{c}_{x}\]
 
 \section{Derivation of linearization algorithm}
 \label{sec:derivations}
@@ -223,23 +436,6 @@ Equating the right hand sides of equations (\ref{eq:f0_plus_f1_expansion}),
 (\ref{eq:acceleration_expansion}),
 and (\ref{eq:f2_plus_f3_expansion}) to zero (as per Table
 \ref{table:assumptions}), and introducing the following definitions
-\begin{align}
-    \label{eq:quant_to_compute}
-    \begin{array}{llcll}
-\tilde{M}_{qq}  &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_0 & \quad &
-\tilde{M}_{uqc} &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_a \\
-\tilde{M}_{uuc} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_a & \quad &
-\tilde{M}_{uqd} &\triangleq \nabla_{\bm{\dot{q}}}\bm{f}_2 \\
-\tilde{M}_{uud} &\triangleq \nabla_{\bm{\dot{u}}}\bm{f}_2 & \quad &
-\tilde{A}_{qq}  &\triangleq -\nabla_{\bm{q}}(\bm{f}_0 + \bm{f}_1) \\
-\tilde{A}_{qu}  &\triangleq -\nabla_{\bm{u}}\bm{f}_1 & \quad &
-\tilde{A}_{uqc} &\triangleq - \nabla_{\bm{q}} \bm{f}_a \\
-\tilde{A}_{uuc} &\triangleq - \nabla_{\bm{u}} \bm{f}_a & \quad &
-\tilde{A}_{uqd} &\triangleq - \nabla_{\bm{q}} (\bm{f}_2 + \bm{f}_3) \\
-\tilde{A}_{uud} &\triangleq - \nabla_{\bm{u}} \bm{f}_3 & \quad &
-\tilde{B}_{u}   &\triangleq -\nabla_{\bm{r}}\bm{f}_{3}
-\end{array}
-\end{align}
 enables the unconstrained linear state space equations to be written as
 \begin{align}
   \label{eq:state_space_unconstrained}
@@ -314,11 +510,6 @@ By assumption, equation
     \bm{q}_i
 \end{align}
 We define
-\begin{equation}
-  \label{eq:C_0}
-  C_0 \triangleq \left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
-    \bm{f}_{c} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{c} \right] P_{qi}
-\end{equation}
 which enables us to write
 \begin{align}
   \label{eq:delta_q}
@@ -341,14 +532,6 @@ P_{ud}\right)^{-1}\left[\nabla_{\bm{q}}\bm{f}_{v} \delta\bm{q} +
     \bm{f}_{v} \right] P_{ui} \delta \bm{u}_i
 \end{align}
 We define
-\begin{align}
-  \label{eq:C_1}
-  C_1 &\triangleq -P_{ud}(\nabla_{\bm{u}} \bm{f}_{v} P_{ud})^{-1}
-  \nabla_{\bm{q}} \bm{f}_{v} \\
-  \label{eq:C_2}
-  C_2 &\triangleq \left[I - P_{ud} (\nabla_{\bm{u}}\bm{f}_{v} P_{ud})^{-1} \nabla_{\bm{u}}
-    \bm{f}_{v} \right] P_{ui}
-\end{align}
 which enables us to write
 \begin{align}
   \label{eq:delta_u}
@@ -358,118 +541,48 @@ which enables us to write
 
 By making use of equations (\ref{eq:delta_q}) and (\ref{eq:delta_u}), we can
 rewrite equation (\ref{eq:state_space_unconstrained}) as
-\begin{align}
-  \label{eq:state_space_constrained}
-  \left[
-    \begin{array}{cc}
-      \tilde{M}_{qq} & \bm{0}_{n \times o} \\
-      \tilde{M}_{uqc} & \tilde{M}_{uuc} \\
-      \tilde{M}_{uqd} & \tilde{M}_{uud}
-    \end{array}
-    \right]
-    \left[
-      \begin{array}{c}
-        \delta \bm{\dot{q}} \\
-        \delta \bm{\dot{u}}
-      \end{array}
-    \right]
-   &=
-   \left[
-     \begin{array}{cc}
-       (\tilde{A}_{qq} + \tilde{A}_{qu} C_1 ) C_0 & \tilde{A}_{qu} C_2 \\
-       (\tilde{A}_{uqc} + \tilde{A}_{uuc} C_1 ) C_0 & \tilde{A}_{uuc} C_2\\
-       (\tilde{A}_{uqd} + \tilde{A}_{uud} C_1 ) C_0 & \tilde{A}_{uud} C_2
-     \end{array}
-   \right]
-    \left[
-      \begin{array}{c}
-        \delta \bm{q}_i \\
-        \delta \bm{u}_i
-      \end{array}
-    \right]
-    +
-    \left[
-      \begin{array}{c}
-        \bm{0}_{(n+m) \times s} \\
-        \tilde{B}_{u}
-      \end{array}
-    \right]
-    \delta \bm{r}
-\end{align}
+%\begin{align}
+%  \label{eq:state_space_constrained}
+%  \left[
+%    \begin{array}{cc}
+%      \tilde{M}_{qq} & \bm{0}_{n \times o} \\
+%      \tilde{M}_{uqc} & \tilde{M}_{uuc} \\
+%      \tilde{M}_{uqd} & \tilde{M}_{uud}
+%    \end{array}
+%    \right]
+%    \left[
+%      \begin{array}{c}
+%        \delta \bm{\dot{q}} \\
+%        \delta \bm{\dot{u}}
+%      \end{array}
+%    \right]
+%   &=
+%   \left[
+%     \begin{array}{cc}
+%       (\tilde{A}_{qq} + \tilde{A}_{qu} C_1 ) C_0 & \tilde{A}_{qu} C_2 \\
+%       (\tilde{A}_{uqc} + \tilde{A}_{uuc} C_1 ) C_0 & \tilde{A}_{uuc} C_2\\
+%       (\tilde{A}_{uqd} + \tilde{A}_{uud} C_1 ) C_0 & \tilde{A}_{uud} C_2
+%     \end{array}
+%   \right]
+%    \left[
+%      \begin{array}{c}
+%        \delta \bm{q}_i \\
+%        \delta \bm{u}_i
+%      \end{array}
+%    \right]
+%    +
+%    \left[
+%      \begin{array}{c}
+%        \bm{0}_{(n+m) \times s} \\
+%        \tilde{B}_{u}
+%      \end{array}
+%    \right]
+%    \delta \bm{r}
+%\end{align}
 Equation \ref{eq:state_space_constrained} is a linear system of equations which
 relates the time derivatives of all states (dependent and independent) to the
 independent states and exogenous inputs; this is the precisely the form of
 equation \ref{eq:structure}.
-
-\section{Discussion}
-\label{sec:discussion}
-Equation \ref{eq:state_space_constrained} doesn't fit into the standard linear
-system framework because it is non-square.  To obtain a square system (useful
-in stability analysis and control system design) we define
-\begin{align}
-  \label{eq:A_prime}
-    A^\prime &\triangleq \tilde{M}^{-1} \tilde{A} \\
-  \label{eq:B_prime}
-    B^\prime &\triangleq \tilde{M}^{-1} \tilde{B}
-\end{align}
-where  $A^\prime \in \bm{R}^{(o + n) \times (o - m + n -l)}$, $B^\prime \in
-\bm{R}^{(o + n) \times s}$.  We can extract the rows corresponding to the
-independent states by defining
-\begin{align}
-  \label{eq:P_prime}
-    P^\prime &\triangleq \begin{bmatrix}
-        P_{qi} & \bm{O}_{n \times (o - m)} \\
-        \bm{O}_{o \times (n - l)} & P_{ui}
-    \end{bmatrix} \\
-  \label{eq:A}
-    A &\triangleq P^{\prime T} A^\prime \\
-  \label{eq:B}
-    B &\triangleq P^{\prime T} B^\prime
-\end{align}
-where $P^\prime \in \bm{R}^{(o - m + n - l) \times (o - m + n - l)}$.  Defining
-$\bm{x}_i = \left[\delta\bm{q}_i,\,\delta\bm{u}_i\right]^{T}$ yields the square
-state space system $\dot{\bm{x}}_i = A \bm{x}_i + B \bm{r}$ to which standard
-linear systems analyses may applied.  It is worth noting that the rows
-of $A^\prime$ and $B^\prime$ which correspond to dependent states can be used
-in the output or measurement equations of a linear state space model, as in the
-case when the controlling or measuring dependent state(s).
-
-The choice of which state variables are taken to be independent may determine
-whether $\nabla_{\bm{q}}\bm{f}_{c} P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_{v}
-P_{ud}$ are nonsingular.  These matrices depend upon the configuration $\bm{q}$
-and constant parameters; for certain configurations or parameters, it may be
-that the choice of independent state variables cannot be arbitrary.  While some
-systems may permit a choice of independent state variables which are valid for
-all configurations of interest, others may not.  Methods for automatically
-selecting the ``best'' choice of independent state variables are discussed in
-\cite{Reckdahl1996}; they involve computing the SVD of the Jacobian of the
-constraint matrices to determine a set of independent speeds which will ensure
-the non-singularity of the aforementioned matrices.
-
-This algorithm as been applied to two well studied systems: the rolling disc
-and an extended version of the Whipple bicycle model\cite{Meijaard2007}.
-Detailed model description, derivation, and benchmarking results are presented
-in the electronic supplementary material.
-
-\section{Conclusion}
-We have presented a procedure for creating linear equations of motion for
-systems with holonomic and nonholonomic constraints. We have also described
-some of the considerations that must be made when following this procedure as
-well validating it with examples.
-
-In summary, the procedure is:
-\begin{enumerate}
-    \item Describe the system in the form of the equations shown in Table
-        \ref{table:assumptions}.
-    \item Determine a point of linearization ($\bm{q}^*$, $\dot{\bm{q}}^*$,
-      $\bm{u}^*$, $\dot{\bm{u}}^*$, and $\bm{r}^*$) which satisfies the
-      equations in Table \ref{table:assumptions}.
-    \item Compute the quantities in equation (\ref{eq:quant_to_compute}).
-    \item Identify independent coordinates and speeds; form equations (\ref{eq:C_0}), (\ref{eq:C_1}), and
-        (\ref{eq:C_2}).
-    \item Form equation (\ref{eq:state_space_constrained}), and if needed,
-      equations (\ref{eq:A_prime})-(\ref{eq:B}).
-\end{enumerate}
 
 \begin{acknowledgements}
   This material is based upon work partially supported by the National Science

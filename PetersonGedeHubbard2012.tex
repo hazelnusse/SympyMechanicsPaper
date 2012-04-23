@@ -39,9 +39,9 @@ forming linearized versions which satisfy the constraints.
 To address this issue, we formed a procedure of organizing the constraints
 and motion equations, and subsequently linearizing these equations.
 % Object of the document
-In this paper we present this procedure to correctly linearize the
-nonlinear motion equations of constrained multibody systems and is illustrated
-by a familiar example.
+In this paper we present this procedure to correctly linearize the nonlinear
+motion equations of constrained multibody systems, and illustrate it with a
+familiar example.
 % Findings
 We applied this procedure to a model of a bicycle which includes a closed
 kinematic loop and four nonholonomic constraints and found that the resulting
@@ -469,18 +469,11 @@ and others?).
 \section{Derivation of linearization algorithm}
 \label{sec:derivations}
 
-The system, is desribed (in part) by the kinematic and dynamic differential
-equations in Table \ref{table:assumptions} .  The goal of this section is to
-create linear equations of motion with the following structure:
-\begin{align}
-    \label{eq:structure}
-    \tilde{M} \dot{\bm{x}} = \tilde{A} \bm{x}_i + \tilde{B} \bm{r}
-\end{align}
-where $\bm{x}$ is the state vector of all the coordinates and speeds and
-$\bm{x}_i$ is the state vector of only the independent coordinates and speeds.
-This equation can be used for simulation, stability analysis,
-or it can be reformulated into the traditional state space equations for
-a variety of tasks; these topics are discussed in \ref{sec:discussion}
+This section outlines the derivation of the procedure for determining linear
+equations of motion \ref{eq:state_space_constrained}. This equation can be used
+for simulation, stability analysis, or it can be reformulated into the
+traditional state space equations for a variety of tasks; these topics are
+discussed in \ref{sec:discussion}.
 
 We begin with a first order Taylor series expansion of the equations in Table
 \ref{table:assumptions} about $\bm{q}=\bm{q}^*$, $\bm{\dot{q}}=\bm{\dot{q}}^*$,
@@ -560,7 +553,7 @@ equal zero, we obtain
 
 Equating the right hand sides of equations (\ref{eq:f0_plus_f1_expansion}),
 (\ref{eq:acceleration_expansion}),
-and (\ref{eq:f2_plus_f3_expansion}) to zero (as per Table
+and (\ref{eq:f2_plus_f3_expansion}) to zero (as in Table
 \ref{table:assumptions}), and introducing the following definitions
 enables the unconstrained linear state space equations to be written as
 \begin{align}
@@ -633,11 +626,7 @@ By assumption, equation
   (\nabla_{\bm{q}}\bm{f}_{c} P_{qi}) \delta \bm{q}_i \notag\\
   \implies \delta \bm{q} &= \left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
     \bm{f}_{c} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{c} \right] P_{qi} \delta
-    \bm{q}_i
-\end{align}
-We define
-which enables us to write
-\begin{align}
+    \bm{q}_i\\
   \label{eq:delta_q}
   \delta \bm{q} &= C_0 \delta \bm{q}_i
 \end{align}
@@ -655,14 +644,10 @@ P_{ud}\right)^{-1}\left[\nabla_{\bm{q}}\bm{f}_{v} \delta\bm{q} +
   \implies \delta \bm{u} &= -P_{ud}(\nabla_{\bm{u}} \bm{f}_{v} P_{ud})^{-1}
   \nabla_{\bm{q}} \bm{f}_{v} \delta \bm{q}\notag\\
   &+ \left[I - P_{ud} (\nabla_{\bm{u}}\bm{f}_{v} P_{ud})^{-1} \nabla_{\bm{u}}
-    \bm{f}_{v} \right] P_{ui} \delta \bm{u}_i
-\end{align}
-We define
-which enables us to write
-\begin{align}
-  \label{eq:delta_u}
+    \bm{f}_{v} \right] P_{ui} \delta \bm{u}_i\\
   \delta \bm{u} &= C_1 \delta \bm{q} + C_2 \delta \bm{u}_i\notag\\
-  &= C_1 C_0 \delta \bm{q}_i + C_2 \delta \bm{u}_i
+  \label{eq:delta_u}
+  \delta \bm{u} &= C_1 C_0 \delta \bm{q}_i + C_2 \delta \bm{u}_i
 \end{align}
 
 By making use of equations (\ref{eq:delta_q}) and (\ref{eq:delta_u}), we can

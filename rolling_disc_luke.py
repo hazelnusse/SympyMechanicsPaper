@@ -1,4 +1,4 @@
-from sympy import symbols, Matrix, eye, zeros, latex
+from sympy import symbols, Matrix, eye, zeros, latex, pi
 from sympy.physics.mechanics import (dynamicsymbols, ReferenceFrame, Point, dot,
 cross, mprint, RigidBody, inertia, Kane, mlatex)
 
@@ -9,8 +9,8 @@ t, r, m, g, I, J = symbols('t r m g I J')
 # q[0] -- yaw
 # q[1] -- lean
 # q[2] -- spin
-# q[3] -- disc center distance from inertial origin, x direction
-# q[4] -- disc center distance from inertial origin, y direction
+# q[3] -- disc contact point distance from inertial origin, x direction
+# q[4] -- disc contact point distance from inertial origin, y direction
 # q[5] -- disc center distance from inertial origin, z direction
 q = dynamicsymbols('q:6')
 qd = [qi.diff(t) for qi in q]
@@ -26,7 +26,12 @@ u = dynamicsymbols('u:6')
 ud = [ui.diff(t) for ui in u]
 
 # Reference frames
-N = ReferenceFrame('N')                     # Inertial reference frame
+azi, ele, d = symbols('azi ele d')
+cam = ReferenceFrame('cam')  # OpenGL camera frame, x right, y up
+cam_p = cam.orientnew('cam_p', 'Axis', [-pi/2, cam.y])
+ele_f = cam_p.orientnew('ele_f', 'Axis', [pi/2, cam_p.x])
+azi_f = ele_f.orientnew('azi_f', 'Axis', [-ele, ele_f.y])
+N = azi_f.orientnew('N', 'Axis', [-azi, azi_f.z])
 A = N.orientnew('A', 'Axis', [q[0], N.z])   # Yaw intermediate frame
 B = A.orientnew('B', 'Axis', [q[1], A.x])   # Lean intermediate frame
 C = B.orientnew('C', 'Axis', [q[2], B.y])   # Disc fixed frame
@@ -36,8 +41,11 @@ C.set_ang_vel(N, u[0]*C.x + u[1]*C.y + u[2]*C.z)
 C.set_ang_acc(N, ud[0]*C.x + ud[1]*C.y + ud[2]*C.z)
 
 # Points
-P = Point('P')                              # Ground disc contact point
+NO = Point('NO')
+P = NO.locatenew('P', q[3]*N.x + q[4]*N.y)  # Ground disc contact point
+P.set_vel(N, 0)
 O = P.locatenew('O', -r*B.z)                # Center of disc
+camO = P.locatenew('camO', d*cam_p.x)
 
 # Configuration constraint and its Jacobian w.r.t. q        (Table 1)
 f_c = Matrix([q[5] - dot(O.pos_from(P), N.z)])
@@ -59,9 +67,9 @@ f_a = f_v.diff(t)
 # Disc angular velocity in N expressed using time derivatives of coordinates
 w_c_n_qd = qd[0]*A.z + qd[1]*B.x + qd[2]*C.y
 # Disc center velocity in N expressed using time derivatives of coordinates
-v_o_n_qd = qd[3]*N.x + qd[4]*N.y + qd[5]*N.z
+v_o_n_qd = qd[3]*N.x + qd[4]*N.y + cross(qd[0]*A.z + qd[1]*B.x, -r*B.z)
 # Kinematic differential equations
-kindiffs = Matrix([dot(w_c_n_qd - C.ang_vel_in(N), uv) for uv in C] + 
+kindiffs = Matrix([dot(w_c_n_qd - C.ang_vel_in(N), uv) for uv in C] +
                   [dot(v_o_n_qd - O.vel(N), uv) for uv in C])
 
 # f_0 and f_1                                               (Table 1)
@@ -154,6 +162,7 @@ print("f_2:")
 mprint(f_2)
 print("f_3:")
 mprint(f_3)
+"""
 stop
 
 # Kane's dynamic equations via sympy.physics.mechanics
@@ -170,3 +179,4 @@ mprint(mm)
 f = KM.forcing_full
 f.simplify()
 mprint(f[-6:-9])
+"""

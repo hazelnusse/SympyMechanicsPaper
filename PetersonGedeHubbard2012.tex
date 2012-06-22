@@ -5,6 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{bm}
+\usepackage{pgf}
 %\usepackage[polutonikogreek]{babel}
 
 \begin{document}
@@ -107,30 +108,30 @@ jacobian matrix of the differential equations will give incorrect results, with
 no immediate indication that the results are wrong.
 
 Currently, there are only a few approaches to linearizing constrained systems
-which have been presented (citations here). A limitation of these approaches is
-that they have been developed for equations of motion found using Lagrange¿s
-method, which contain Lagrange multipliers. Kane¿s method (citation here)
+which have been presented\cite{Kang2003}, \cite{Negrut2006}. A limitation of these approaches is
+that they have been developed for equations of motion found using Lagrange's
+method, which contain Lagrange multipliers. Kane's method \cite{Kane1985}
 allows for formulation of equations of motion for constrained systems in which
 no multipliers are present. The dynamics of these systems can be completely
 described by ordinary differential equations. This significantly different
 formulation requires a different approach to linearization than what the
 existing options provide.
 
-The goal of the following paper is to concretely establish the first order
+The goal of this paper is to concretely establish the first order
 relationships (about an arbitrary equilibrium point) between a selection of
 independent coordinates and speeds and the time-derivatives of all of the
 coordinates and speeds (both independent and dependent). The formalism
 presented here is generic enough to cover most examples of time-varying
 constrained multibody systems with arbitrary external inputs and arbitrary
 specified quantities.  This procedure was created for systems whose equations
-of motion have been derived with Kane¿s Method. Although also applicable to
+of motion have been derived with Kane's Method. Although also applicable to
 dynamic system equations formulated using other methods, it is restricted to
-systems which can be completely described by a set of ODEs (i.e., no DAEs are
-present).
+systems which can be completely described by a set of ODEs (i.e., DAEs needn't
+be solved).
 
 We first present our linearization procedure. Next we will offer some
 discussion of the procedure, along with an example. The derivation of the
-procedure is provided in the appendix. Additionally, the electronic
+procedure is provided in Section \ref{sec:derivations}. Additionally, the electronic
 supplementary material provides more examples (in more detail) and an
 alternative ordering for the independent/dependent quantities.
 
@@ -222,13 +223,13 @@ The linearized equations of motion are
 \end{align}
 Table \ref{table:assumptions} provides the form in which the nonlinear
 equations of motion and constraints must be arranged.  Equations
-\ref{eq:quant_to_compute} provides the bulk of the terms in equation
-\ref{eq:state_space_constrained}; these terms are Jacobian matrices of the
-differential equations. Equations \ref{eq:C_0}-\ref{eq:C_2} provide the terms
-$C_0$, $C_1$, and $C_2$ which embed the constraints into
-\ref{eq:state_space_constrained}. Finally, the permutation matrices in
-equations \ref{eq:Pq} and \ref{eq:Pu} provide the means to separate the
-independent and dependent speeds.
+(\ref{eq:quant_to_compute}) provides the bulk of the terms in equation
+(\ref{eq:state_space_constrained}); these terms are Jacobian matrices of the
+differential equations. Equations (\ref{eq:C_0})-(\ref{eq:C_2}) provide the
+terms $C_0$, $C_1$, and $C_2$ which embed the constraints into
+(\ref{eq:state_space_constrained}). Finally, the permutation matrices in
+equations (\ref{eq:Pq}) and (\ref{eq:Pu}) separate the independent and
+dependent speeds.
 
 \begin{table}[htbp]
   \centering
@@ -293,7 +294,7 @@ independent and dependent speeds.
 
 \section{Discussion}
 \label{sec:discussion}
-Equation \ref{eq:state_space_constrained} doesn't fit into the standard linear
+Equation (\ref{eq:state_space_constrained}) doesn't fit into the standard linear
 system framework because it is non-square.  To obtain a square system (useful
 in stability analysis and control system design) we define
 \begin{align}
@@ -464,6 +465,13 @@ supplementary material and can be found in the literature \cite{O'Reilly1996}.
 %[-I*u1*u2 + J*u1*u2 + g*m*r*sin(q1)*cos(q2) - m*r*(-u0*u5 + u2*u3)*cos(q2)]
 %[                m*r*(u0*u4 - u1*u3)*sin(q2) + m*r*(u1*u5 - u2*u4)*cos(q2)]
 %[ I*u0*u1 - J*u0*u1 + g*m*r*sin(q1)*sin(q2) - m*r*(-u0*u5 + u2*u3)*sin(q2)]
+
+\begin{figure}
+  \centering
+  \input{rollingdisc.pgf}
+  \caption{Rolling disc configuration}
+  \label{fig:disc}
+\end{figure}
 \section{Derivation of linearization algorithm}
 \label{sec:derivations}
 
@@ -471,7 +479,7 @@ This section outlines the derivation of the procedure for determining linear
 equations of motion \ref{eq:state_space_constrained}. This equation can be used
 for simulation, stability analysis, or it can be reformulated into the
 traditional state space equations for a variety of tasks; these topics are
-discussed in \ref{sec:discussion}.
+discussed in Section \ref{sec:discussion}.
 
 We begin with a first order Taylor series expansion of the equations in Table
 \ref{table:assumptions} about $\bm{q}=\bm{q}^*$, $\bm{\dot{q}}=\bm{\dot{q}}^*$,

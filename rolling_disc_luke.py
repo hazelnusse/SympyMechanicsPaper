@@ -1,4 +1,4 @@
-from sympy import symbols, Matrix, eye, zeros, latex, pi
+from sympy import symbols, Matrix, eye, zeros, pi, trigsimp, solve_linear_system_LU
 from sympy.physics.mechanics import (dynamicsymbols, ReferenceFrame, Point, dot,
 cross, mprint, RigidBody, inertia, Kane, mlatex)
 
@@ -162,6 +162,56 @@ print("f_2:")
 mprint(f_2)
 print("f_3:")
 mprint(f_3)
+
+
+# Linearization Code
+
+qdep = Pqd.T * Matrix(q)
+udep = Pud.T * Matrix(u)
+
+n = len(q)
+l = len(qdep)
+o = len(u)
+m = len(udep)
+udzero = dict(zip(ud, [0] * o))
+
+M_qq = f_0.jacobian(qd)
+M_uqc = f_a.jacobian(qd).subs(udzero)
+M_uuc = f_a.jacobian(ud).subs(udzero)
+M_uqd = f_2.jacobian(qd)
+M_uud = f_2.jacobian(ud)
+A_qq = -(f_0 + f_1).jacobian(q)
+A_qu = -f_1.jacobian(u)
+A_uqc = -f_a.jacobian(q).subs(udzero)
+A_uuc = -f_a.jacobian(u).subs(udzero)
+A_uqd = -(f_2 + f_3).jacobian(q)
+A_uud = -f_3.jacobian(u)
+
+f_c_jac_q = f_c.jacobian(q)
+f_v_jac_q = f_v.jacobian(q)
+f_v_jac_u = f_v.jacobian(u)
+C_0 = (eye(n) - Pqd * (f_c_jac_q * Pqd).inv() * f_c_jac_q) * Pqi
+C_1 = -Pud * (f_v_jac_u * Pud).inv() * f_v_jac_q
+C_2 = (eye(o) - Pud * (f_v_jac_u * Pud).inv() * f_v_jac_u) * Pui
+
+row1 = M_qq.row_join(zeros(n, o))
+row2 = M_uqc.row_join(M_uuc)
+row3 = M_uqd.row_join(M_uud)
+M = row1.col_join(row2).col_join(row3)
+
+M.simplify()
+
+row1 = ((A_qq + A_qu * C_1) * C_0).row_join(A_qu * C_2)
+row2 = ((A_uqc + A_uuc * C_1) * C_0).row_join(A_uuc * C_2)
+row3 = ((A_uqd + A_uud * C_1) * C_0).row_join(A_uud * C_2)
+A = row1.col_join(row2).col_join(row3)
+
+A.simplify()
+
+A = A.applyfunc(lambda x: trigsimp(x.expand(), deep=True, recursive=True))
+
+
+
 """
 stop
 

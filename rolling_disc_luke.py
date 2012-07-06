@@ -9,11 +9,13 @@ t, r, m, g, I, J = symbols('t r m g I J')
 # q[0] -- yaw
 # q[1] -- lean
 # q[2] -- spin
-# q[3] -- disc contact point distance from inertial origin, x direction
-# q[4] -- disc contact point distance from inertial origin, y direction
-# q[5] -- disc center distance from inertial origin, z direction
+# q[3] -- disc center distance from inertial origin, N.x direction
+# q[4] -- disc center distance from inertial origin, N.y direction
+# q[5] -- disc center distance from inertial origin, N.z direction
 q = dynamicsymbols('q:6')
 qd = [qi.diff(t) for qi in q]
+q_zero = {qi : 0 for qi in q}
+qd_zero = {qdi : 0 for qdi in qd}
 
 # Generalized speeds and their time derivatives
 # u[0] -- disc angular velocity component, disc fixed x direction
@@ -24,6 +26,8 @@ qd = [qi.diff(t) for qi in q]
 # u[5] -- disc velocity component, disc fixed z direction
 u = dynamicsymbols('u:6')
 ud = [ui.diff(t) for ui in u]
+u_zero = {ui : 0 for ui in u}
+ud_zero = {udi : 0 for udi in ud}
 
 # Reference frames
 azi, ele, d = symbols('azi ele d')
@@ -42,9 +46,9 @@ C.set_ang_acc(N, ud[0]*C.x + ud[1]*C.y + ud[2]*C.z)
 
 # Points
 NO = Point('NO')
-P = NO.locatenew('P', q[3]*N.x + q[4]*N.y)  # Ground disc contact point
+O = NO.locatenew('O', q[3]*N.x + q[4]*N.y + q[5]*N.z)  # Disc center
+P = O.locatenew('P', r*B.z)                            # Ground contact
 P.set_vel(N, 0)
-O = P.locatenew('O', -r*B.z)                # Center of disc
 camO = P.locatenew('camO', d*cam_p.x)
 
 # Configuration constraint and its Jacobian w.r.t. q        (Table 1)
@@ -67,14 +71,21 @@ f_a = f_v.diff(t)
 # Disc angular velocity in N expressed using time derivatives of coordinates
 w_c_n_qd = qd[0]*A.z + qd[1]*B.x + qd[2]*C.y
 # Disc center velocity in N expressed using time derivatives of coordinates
-v_o_n_qd = qd[3]*N.x + qd[4]*N.y + cross(qd[0]*A.z + qd[1]*B.x, -r*B.z)
+v_o_n_qd = qd[3]*N.x + qd[4]*N.y + qd[5]*N.z
+
 # Kinematic differential equations
 kindiffs = Matrix([dot(w_c_n_qd - C.ang_vel_in(N), uv) for uv in C] +
                   [dot(v_o_n_qd - O.vel(N), uv) for uv in C])
 
 # f_0 and f_1                                               (Table 1)
-f_0 = kindiffs.subs({ui : 0 for ui in u})
-f_1 = kindiffs.subs({qdi : 0 for qdi in qd})
+f_0 = kindiffs.subs(u_zero)
+f_1 = kindiffs.subs(qd_zero)
+
+# f_0 == f_0_coef_matrix * qd, used to solve for qdots
+f_0_coef_matrix = zeros((6,6))
+for i in range(6):
+    for j in range(6):
+        f_0_coef_matrix[i, j] = f_0[i].diff(qd[j])
 
 # Kane's dynamic equations via elbow grease
 # Partial angular velocities and velocities
@@ -146,7 +157,7 @@ for i in [0, 1, 2]:
         # Verify that there are no du/dt terms in the generalized active forces
         assert gaf_con[i].diff(udj) == 0
     # All other terms that don't have du/dt in them
-    f_3[i] = gif_con[i].subs({udi : 0 for udi in ud}) + gaf_con[i]
+    f_3[i] = gif_con[i].subs(ud_zero) + gaf_con[i]
 
 print("f_c:")
 mprint(f_c)
@@ -200,6 +211,8 @@ row3 = M_uqd.row_join(M_uud)
 M = row1.col_join(row2).col_join(row3)
 
 M.simplify()
+print("M:")
+mprint(M)
 
 row1 = ((A_qq + A_qu * C_1) * C_0).row_join(A_qu * C_2)
 row2 = ((A_uqc + A_uuc * C_1) * C_0).row_join(A_uuc * C_2)
@@ -210,6 +223,8 @@ A.simplify()
 
 A = A.applyfunc(lambda x: trigsimp(x.expand(), deep=True, recursive=True))
 
+print("A:")
+mprint(A)
 
 
 """

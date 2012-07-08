@@ -1,6 +1,9 @@
-from sympy import symbols, Matrix, eye, zeros, pi, trigsimp, solve_linear_system_LU
+from sympy import (symbols, Matrix, eye, zeros, pi, trigsimp,
+solve_linear_system_LU, solve)
 from sympy.physics.mechanics import (dynamicsymbols, ReferenceFrame, Point, dot,
 cross, mprint, RigidBody, inertia, Kane, mlatex)
+from sympy import *
+from sympy.physics.mechanics import *
 
 # Symbols for time and constant parameters
 t, r, m, g, I, J = symbols('t r m g I J')
@@ -28,6 +31,8 @@ u = dynamicsymbols('u:6')
 ud = [ui.diff(t) for ui in u]
 u_zero = {ui : 0 for ui in u}
 ud_zero = {udi : 0 for udi in ud}
+ud_sym = dict(zip(ud, symbols('ud:6')))
+ud_sym_inv = {v: k for (k, v) in ud_sym.items()}
 
 # Reference frames
 azi, ele, d = symbols('azi ele d')
@@ -100,8 +105,11 @@ gaf = [dot(F_O, pv) for pv in partial_v_O]
 # Inertia force
 R_star_O = -m*O.acc(N)
 
+JJ = m * r**2 / 2
+II = m * r**2 / 4
+
 # Inertia torque
-I_C_O = inertia(C, I, J, I)     # Inertia of disc C about point O
+I_C_O = inertia(C, II, JJ, II)     # Inertia of disc C about point O
 T_star_C = -dot(I_C_O, C.ang_acc_in(N)) - cross(C.ang_vel_in(N), dot(I_C_O,
     C.ang_vel_in(N)))
 
@@ -183,7 +191,7 @@ udep = Pud.T * Matrix(u)
 n = len(q)
 l = len(qdep)
 o = len(u)
-m = len(udep)
+#m = len(udep)
 udzero = dict(zip(ud, [0] * o))
 
 M_qq = f_0.jacobian(qd)
@@ -217,14 +225,82 @@ mprint(M)
 row1 = ((A_qq + A_qu * C_1) * C_0).row_join(A_qu * C_2)
 row2 = ((A_uqc + A_uuc * C_1) * C_0).row_join(A_uuc * C_2)
 row3 = ((A_uqd + A_uud * C_1) * C_0).row_join(A_uud * C_2)
-A = row1.col_join(row2).col_join(row3)
+Amat = row1.col_join(row2).col_join(row3)
 
-A.simplify()
+Amat.simplify()
 
-A = A.applyfunc(lambda x: trigsimp(x.expand(), deep=True, recursive=True))
+Amat = Amat.applyfunc(lambda x: trigsimp(x.expand(), deep=True, recursive=True))
 
 print("A:")
-mprint(A)
+mprint(Amat)
+
+# Now, selecting an equilibrium point to linearize about
+"""
+Known
+-----
+lean angle, q[1]*
+spin rate, u[1]*
+qd[0]
+qd[1] = qd[5] = 0
+ud[2] = ud[4] = 0
+
+Solve for
+---------
+q[5]                                f_c
+qd[2], qd[3], qd[4]                 
+u[0 & 2:]                           
+ud[0], ud[1], ud[3], ud[5]          
+"""
+
+
+subdict = {qd[1]:0, qd[5]:0, ud[2]:0, ud[4]:0, qd[0]:-(6 * qd[2]) / (5 * sin(q[1]))}
+subdict.update({I : m / 4 * r**2, J : m / 2 * r**2})
+kin_eq = kindiffs.subs(subdict)[3:, 0]
+dyn_eq = f_a.col_join(f_2 + f_3).subs(subdict)
+
+subdict.update(solve(f_c, q[5]))
+
+
+qd_omega = (qd[0] * A.z + qd[2] * B.y).subs(subdict).express(C)
+subdict.update({u[0]:(qd_omega & C.x)})
+subdict.update({u[2]:(qd_omega & C.z)})
+subdict.update(solve(Matrix([u[1] - (qd_omega & C.y)]), qd[2]))
+subdict.update(solve(f_v.subs(subdict), u[3:]))
+
+
+subdict.update(solve(kin_eq.subs(subdict), qd[3:5]))
+for i in subdict.keys():
+    subdict.update({i: simplify(sympify(subdict[i]).subs(subdict))})
+
+dyn_eq = dyn_eq.subs(ud_sym).subs(subdict).subs(ud_sym_inv)
+dyn_eq.simplify()
+
+#udsol = solve(dyn_eq, ud)
+dyn_eq_jacud = dyn_eq.jacobian([ud[0], ud[1], ud[3], ud[5]])
+dyn_eq_ud = dyn_eq_jacud * Matrix([ud[0], ud[1], ud[3], ud[5]])
+dyn_eq_qd = dyn_eq - dyn_eq_ud
+temp = dyn_eq_jacud.row_join(-dyn_eq_qd)
+temp.row_del(5)
+temp.row_del(1)
+udsol = solve_linear_system_LU(temp, [ud[0], ud[1], ud[3], ud[5]])
+
+for i in udsol.keys():
+    udsol.update({i : trigsimp(simplify(udsol[i].subs(subdict)), deep=True, recursive=True )})
+subdict.update(udsol)
+temp = subdict.pop(q[5])
+
+
+M = M.subs(subdict).subs({q[5] : temp})
+Amat = Amat.subs(subdict).subs({q[5] : temp})
+
+M.simplify()
+Amat.simplify()
+Amat = Amat.applyfunc(lambda x: trigsimp(x.expand(), deep=True, recursive=True))
+
+print('M:')
+mpprint(M)
+print('A:')
+mpprint(Amat)
 
 
 """

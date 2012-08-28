@@ -481,17 +481,19 @@ supplementary material and can be found in the literature \cite{O'Reilly1996}.
   \label{fig:disc}
 \end{figure}
 
+
+
 The matrices which make up the linear equations were created using the method
-presented in Section \ref{sec:results}. It is very important to note that the
-quantities in the matrices represent the states at the point of linearization.
-This leads to $q$'s, $u$'s, $\dot{q}$'s, and $\dot{u}$'s all showing up. The
-nonlinear equations need to be evaluated at a point to determine all of these
-quantities. The $\dot{u}$ quantities are not actually required to be 0, so
-equilibrium is not a requirement of the linearization point chosen. To reduce
-the complexity of the equations, we chose $q_0$ and $q_2$ to be equal to 0.
-This means that the other quantities in the linearized equations (other $q$'s,
-the $\dot{q}$'s, the $u$'s, and the $\dot{u}$'s need to be solved for with
-these 2 quantities already set to 0).
+presented in Section \ref{sec:results}. It is important to note that the
+entries in these matrices must be evaluated at the point of linearization
+($\bm{q}^*, \bm{\dot{q}}^*, \bm{u}^*, \bm{\dot{u}}^*$), and that this point of
+linearization must satisfy the equations in Table \ref{table:assumptions}.
+There is no requirement that this point be an equilibrium point, which implies
+that in general both $\bm{\dot{q}}$ and $\bm{\dot{u}}$ may be non-zero. To
+reduce the complexity of the equations, we chose $q_0^* = q_2^* = 0$.  This
+means that the other quantities in the linearized equations (other $q$'s, the
+$\dot{q}$'s, the $u$'s, and the $\dot{u}$'s need to be solved for with these 2
+quantities already set to 0).
 
 The independent state vector is:
 \begin{align}

@@ -223,14 +223,14 @@ The linearized equations of motion are
     \delta \bm{r}
 \end{align}
 Table \ref{table:assumptions} provides the form in which the nonlinear
-equations of motion and constraints must be arranged.  Equations
-(\ref{eq:quant_to_compute}) provides the bulk of the terms in equation
-(\ref{eq:state_space_constrained}); these terms are Jacobian matrices of the
-differential equations. Equations (\ref{eq:C_0})-(\ref{eq:C_2}) provide the
-terms $C_0$, $C_1$, and $C_2$ which embed the constraints into
-(\ref{eq:state_space_constrained}). Finally, the permutation matrices in
-equations (\ref{eq:Pq}) and (\ref{eq:Pu}) separate the independent and
-dependent speeds.
+equations of motion and constraints must be arranged in order to carry out the
+linearization procedure.  Equations (\ref{eq:quant_to_compute}) provides the
+bulk of the terms in equation (\ref{eq:state_space_constrained}); these terms
+are Jacobian matrices of the differential equations. Equations
+(\ref{eq:C_0})-(\ref{eq:C_2}) provide the terms $C_0$, $C_1$, and $C_2$ which
+embed the constraints into (\ref{eq:state_space_constrained}). Finally, the
+permutation matrices in equations (\ref{eq:Pq}) and (\ref{eq:Pu}) separate the
+independent and dependent speeds.
 
 \begin{table}[htbp]
   \centering
@@ -258,6 +258,13 @@ dependent speeds.
     \bm{u}, \bm{r}, t)$ & $\bm{0}_{(o - m) \times 1}$ & Dynamic differential equations
   \end{tabular}
 \end{table}
+
+The matrices in Equation (\ref{eq:state_space_constrained}) are evaluated at
+the point of linearization $\bm{q}=\bm{q}^*, \bm{\dot{q}}=\bm{\dot{q}}^*,
+\bm{u}=\bm{u}^*, \bm{\dot{u}}=\bm{\dot{u}}^*$; this point must satisfy the
+equations in Table \ref{table:assumptions}, and may or may not be an
+equilibrium point.
+
 
 \begin{align}
 \label{eq:quant_to_compute}

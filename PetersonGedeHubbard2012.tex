@@ -480,7 +480,11 @@ quantities in the matrices represent the states at the point of linearization.
 This leads to $q$'s, $u$'s, $\dot{q}$'s, and $\dot{u}$'s all showing up. The
 nonlinear equations need to be evaluated at a point to determine all of these
 quantities. The $\dot{u}$ quantities are not actually required to be 0, so
-equilibrium is not a requirement of the linearization point chosen.
+equilibrium is not a requirement of the linearization point chosen. To reduce
+the complexity of the equations, we chose $q_0$ and $q_2$ to be equal to 0.
+This means that the other quantities in the linearized equations (other $q$'s,
+the $\dot{q}$'s, the $u$'s, and the $\dot{u}$'s need to be solved for with
+these 2 quantities already set to 0).
 
 The independent state vector is:
 \begin{align}
@@ -524,65 +528,32 @@ u_5
 \right]^T
 \end{align}
 
-The matrices which make up the linear equations have been partitioned for
-readability.
+The two matrices which make up the linearized equation:
 
 \begin{equation}
-\begin{aligned}
   \left[
     \begin{array}{cc}
       \tilde{M}_{qq} & \bm{0}_{n \times o} \\
       \tilde{M}_{uqc} & \tilde{M}_{uuc} \\
       \tilde{M}_{uqd} & \tilde{M}_{uud}
     \end{array}
-    \right]=\\
-\end{aligned}
+    \right]=
+\left[\begin{smallmatrix}0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\s_{1} & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\c_{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & 0 & c_{1} & s_{1} & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & 0 & - s_{1} & c_{1} & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & 0 & 0 & 0 & 0 & r & 0 & 1 & 0 & 0\\0 & 0 & - r u_{2} & 0 & 0 & 0 & - r & 0 & 0 & 0 & 1 & 0\\0 & 0 & r u_{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\0 & 0 & 0 & 0 & 0 & 0 & - \frac{1}{4} m r^{2} & 0 & 0 & 0 & - m r & 0\\0 & 0 & 0 & 0 & 0 & 0 & 0 & - \frac{1}{2} m r^{2} & 0 & m r & 0 & 0\\0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - \frac{1}{4} m r^{2} & 0 & 0 & 0\end{smallmatrix}\right]
 \end{equation}
+
+
 \begin{equation*}
-\begin{aligned}
-\left[\begin{smallmatrix}- c_{1} s_{2} & c_{2} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\s_{1} & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\c_{1} c_{2} & s_{2} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & c_{0} c_{2} - s_{0} s_{1} s_{2} & c_{0} s_{1} s_{2} + c_{2} s_{0} & - c_{1} s_{2} & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & - c_{1} s_{0} & c_{0} c_{1} & s_{1} & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & c_{0} s_{2} + c_{2} s_{0} s_{1} & - c_{0} c_{2} s_{1} + s_{0} s_{2} & c_{1} c_{2} & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & - r s_{2} u_{1} & 0 & 0 & 0 & 0 & c_{2} r & 0 & 1 & 0 & 0\\0 & 0 & r \left(- c_{2} u_{2} + s_{2} u_{0}\right) & 0 & 0 & 0 & - c_{2} r & 0 & - r s_{2} & 0 & 1 & 0\\0 & 0 & c_{2} r u_{1} & 0 & 0 & 0 & 0 & r s_{2} & 0 & 0 & 0 & 1\\0 & 0 & 0 & 0 & 0 & 0 & - \frac{1}{4} m r^{2} & 0 & 0 & 0 & - c_{2} m r & 0\\0 & 0 & 0 & 0 & 0 & 0 & 0 & - \frac{1}{2} m r^{2} & 0 & c_{2} m r & 0 & m r s_{2}\\0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - \frac{1}{4} m r^{2} & 0 & - m r s_{2} & 0\end{smallmatrix}\right]
-\end{aligned}
+   \left[
+     \begin{array}{cc}
+       (\tilde{A}_{qq} + \tilde{A}_{qu} C_1 ) C_0 & \tilde{A}_{qu} C_2 \\
+       (\tilde{A}_{uqc} + \tilde{A}_{uuc} C_1 ) C_0 & \tilde{A}_{uuc} C_2\\
+       (\tilde{A}_{uqd} + \tilde{A}_{uud} C_1 ) C_0 & \tilde{A}_{uud} C_2
+     \end{array}
+   \right]=
 \end{equation*}
-
-
 \begin{equation}
-\begin{aligned}
-\left[
-    \begin{array}{c}
-    (\tilde{A}_{qq} + \tilde{A}_{qu} C_1 ) C_0 \\
-    (\tilde{A}_{uqc} + \tilde{A}_{uuc} C_1 ) C_0\\
-    (\tilde{A}_{uqd} + \tilde{A}_{uud} C_1 ) C_0
-    \end{array}
-\right] =\\
-\end{aligned}
+\left[\begin{smallmatrix}0 & 0 & c_{1} \dot{q}_{0} & 0 & 0 & 1 & 0 & 0\\0 & - c_{1} \dot{q}_{0} & 0 & 0 & 0 & 0 & 1 & 0\\0 & s_{1} \dot{q}_{0} & - \dot{q}_{1} & 0 & 0 & 0 & 0 & 1\\- \dot{q}_{4} & 0 & c_{1} \dot{q}_{5} - s_{1} \dot{q}_{4} & 0 & 0 & 0 & - r & 0\\c_{1} \dot{q}_{3} & - c_{1} \dot{q}_{5} + s_{1} \dot{q}_{4} & r u_{2} & 0 & 0 & r & 0 & 0\\- s_{1} \dot{q}_{3} & c_{1} \dot{q}_{4} + s_{1} \dot{q}_{5} & - r u_{1} - \dot{q}_{3} & 0 & 0 & 0 & 0 & 0\\0 & 0 & r u_{1} \dot{q}_{2} & 0 & 0 & 0 & 0 & 0\\0 & 0 & - r u_{0} \dot{q}_{2} & 0 & 0 & 0 & 0 & r \dot{q}_{2}\\0 & 0 & 0 & 0 & 0 & 0 & - r \dot{q}_{2} & 0\\0 & - c_{1} g m r & m r^{2} u_{0} u_{1} & 0 & 0 & - m r u_{5} & - \frac{5}{4} m r^{2} u_{2} & \frac{1}{4} m r \left(- r u_{1} + 4 u_{3}\right)\\0 & 0 & m r \left(r u_{1} + r u_{2} - u_{0} u_{4} + u_{1} u_{3} - \dot{u}_{5}\right) & 0 & 0 & m r^{2} u_{2} & - m r u_{5} & m r u_{4}\\0 & 0 & m r \left(- g s_{1} - u_{0} u_{5} + u_{2} u_{3} + \dot{u}_{4}\right) & 0 & 0 & \frac{1}{4} m r^{2} u_{1} & \frac{1}{4} m r^{2} u_{0} & 0\end{smallmatrix}\right]
 \end{equation}
-
-\scriptsize
-\begin{equation*}
-\begin{aligned}
-\left[\begin{smallmatrix}0 & - s_{1} s_{2} \dot{q}_{0} & c_{1} c_{2} \dot{q}_{0} + s_{2} \dot{q}_{1} & 0 & 0\\0 & - c_{1} \dot{q}_{0} & 0 & 0 & 0\\0 & c_{2} s_{1} \dot{q}_{0} & c_{1} s_{2} \dot{q}_{0} - c_{2} \dot{q}_{1} & 0 & 0\\\left(- c_{0} c_{2} + s_{0} s_{1} s_{2}\right) \dot{q}_{4} + \left(c_{0} s_{1} s_{2} + c_{2} s_{0}\right) \dot{q}_{3} & s_{2} \left(- c_{0} c_{1} \dot{q}_{4} + c_{1} s_{0} \dot{q}_{3} - s_{1} \dot{q}_{5}\right) & c_{1} c_{2} \dot{q}_{5} + r s_{2} u_{1} + \left(c_{0} s_{2} + c_{2} s_{0} s_{1}\right) \dot{q}_{3} + \left(- c_{0} c_{2} s_{1} + s_{0} s_{2}\right) \dot{q}_{4} & 0 & 0\\c_{1} \left(c_{0} \dot{q}_{3} + s_{0} \dot{q}_{4}\right) & c_{0} s_{1} \dot{q}_{4} - c_{1} \dot{q}_{5} - s_{0} s_{1} \dot{q}_{3} & r \left(c_{2} u_{2} - s_{2} u_{0}\right) & 0 & 0\\- \left(c_{0} s_{2} + c_{2} s_{0} s_{1}\right) \dot{q}_{4} + \left(- c_{0} c_{2} s_{1} + s_{0} s_{2}\right) \dot{q}_{3} & c_{2} \left(c_{0} c_{1} \dot{q}_{4} - c_{1} s_{0} \dot{q}_{3} + s_{1} \dot{q}_{5}\right) & c_{1} s_{2} \dot{q}_{5} - c_{2} r u_{1} + \left(- c_{0} c_{2} + s_{0} s_{1} s_{2}\right) \dot{q}_{3} - \left(c_{0} s_{1} s_{2} + c_{2} s_{0}\right) \dot{q}_{4} & 0 & 0\\0 & 0 & c_{2} r u_{1} \dot{q}_{2} & 0 & 0\\0 & 0 & r \left(- c_{2} u_{0} - s_{2} u_{2}\right) \dot{q}_{2} & 0 & 0\\0 & 0 & r s_{2} u_{1} \dot{q}_{2} & 0 & 0\\0 & - c_{1} c_{2} g m r & m r \left(c_{2}^{2} r u_{0} u_{1} + c_{2} r s_{2} u_{1} u_{2} + g s_{1} s_{2} + s_{2} u_{0} u_{5} - s_{2} u_{2} u_{3} - s_{2} \dot{u}_{4}\right) & 0 & 0\\0 & 0 & m r \left(c_{2}^{2} r u_{2} - 2 c_{2} r s_{2} u_{0} u_{2} - c_{2} u_{0} u_{4} + c_{2} u_{1} u_{3} - c_{2} \dot{u}_{5} + r s_{2}^{2} u_{0} + r u_{1} + s_{2} u_{1} u_{5} - s_{2} u_{2} u_{4} + s_{2} \dot{u}_{3}\right) & 0 & 0\\0 & - c_{1} g m r s_{2} & m r \left(- c_{2} g s_{1} + c_{2} r s_{2} u_{0} u_{1} - c_{2} u_{0} u_{5} + c_{2} u_{2} u_{3} + c_{2} \dot{u}_{4} + r s_{2}^{2} u_{1} u_{2}\right) & 0 & 0\end{smallmatrix}\right]
-\end{aligned}
-\end{equation*}
-
-\normalsize
-
-\begin{equation}
-\begin{aligned}
-\left[
-\begin{array}{c}
-\tilde{A}_{qu} C_2 \\
-\tilde{A}_{uuc} C_2 \\
-\tilde{A}_{uud} C_2 \\
-    \end{array}
-\right] =\\
-\end{aligned}
-\end{equation}
-\begin{equation*}
-\begin{aligned}
-\left[\begin{smallmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\\0 & - c_{2} r & 0\\c_{2} r & 0 & r s_{2}\\0 & - r s_{2} & 0\\0 & r s_{2} \dot{q}_{2} & 0\\- r s_{2} \dot{q}_{2} & 0 & c_{2} r \dot{q}_{2}\\0 & - c_{2} r \dot{q}_{2} & 0\\- c_{2} m r u_{5} & \frac{1}{4} m r^{2} \left(4 c_{2} s_{2} u_{0} + 4 s_{2}^{2} u_{2} - 5 u_{2}\right) & \frac{1}{4} m r \left(4 c_{2} u_{3} - r u_{1}\right)\\m r \left(c_{2}^{2} r u_{2} - c_{2} r s_{2} u_{0} - s_{2} u_{4}\right) & m r \left(- c_{2} u_{5} + s_{2} u_{3}\right) & m r \left(c_{2} r s_{2} u_{2} + c_{2} u_{4} - r s_{2}^{2} u_{0}\right)\\\frac{1}{4} m r \left(r u_{1} - 4 s_{2} u_{5}\right) & \frac{1}{4} m r^{2} \left(- 4 c_{2} s_{2} u_{2} + 4 s_{2}^{2} u_{0} + u_{0}\right) & m r s_{2} u_{3}\end{smallmatrix}\right]
-\end{aligned}
-\end{equation*}
-
 
 
 

@@ -95,44 +95,43 @@ which limit how they can move. In this paper, we will discuss 3 types of
 constraints: configuration, velocity, and acceleration. Configuration
 constraints limit the location or orientation of parts of the system, relative
 to the external world or other parts of the system. Velocity constraints limit
-the speeds in which the configuration can change, either from configuration
+the speeds at which the configuration can change, either from configuration
 constraints (through time differentiation) or independent application. In this
 paper, acceleration constraints refer to time differentiated velocity
-constraints. Examples of multibody systems with constraints are closed
+constraints. Examples of multibody systems with constraints include closed
 kinematic loops or objects rolling without slip.
 
-For these systems, a linear form of the equations of motion will be necessary
+For these systems, a linear form of the equations of motion is necessary
 for many different analyses.  Stability analysis and control system design are
 two possible scenarios.  Linearization of these constrained systems is not
 straightforward and presents significant challenges. Simply computing the
-jacobian matrix of the differential equations will give incorrect results, with
+Jacobian matrix of the differential equations will give incorrect results, with
 no immediate indication that the results are wrong.
 
-Currently, there are only a few approaches to linearizing constrained systems
-which have been presented\cite{Kang2003}, \cite{Negrut2006}. A limitation of these approaches is
-that they have been developed for equations of motion found using Lagrange's
-method, which contain Lagrange multipliers. Kane's method \cite{Kane1985}
-allows for formulation of equations of motion for constrained systems in which
-no multipliers are present. The dynamics of these systems can be completely
-described by ordinary differential equations. This significantly different
-formulation requires a different approach to linearization than what the
+Currently, only a few approaches to linearizing constrained systems which have
+been presented\cite{Kang2003}, \cite{Negrut2006}. A limitation of these
+approaches is that they have been developed for equations of motion found using
+Lagrange's method, which contain Lagrange multipliers. Kane's method
+\cite{Kane1985} allows formulation of equations of motion for constrained
+systems in which no multipliers are present. The dynamics of these systems can
+be completely described by ordinary differential equations. This significantly
+different formulation requires a different approach to linearization than what
 existing options provide.
 
-The goal of this paper is to concretely establish the first order
-relationships (about an arbitrary equilibrium point) between a selection of
-independent coordinates and speeds and the time-derivatives of all of the
-coordinates and speeds (both independent and dependent). The formalism
-presented here is generic enough to cover most examples of time-varying
-constrained multibody systems with arbitrary external inputs and arbitrary
-specified quantities.  This procedure was created for systems whose equations
-of motion have been derived with Kane's Method. Although also applicable to
-dynamic system equations formulated using other methods, it is restricted to
-systems which can be completely described by a set of ODEs (i.e., DAEs needn't
-be solved).
+The goal of this paper is to establish concretely the first order relationships
+(about an arbitrary equilibrium point) between a selection of independent
+coordinates and speeds and the time-derivatives of all coordinates and speeds
+(both independent and dependent). The formalism presented here is generic
+enough to cover most examples of time-varying constrained multibody systems
+with arbitrary external inputs and arbitrary specified quantities.  The
+procedure was created for systems whose equations of motion have been derived
+with Kane's method. Although also applicable to dynamic system equations
+formulated using other methods, it is restricted to systems which can be
+completely described by a set of ODEs (i.e., DAEs needn't be solved).
 
-We first present our linearization procedure. Next we will offer some
-discussion of the procedure, along with an example. The derivation of the
-procedure is provided in Section \ref{sec:derivations}. Additionally, the electronic
+We first present the linearization procedure, followed by some discussion of
+the procedure, together with an example. The derivation of the procedure is
+provided in Section \ref{sec:derivations}. Additionally, the electronic
 supplementary material provides more examples (in more detail) and an
 alternative ordering for the independent/dependent quantities.
 
@@ -259,7 +258,7 @@ independent and dependent speeds.
   \end{tabular}
 \end{table}
 
-The matrices in Equation (\ref{eq:state_space_constrained}) are evaluated at
+The matrices in (\ref{eq:state_space_constrained}) are evaluated at
 the point of linearization $\bm{q}=\bm{q}^*, \bm{\dot{q}}=\bm{\dot{q}}^*,
 \bm{u}=\bm{u}^*, \bm{\dot{u}}=\bm{\dot{u}}^*$; this point must satisfy the
 equations in Table \ref{table:assumptions}, and may or may not be an
@@ -353,36 +352,35 @@ in the electronic supplementary material.
 \section{Example}
 \label{example}
 We apply this linearization technique to the well studied rolling disc.  Figure
-XX illustrates the choice of coordinates, speeds, and parameters.  The disc is
-assumed to be knife edged of radius $r$, mass $m$, spin inertia $J$, and
-transverse inertia $I$.  To illustrate the concept of dependent quantities, we
-purposefully choose to describe the configuration and velocity of the disc with
-a non-minimal set of coordinates and speeds.  This choice is not purely
-academic; a physical disc equipped with a rate gyroscope and accelerometer
-measure these body fixed quantities (or their time derivatives) directly,
-rather than the more traditional set which is chosen for analytic convenience.
-In more complicated systems with constraints, it is difficult (if not
-impossible) to describe the system with a minimal choice of coordinates and
-speeds; the ideas demonstrated by this simple example can be applied to more
-complicated ones.
+\ref{fig:disc} illustrates the choice of coordinates, speeds, and parameters.
+The disc is assumed to be knife edged of radius $r$, mass $m$, spin inertia
+$J$, and transverse inertia $I$.  To illustrate the concept of dependent
+quantities, we purposefully choose to describe the configuration and velocity
+of the disc with a non-minimal set of coordinates and speeds.  This choice is
+not purely academic.  It is convenient for a physical disc equipped with a rate
+gyroscope and accelerometer to measure these body fixed quantities (or their
+time derivatives) directly, rather than the more traditional set which is
+chosen for analytic convenience.  In more complicated systems with constraints,
+it is difficult (if not impossible) to describe the system with a minimal
+choice of coordinates and speeds; the ideas demonstrated by this simple example
+can be applied to more complicated ones.
 
-The orientation of the disc fixed frame $C$ relative to the inertial frame $N$
-is given by a sequence of angular rotations (Euler ZXY) by angles $q_0$ (yaw),
-$q_1$ (lean), $q_2$ (spin).  The angular velocity of $C$ in $N$, the location
-of disc center $C^*$ relative to the inertial origin $N^*$, and the velocity of
-$C^*$ in $N$ are
+The orientation of the disc-fixed frame $C$ relative to the inertial frame $N$
+is given by a sequence of angular rotations (Euler ZXY) through angles $q_0$
+(yaw), $q_1$ (lean), and $q_2$ (spin).  The angular velocity of $C$ in $N$, the
+location of disc center $C^*$ relative to the inertial origin $N^*$, and the
+velocity of $C^*$ in $N$ are
 \begin{align}
   \bm{\omega}^C &= u_0 \bm{c}_x + u_1 \bm{c}_y + u_2 \bm{c}_z \\
   \bm{r}^{C^*} &= q_3 \bm{n}_x + q_4 \bm{n}_y + q_5 \bm{n}_z \\
   \bm{v}^{C^*} &= u_3 \bm{c}_x + u_4 \bm{c}_y + u_5 \bm{c}_z
 \end{align}
-If the disc is to make contact with the ground, it should be obvious to the
-reader that there is a configuration constraint involving the height $q_5$ of
-the disc center and the lean $q_1$.  Similarly, if the disc rolls without
-slip, it should be obvious that there are constraints which relate the
-generalized speeds $u_i, (i = 0,\dots,5)$.  The derivation of these
-constraints and the equations of motion are presented in the electronic
-supplementary material and can be found in the literature \cite{O'Reilly1996}.
+If the disc is in contact with the ground, a configuration constraint involving
+the height $q_5$ of the disc center and the lean $q_1$.  Similarly, if the disc
+rolls without slip, other constraints relate the generalized speeds $u_i, (i =
+0,\dots,5)$.  The derivations of these constraints and the equations of motion
+are presented in the electronic supplementary material and can also be found in
+the literature \cite{O'Reilly1996}.
 \begin{table}[htbp]
   \centering
   \caption{Rolling disc governing definitions and equations}
@@ -481,8 +479,6 @@ supplementary material and can be found in the literature \cite{O'Reilly1996}.
   \label{fig:disc}
 \end{figure}
 
-
-
 The matrices which make up the linear equations were created using the method
 presented in Section \ref{sec:results}. It is important to note that the
 entries in these matrices must be evaluated at the point of linearization
@@ -513,7 +509,7 @@ u_2
 \end{bmatrix}^T
 \end{align}
 
-And the complete state vector is:
+And the complete (independent and dependent) state vector is:
 \begin{align}
 \begin{bmatrix}
 \delta \bm{q} \\
@@ -537,8 +533,8 @@ u_5
 \right]^T
 \end{align}
 
-The two matrices which make up the linearized equation:
-
+The coefficient matrices of the linearized equations (Equation
+\ref{eq:state_space_constrained}) are:
 \begin{equation}
   \left[
     \begin{array}{cc}
@@ -564,25 +560,25 @@ The two matrices which make up the linearized equation:
 \left[\begin{smallmatrix}0 & 0 & c_{1} \dot{q}_{0} & 0 & 0 & 1 & 0 & 0\\0 & - c_{1} \dot{q}_{0} & 0 & 0 & 0 & 0 & 1 & 0\\0 & s_{1} \dot{q}_{0} & - \dot{q}_{1} & 0 & 0 & 0 & 0 & 1\\- \dot{q}_{4} & 0 & c_{1} \dot{q}_{5} - s_{1} \dot{q}_{4} & 0 & 0 & 0 & - r & 0\\c_{1} \dot{q}_{3} & - c_{1} \dot{q}_{5} + s_{1} \dot{q}_{4} & r u_{2} & 0 & 0 & r & 0 & 0\\- s_{1} \dot{q}_{3} & c_{1} \dot{q}_{4} + s_{1} \dot{q}_{5} & - r u_{1} - \dot{q}_{3} & 0 & 0 & 0 & 0 & 0\\0 & 0 & r u_{1} \dot{q}_{2} & 0 & 0 & 0 & 0 & 0\\0 & 0 & - r u_{0} \dot{q}_{2} & 0 & 0 & 0 & 0 & r \dot{q}_{2}\\0 & 0 & 0 & 0 & 0 & 0 & - r \dot{q}_{2} & 0\\0 & - c_{1} g m r & m r^{2} u_{0} u_{1} & 0 & 0 & - m r u_{5} & - \frac{5}{4} m r^{2} u_{2} & \frac{1}{4} m r \left(- r u_{1} + 4 u_{3}\right)\\0 & 0 & m r \left(r u_{1} + r u_{2} - u_{0} u_{4} + u_{1} u_{3} - \dot{u}_{5}\right) & 0 & 0 & m r^{2} u_{2} & - m r u_{5} & m r u_{4}\\0 & 0 & m r \left(- g s_{1} - u_{0} u_{5} + u_{2} u_{3} + \dot{u}_{4}\right) & 0 & 0 & \frac{1}{4} m r^{2} u_{1} & \frac{1}{4} m r^{2} u_{0} & 0\end{smallmatrix}\right]
 \end{equation}
 
+\appendix
 
-
-\section{Derivation of linearization algorithm}
+\section{Derivation of linearization procedure}
 \label{sec:derivations}
 
-This section outlines the derivation of the procedure for determining linear
-equations of motion \ref{eq:state_space_constrained}. This equation can be used
-for simulation, stability analysis, or it can be reformulated into the
-traditional state space equations for a variety of tasks; these topics are
-discussed in Section \ref{sec:discussion}.
+This appendix outlines the derivation of Equation
+(\ref{eq:state_space_constrained}. This equation can be used for simulation,
+stability analysis, or it can be reformulated into the traditional state space
+equations for a variety of tasks; these topics are discussed in Section
+\ref{sec:discussion}.
 
 We begin with a first order Taylor series expansion of the equations in Table
 \ref{table:assumptions} about $\bm{q}=\bm{q}^*$, $\bm{\dot{q}}=\bm{\dot{q}}^*$,
 $\bm{u}=\bm{u}^*$, $\bm{\dot{u}}=\bm{\dot{u}}^*$, $\bm{r}=\bm{r}^*$; it is
 assumed that all of the equations in Table \ref{table:assumptions} are
 satisfied by these quantities.  In the interest of brevity, we omit writing
-this equilibrium after each gradient in the calculations below; all are
-evaluated at these equilibrium conditions.  Expansion of the three constraint
-equations yields
+this point of linearization in each gradient in the calculations below; all are
+evaluated at this point.  Expansion of the three constraint
+equations, keeping only first order terms, yields
 \begin{align}
   \label{eq:configuration_expansion}
   \bm{f}_{c}(\bm{q}, t) &\approx \underbrace{\bm{f}_{c}(\bm{q}^*, t)}_{\bm{0}} +
@@ -695,10 +691,10 @@ enables the unconstrained linear state space equations to be written as
     \delta \bm{r}
 \end{align}
 Equation (\ref{eq:state_space_unconstrained}) has a state space of dimension $n
-+ o$, yet only $p = n - l + o - m$ of these quantities are independent.
-To address this issue, a particular set of independent
-coordinates and speeds must be selected. To this end, consider the following
-partitioning of the generalized coordinates and generalized speeds:
++ o$, yet only $p = n - l + o - m$ of these quantities are independent.  To
+address this issue, a smaller set of independent coordinates and speeds must be
+selected. To this end, consider the following partitioning of the generalized
+coordinates and generalized speeds:
 \begin{equation*}
   \tilde{\bm{q}} \triangleq \left[\begin{array}{cc}\bm{q}_{i} &
       \bm{q}_{d}\end{array}\right]^{T} =  P_{q}^{-1} \bm{q}
@@ -709,12 +705,12 @@ partitioning of the generalized coordinates and generalized speeds:
 where $P_q \in \mathbf{R}^{n \times n}$ and $P_u \in \mathbf{R}^{o \times o}$
 are invertible permutation matrices which map an ordering which has the
 independent quantities ($\bm{q}_{i}\in\mathbf{R}^{n-l},\,
-\bm{u}_{i}\in\mathbf{R}^{o-m})$ first, followed by the dependent quantities
-($\bm{q}_{d}\in\mathbf{R}^{l},\, \bm{u}_{d}\in\mathbf{R}^{m}$) to the
-original ordering of the coordinates and speeds.  We use the notation $P_{qi}$
-and $P_{qd}$ to denote the first $n-l$ and last $l$ columns of $P_q$,
-respectively; similarly, $P_{ui}$ is the first $o-m$ columns of $P_{u}$ while
-$P_{ud}$ is the last $m$ columns of $P_u$.
+\bm{u}_{i}\in\mathbf{R}^{o-m})$ first, followed by the dependent quantities,
+($\bm{q}_{d}\in\mathbf{R}^{l},\, \bm{u}_{d}\in\mathbf{R}^{m}$) to the original
+ordering of the coordinates and speeds.  We use the notation $P_{qi}$ and
+$P_{qd}$ to denote the first $n-l$ and last $l$ columns of $P_q$, respectively;
+similarly, $P_{ui}$ is the first $o-m$ columns of $P_{u}$ while $P_{ud}$ is the
+last $m$ columns of $P_u$.
 
 By assumption, equation
 (\ref{eq:configuration_expansion}) is zero; making use of $P_q$, we have

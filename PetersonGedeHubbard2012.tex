@@ -41,9 +41,9 @@ forming linearized versions which satisfy the constraints.
 To address this issue, we developed a procedure for organizing the constraints
 and motion equations, and subsequently linearizing these equations.
 % Object of the document
-In this paper we present this procedure to correctly linearize the nonlinear
-motion equations of constrained multibody systems, and illustrate it with a
-familiar example, the rolling disc.
+In this paper we present this procedure to linearize the nonlinear motion
+equations of constrained multibody systems, and illustrate it with a familiar
+example, the rolling disc.
 % Findings
 We apply this procedure to a model of a bicycle that includes a closed
 kinematic loop and four nonholonomic constraints and find that the resulting
@@ -59,20 +59,6 @@ Efficiency of computer implementations of this procedure will be considered in
 future studies.
 \keywords{symbolic dynamics, control, constrained multibody systems}
 \end{abstract}
-
-\section{Conclusions}
-\label{sec:conclusions}
-We have provided a procedure to obtain linear state space formulation for
-constrained multibody systems whose nonlinear dynamics are described only by
-ordinary differential equations. With this state space formulation, you can
-perform stability analysis, control system design, and other linear analyses.
-
-In some sense this work is simply applying the chain rule through matrix
-operations in a way that respects system constraints. An advanced C.A.S. system
-which possesses the ability to represent dependent quantities (as functions of
-independent quantities) could perform the chain rule directly, thereby
-eliminating the need for matrix operations. We leave an open question: how does
-computational performance depend on implementation details and problem size?
 
 %In summary, the procedure is:
 %\begin{enumerate}
@@ -101,12 +87,12 @@ paper, acceleration constraints refer to time differentiated velocity
 constraints. Examples of multibody systems with constraints include closed
 kinematic loops or objects rolling without slip.
 
-For these systems, a linear form of the equations of motion is necessary
-for many different analyses.  Stability analysis and control system design are
-two possible scenarios.  Linearization of these constrained systems is not
-straightforward and presents significant challenges. Simply computing the
-Jacobian matrix of the differential equations will give incorrect results, with
-no immediate indication that the results are wrong.
+Linear equations of motion are necessary for many different analyses.
+Stability analysis and control system design are two possible scenarios.
+Linearization of these constrained systems is not straightforward and presents
+significant challenges. Computing the Jacobian matrix of the differential
+equations - without considering the system's constraints - will give incorrect
+results.
 
 Currently, only a few approaches to linearizing constrained systems which have
 been presented\cite{Kang2003}, \cite{Negrut2006}. A limitation of these
@@ -119,7 +105,7 @@ different formulation requires a different approach to linearization than what
 existing options provide.
 
 The goal of this paper is to establish concretely the first order relationships
-(about an arbitrary equilibrium point) between a selection of independent
+(about an arbitrary point of linearization) between a selection of independent
 coordinates and speeds and the time-derivatives of all coordinates and speeds
 (both independent and dependent). The formalism presented here is generic
 enough to cover most examples of time-varying constrained multibody systems
@@ -560,8 +546,14 @@ The coefficient matrices of the linearized equations (Equation
 \left[\begin{smallmatrix}0 & 0 & c_{1} \dot{q}_{0} & 0 & 0 & 1 & 0 & 0\\0 & - c_{1} \dot{q}_{0} & 0 & 0 & 0 & 0 & 1 & 0\\0 & s_{1} \dot{q}_{0} & - \dot{q}_{1} & 0 & 0 & 0 & 0 & 1\\- \dot{q}_{4} & 0 & c_{1} \dot{q}_{5} - s_{1} \dot{q}_{4} & 0 & 0 & 0 & - r & 0\\c_{1} \dot{q}_{3} & - c_{1} \dot{q}_{5} + s_{1} \dot{q}_{4} & r u_{2} & 0 & 0 & r & 0 & 0\\- s_{1} \dot{q}_{3} & c_{1} \dot{q}_{4} + s_{1} \dot{q}_{5} & - r u_{1} - \dot{q}_{3} & 0 & 0 & 0 & 0 & 0\\0 & 0 & r u_{1} \dot{q}_{2} & 0 & 0 & 0 & 0 & 0\\0 & 0 & - r u_{0} \dot{q}_{2} & 0 & 0 & 0 & 0 & r \dot{q}_{2}\\0 & 0 & 0 & 0 & 0 & 0 & - r \dot{q}_{2} & 0\\0 & - c_{1} g m r & m r^{2} u_{0} u_{1} & 0 & 0 & - m r u_{5} & - \frac{5}{4} m r^{2} u_{2} & \frac{1}{4} m r \left(- r u_{1} + 4 u_{3}\right)\\0 & 0 & m r \left(r u_{1} + r u_{2} - u_{0} u_{4} + u_{1} u_{3} - \dot{u}_{5}\right) & 0 & 0 & m r^{2} u_{2} & - m r u_{5} & m r u_{4}\\0 & 0 & m r \left(- g s_{1} - u_{0} u_{5} + u_{2} u_{3} + \dot{u}_{4}\right) & 0 & 0 & \frac{1}{4} m r^{2} u_{1} & \frac{1}{4} m r^{2} u_{0} & 0\end{smallmatrix}\right]
 \end{equation}
 
-\appendix
+With this example, we have used our linearization procedure to find linear
+equations of motion, which respect the system's constraints. Parametric
+stability analysis (eigenvalue analysis) can now be performed on these equations.
+These computations were implemented symbolically with the open source symbolic
+manipulator SymPy \cite{SymPy2012}.
 
+
+\appendix
 \section{Derivation of linearization procedure}
 \label{sec:derivations}
 
@@ -597,8 +589,8 @@ t)}_{\bm{0}} +  \nabla_{\bm{q}}\bm{f}_{a} \delta \bm{q} +
 \delta \bm{\dot{u}}
 \end{align}
 The first terms are identically zero because of the assumption that the
-equilibrium point satisfies the constraints.  The Taylor series expansion of
-the kinematic differential equations is
+point of linearization satisfies the constraints.  The Taylor series expansion
+of the kinematic differential equations is
 \begin{align}
   \label{eq:f0_expansion}
   \bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) &\approx \bm{f}_{0}(\bm{q}^*,

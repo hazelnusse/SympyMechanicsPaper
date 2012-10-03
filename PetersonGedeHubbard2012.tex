@@ -552,6 +552,21 @@ stability analysis (eigenvalue analysis) can now be performed on these equations
 These computations were implemented symbolically with the open source symbolic
 manipulator SymPy \cite{SymPy2012}.
 
+\section{Conclusions}
+A procedure for forming linearized equations of motion for constrained
+multi-body systems has been presented.  This procedure can be implemented
+symbolically or numerically, and handles configuration, velocity, and
+acceleration level constraints.  The procedure has been implemented
+symbolically in the \texttt{sympy.physics.mechanics} sub-module of the open
+source symbolic manipulator SymPy\cite{SymPy2012}.
+
+\begin{acknowledgements}
+ This material is based upon work partially supported by the National Science
+ Foundation under award 0928339 and three Google Summer of Code projects (2009,
+ 2011, 2012).  Jason Moore, Thomas Johnston, Evan Sperber, and Andrew Kickertz
+ provided valuable feedback during discussions of multibody dynamics and
+ control.
+\end{acknowledgements}
 
 \appendix
 \section{Derivation of linearization procedure}
@@ -743,14 +758,6 @@ rewrite equation (\ref{eq:state_space_unconstrained}).  This gives Equation
 \ref{eq:state_space_constrained}, a linear system of equations which relates
 the time derivatives of all states (dependent and independent) to the
 independent states and exogenous inputs.
-
-\begin{acknowledgements}
-  This material is based upon work partially supported by the National Science
-  Foundation under award 0928339 and two Google Summer of Code projects (2009,
-  2011).  Jason Moore, Thomas Johnston, Evan Sperber, and Andrew Kickertz
-  provided valuable feedback during discussions of multibody dynamics and
-  control.
-\end{acknowledgements}
 
 % Not sure which bibliography style we are supposed to use
 %\bibliographystyle{spphys}       % APS-like style for physics

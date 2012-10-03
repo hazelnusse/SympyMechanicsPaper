@@ -6,7 +6,7 @@
 \usepackage[fleqn]{amsmath}
 \usepackage{amssymb}
 \usepackage{bm}
-\usepackage{pgf}
+%\usepackage{pgf}
 %\usepackage[polutonikogreek]{babel}
 
 \begin{document}
@@ -57,7 +57,7 @@ linear analyses (e.g., stability analysis and control system design).
 % Perspectives
 Efficiency of computer implementations of this procedure will be considered in
 future studies.
-\keywords{symbolic dynamics, control, constrained multibody systems}
+\keywords{linearization, constrained multibody systems, symbolic dynamics, control}
 \end{abstract}
 
 %In summary, the procedure is:
@@ -460,7 +460,7 @@ the literature \cite{O'Reilly1996}.
 
 \begin{figure}
   \centering
-  \input{rollingdisc.pgf}
+  \includegraphics{rollingdisc.pdf}
   \caption{Rolling disc configuration}
   \label{fig:disc}
 \end{figure}
@@ -547,7 +547,7 @@ The coefficient matrices of the linearized equations (Equation
 \end{equation}
 
 With this example, we have used our linearization procedure to find linear
-equations of motion, which respect the system's constraints. Parametric
+equations of motion which respect the system's constraints. Parametric
 stability analysis (eigenvalue analysis) can now be performed on these
 equations.  These computations were implemented symbolically with the open
 source symbolic manipulator SymPy \cite{SymPy2012}.

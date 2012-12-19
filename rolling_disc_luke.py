@@ -1,7 +1,7 @@
 from sympy import (symbols, Matrix, eye, zeros, pi, trigsimp,
 solve_linear_system_LU, solve)
 from sympy.physics.mechanics import (dynamicsymbols, ReferenceFrame, Point, dot,
-cross, mprint, RigidBody, inertia, Kane, mlatex)
+cross, mprint, RigidBody, inertia, KanesMethod, mlatex)
 from sympy import *
 from sympy.physics.mechanics import *
 

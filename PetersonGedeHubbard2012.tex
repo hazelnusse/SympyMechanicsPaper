@@ -266,13 +266,13 @@ Translational velocity of points of interest:
 \end{align}
 Rotational velocity of rigid bodies:
 \begin{align}
-\label{eq:rb_rotational}
+\label{eq:rb_rotational_bodies}
 {^N}\bar{\omega}^{B_i} = \sum_{j=1}^o {^N}\bar{\omega}^{B_i}_{u_j} u_j +
 {^N}\bar{\omega}^{B_i}_t \quad \quad i=1,...,h
 \end{align}
 Rotational velocity of reference frames of interest:
 \begin{align}
-\label{eq:rb_rotational}
+\label{eq:rb_rotational_frames}
 {^N}\bar{\omega}^{E_i} = \sum_{j=1}^o {^N}\bar{\omega}^{E_i}_{u_j} u_j +
 {^N}\bar{\omega}^{E_i}_t \quad \quad i=1,...,c
 \end{align}
@@ -336,7 +336,7 @@ multibody generalization of $f$ and $\mathbf{F}^*$ is the multibody
 generalization of $-ma$.
 These terms are created by taking the dot product of the partial
 velocities/angular-velocities, as defined in (\ref{eq:particle_translational})
-- (\ref{eq:rb_rotational}), with the resultant forces/torques ($\bar{R}$/
+- (\ref{eq:rb_rotational_frames}), with the resultant forces/torques ($\bar{R}$/
 $\bar{T}$) and the inertial forces/torques ($\bar{R}^*$/$\bar{T}^*$).
 
 The resultant force at a point is defined as the sum of all force vectors

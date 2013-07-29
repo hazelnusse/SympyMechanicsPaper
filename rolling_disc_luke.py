@@ -6,7 +6,7 @@ from sympy import *
 from sympy.physics.mechanics import *
 
 # Symbols for time and constant parameters
-t, r, m, g, I, J = symbols('t r m g I J')
+t, r, m, g, v = symbols('t r m g v')
 
 # Configuration variables and their time derivatives
 # q1 -- yaw
@@ -44,12 +44,16 @@ C = B.orientnew('C', 'Axis', [q3, B.y])   # Disc fixed frame
 # Inertial angular velocity and angular acceleration of disc fixed frame
 C.set_ang_vel(N, u1*C.x + u2*C.y + u3*C.z)
 C.set_ang_acc(N, u1d*C.x + u2d*C.y + u3d*C.z)
+print("Angular acceleration")
+mprint(C.ang_acc_in(N))
 
 # Points
 NO = Point('NO')                                       # Inertial origin
 CO = Point('CO')                                       # Disc center
 CO.set_vel(N, u4*C.x + u5*C.y + u6*C.z)
-CO.set_acc(N, CO.vel(N).dt(N) + cross(C.ang_vel_in(N), CO.vel(N)))
+CO.set_acc(N, CO.vel(N).dt(C) + cross(C.ang_vel_in(N), CO.vel(N)))
+print("Translational acceleration")
+mprint(CO.acc(N))
 
 P = CO.locatenew('P', r*B.z)                           # Disc-ground contact
 P.v2pt_theory(CO, N, C)
@@ -85,7 +89,6 @@ for kd_i in kindiffs:
 f_0 = kindiffs.subs(u_zero)
 f_1 = kindiffs.subs(qd_zero)
 
-
 # f_0 == f_0_coef_matrix * qd, used to solve for qdots
 f_0_coef_matrix = zeros((6,6))
 for i in range(6):
@@ -96,45 +99,50 @@ for i in range(6):
 f_a = f_v.diff(t)
 print("Acceleration level constraints")
 mprint(f_a)
-stop
+
 
 # Kane's dynamic equations via elbow grease
 # Partial angular velocities and velocities
 partial_w_C = [C.ang_vel_in(N).diff(ui, N) for ui in u]
-partial_v_O = [O.vel(N).diff(ui, N) for ui in u]
+partial_v_CO = [CO.vel(N).diff(ui, N) for ui in u]
 
 # Active forces
 F_O = m*g*A.z
 # Generalized active forces (unconstrained)
-gaf = [dot(F_O, pv) for pv in partial_v_O]
+gaf = [dot(F_O, pv) for pv in partial_v_CO]
+print("Generalized active forces (unconstrained)")
+mprint(gaf)
+
 
 # Inertia force
-R_star_O = -m*O.acc(N)
+R_star_O = -m*CO.acc(N)
 
 JJ = m * r**2 / 2
 II = m * r**2 / 4
 
 # Inertia torque
-I_C_O = inertia(C, II, JJ, II)     # Inertia of disc C about point O
-T_star_C = -dot(I_C_O, C.ang_acc_in(N)) - cross(C.ang_vel_in(N), dot(I_C_O,
-    C.ang_vel_in(N)))
+I_C_CO = inertia(C, II, JJ, II)     # Inertia of disc C about point CO
+T_star_C = (-dot(I_C_CO, C.ang_acc_in(N))
+            - cross(C.ang_vel_in(N), dot(I_C_CO, C.ang_vel_in(N))))
 
 # Generalized inertia forces (unconstrained)
 gif = [dot(R_star_O, pv) + dot(T_star_C, pav) for pv, pav in
-        zip(partial_v_O, partial_w_C)]
+        zip(partial_v_CO, partial_w_C)]
+print("Generalized inertia forces (unconstrained)")
+mprint(gif)
 
 # Constrained dynamic equations
 
-# Coordinates to be independent: q0, q1, q2, q3, q4
-# Coordinates to be dependent: q5
+# Coordinates to be independent: q1, q2, q3, q4, q5
+# Coordinates to be dependent: q6
 # Already in the correct order, so permutation matrix is simply a 6x6 identity
 # matrix
 Pq = eye(6)
 Pqi = Pq[:, :-1]
 Pqd = Pq[:, -1]
 
-# Speeds to be independent:  u0, u1, u2
-# Speeds to be dependent:  u3, u4, u5
+# Speeds to be independent:  u1, u2, u3
+# Speeds to be dependent:  u4, u5, u6
 # Already in the correct order, so permutation matrix is simply a 6x6 identity
 # matrix
 Pu = eye(6)
@@ -157,6 +165,12 @@ gaf_dep = Matrix([gaf[i] for i in dep_indices])
 
 gif_con = gif_indep + Bd_inv_Bi.T * gif_dep
 gaf_con = gaf_indep + Bd_inv_Bi.T * gaf_dep
+
+print("Generalized inertia forces (constrained)")
+mprint(gif_con)
+
+print("Generalized activeforces (constrained)")
+mprint(gaf_con)
 
 # Build the part of f_2 and f_3 that come from Kane's equations, the first three
 # rows of each
@@ -198,6 +212,28 @@ n = len(q)
 l = len(qdep)
 o = len(u)
 #m = len(udep)
+
+# Point of linearization
+eq_point = {q1: 0,
+            q2: 0,
+            q3: 0,
+            q4: 0,
+            q5: 0,
+            q6: -r,
+#            u1: 0,
+#            u2: -v/r,
+#            u3: 0,
+#            u4: v,
+#            u5: 0,
+#            u6: 0,
+            u1d: 0,
+            u2d: 0,
+            u3d: 0}
+
+print(f_a.subs(eq_point))
+print((f_2 + f_3).subs(eq_point))
+stop
+
 udzero = dict(zip(ud, [0] * o))
 
 M_qq = f_0.jacobian(qd)

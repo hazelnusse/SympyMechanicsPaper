@@ -328,7 +328,7 @@ following can be written:
 \end{align}
 
 With these definitions established, Kane's method can be applied.
-The output of Kane's method is the equation
+The output of Kane's method, in vector form, is the equation
 \begin{align}
 \label{eq:kanes_eq}
 \mathbf{F} + \mathbf{F}^* = \mathbf{0}
@@ -575,18 +575,18 @@ reasons for this will be covered later.
 \section{Dynamics Example}
 To illustrate Kane's method in the presence of configuration and velocity
 constraints, we consider a thin disc $C$ rolling without slip on a horizontal
-plane. The dextral unit vectors $\bm{c}_x, \bm{c}_y, \bm{c}_z$ are fixed to $C$
-with $\bm{c}_y$ perpendicular to the disc plane. We take $r$ and $m$ to be the
+plane. The dextral unit vectors $\hat{c}_x, \hat{c}_y, \hat{c}_z$ are fixed to $C$
+with $\hat{c}_y$ perpendicular to the disc plane. We take $r$ and $m$ to be the
 disc radius and mass, respectively, and assume the mass distribution of a thin
-disc so that $I_{xx}=I_{zz}=mr^2/4$ and $I_{yy} = mr^2$. We take the inertial
+disc so that $I_{xx}=I_{zz}=mr^2/4$ and $I_{yy} = mr^2/2$. We take the inertial
 (Newtonian) frame $N$ to be similarly equipped with dextral unit vectors
-$\bm{n}_x, \bm{n}_y, \bm{n}_z$, with $\bm{n}_z$ perpendicular to the ground
-plane and aligned with local gravitational field ($\bm{n}_z$ points downwards).
+$\hat{n}_x, \hat{n}_y, \hat{n}_z$, with $\hat{n}_z$ perpendicular to the ground
+plane and aligned with local gravitational field ($\hat{n}_z$ points downwards).
 To orient the disc, we first align the $C$ with $N$, then apply successive body
 fixed ZYX rotations: yaw $q_1$, roll $q_2$, and spin $q_3$.  We denote by $A$
 and $B$ the two frames associated with the first two intermediate rotations in
 the sequence; we refer to these as the instantaneous yaw and lean frames,
-respectively. The unit vector $\bm{b}_z$ fixed in the $B$ frame is parallel to
+respectively. The unit vector $\hat{b}_z$ fixed in the $B$ frame is parallel to
 the disc plane and aligned with the position vector from the disc center $C^*$
 to the lowest point of the disc $P^*$. Traditionally, to locate the center of
 the disc $C^*$ relative to the inertial origin $N^*$, two coordinates are used
@@ -598,11 +598,11 @@ coordinates must be accounted for when linearizing the equations of motion, we
 purposefully locate the center of the disc $C^*$ relative to the inertial
 origin $N^*$ with a non-minimal choice of coordinates
 \begin{equation*}
-  \bm{r}^{C^*} = q_4 \bm{n}_x + q_5 \bm{n}_y + q_6 \bm{n}_z
+  \bar{r}^{C^*} = q_4 \hat{n}_x + q_5 \hat{n}_y + q_6 \hat{n}_z
 \end{equation*}
 which results in the configuration constraint
 \begin{equation}
- r\cos{q_2} + q_6 = 0
+  r\cos{q_2} + q_6 = 0
 \end{equation}
 which must be satisfied for the disc to remain in contact with the ground.
 While this constraint is easily avoided by appropriate choice of coordinates,
@@ -615,11 +615,19 @@ the angular velocity of $C$ and the velocity of $C^*$ relative to $N$ using a
 non-minimal choice of generalized speeds
 \begin{align}
   \label{w_u}
-  \bm{\omega}^C &= u_1 \bm{c}_x + u_2 \bm{c}_y + u_3 \bm{c}_z \\
+  {^N}\bar{\omega}^C &= u_1 \hat{c}_x + u_2 \hat{c}_y + u_3 \hat{c}_z \\
   \label{v_u}
-  \bm{v}^{C^*} &= u_4 \bm{c}_x + u_5 \bm{c}_y + u_6 \bm{c}_z
+  {^N}\bar{v}^{C^*} &= u_4 \hat{c}_x + u_5 \hat{c}_y + u_6 \hat{c}_z
 \end{align}
-Given these definitions, the velocity of the lowest point of the disc $P^*$ is
+It should be immediately obvious from these defintions that the partial angular
+velocity and partial velocity of $C^*$, respectively, are
+\begin{align}
+  {^N}\bar{\omega}^C_u &= [\hat{c}_x, \hat{c}_y, \hat{c}_z, 0, 0, 0] \\
+  {^N}\bar{v}^{C^*}_u &= [0, 0, 0, \hat{c}_x, \hat{c}_y, \hat{c}_z]
+\end{align}
+where we present the partial velocities as a $1\times6$ matrix whose entries
+are populated with standard 3-vectors. Given these definitions, the velocity of
+the lowest point of the disc $P^*$ is
 \begin{align*}
   \bm{v}^{P^*} &= \bm{v}^{C^*} + \bm{\omega}^{C} \times r^{P^*/C^*} \\
   &= (r u_2 \cos q_3  + u_4) \bm{c}_x
@@ -676,17 +684,16 @@ coordinates and the generalized speeds. From the addition theorem for angular
 velocity, we may write the angular velocity of $C$ as
 \begin{equation}
   \label{w_qdot}
-  \bm{\omega}^C = \dot{q}_1 \bm{n}_z + \dot{q}_2 \bm{a}_x + \dot{q}_3 \bm{b}_y
+  {^N}\bar{\omega}^C = \dot{q}_1 \hat{n}_z + \dot{q}_2 \hat{a}_x + \dot{q}_3 \hat{b}_y
 \end{equation}
 while time differentiating $r^{C^*}$ in $N$ yields
 \begin{equation}
   \label{v_qdot}
-  \bm{v}^{C^*} = \dot{q}_4 \bm{n}_x + \dot{q}_5 \bm{n}_y + \dot{q}_6 \bm{n}_z
+  \bar{v}^{C^*} = \dot{q}_4 \hat{n}_x + \dot{q}_5 \hat{n}_y + \dot{q}_6 \hat{n}_z
 \end{equation}
 Equating (\ref{w_u}) with (\ref{w_qdot}) and (\ref{v_u}) with (\ref{v_qdot}),
 and resolving these vector equations into the $B$ frame, and rearranging so
-that all terms appear to the left of the equality sign, we obtain the kinematic
-differential equations
+that all terms appear to the left of the equality sign, we obtain
 \begin{align}
   \dot{q}_2 - u_1 \cos q_3  - u_3 \sin q_3 &= 0 \\
   \dot{q}_1 \sin q_2 + \dot{q}_3 - u_2 &= 0 \\
@@ -695,7 +702,13 @@ differential equations
  -\dot{q}_4 \sin q_1 \cos q_2 + \dot{q}_5 \cos q_1 \cos q_2 + \dot{q}_6 \sin q_2 - u_5 &= 0 \\
   \dot{q}_4 \sin q_1 \sin q_2 - \dot{q}_5 \sin q_2 \cos q_1 + \dot{q}_6 \cos q_2 + u_4 \sin q_3 - u_6 \cos q_3 &= 0
 \end{align}
-Before formulating the dynamic equations, we 
+The angular acceleration of $C$ and the translation acceleration of $C^*$,
+relative to $N$, is
+\begin{align}
+  {^N}\bar{\alpha}^{C} &= \dot{u}_1 \hat{c}_x + \dot{u}_2 \hat{c}_y + \dot{u}_3 \hat{c}_z  \\
+  {^N}\bar{a}^{C^*} &= (u_2 u_6 - u_3 u_5 + \dot{u}_4) \hat{c}_x + (u_3 u_4 - u_1 u_6 +
++ \dot{u}_5) \hat{c}_y \notag\\&+ (u_1 u_5 - u_2 u_4 + \dot{u}_6) \hat{c}_z
+\end{align}
 
 
 %We apply this linearization technique to the well studied rolling disc.  Figure

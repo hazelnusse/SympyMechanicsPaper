@@ -573,8 +573,313 @@ reasons for this will be covered later.
 
 
 \section{Dynamics Example}
-TODO: Luke writes here?
+To illustrate Kane's method in the presence of configuration and velocity
+constraints, we consider a thin disc $C$ rolling without slip on a horizontal
+plane. The dextral unit vectors $\bm{c}_x, \bm{c}_y, \bm{c}_z$ are fixed to $C$
+with $\bm{c}_y$ perpendicular to the disc plane. We take $r$ and $m$ to be the
+disc radius and mass, respectively, and assume the mass distribution of a thin
+disc so that $I_{xx}=I_{zz}=mr^2/4$ and $I_{yy} = mr^2$. We take the inertial
+(Newtonian) frame $N$ to be similarly equipped with dextral unit vectors
+$\bm{n}_x, \bm{n}_y, \bm{n}_z$, with $\bm{n}_z$ perpendicular to the ground
+plane and aligned with local gravitational field ($\bm{n}_z$ points downwards).
+To orient the disc, we first align the $C$ with $N$, then apply successive body
+fixed ZYX rotations: yaw $q_1$, roll $q_2$, and spin $q_3$.  We denote by $A$
+and $B$ the two frames associated with the first two intermediate rotations in
+the sequence; we refer to these as the instantaneous yaw and lean frames,
+respectively. The unit vector $\bm{b}_z$ fixed in the $B$ frame is parallel to
+the disc plane and aligned with the position vector from the disc center $C^*$
+to the lowest point of the disc $P^*$. Traditionally, to locate the center of
+the disc $C^*$ relative to the inertial origin $N^*$, two coordinates are used
+to locate the contact point in the ground plane; those two coordinates plus the
+lean angle $q_2$ determine the location of the center of the disc. The
+advantage of this approach is that the choice of coordinates guarantees the
+disc remain in contact with the ground plane. To illustrate how dependent
+coordinates must be accounted for when linearizing the equations of motion, we
+purposefully locate the center of the disc $C^*$ relative to the inertial
+origin $N^*$ with a non-minimal choice of coordinates
+\begin{equation*}
+  \bm{r}^{C^*} = q_4 \bm{n}_x + q_5 \bm{n}_y + q_6 \bm{n}_z
+\end{equation*}
+which results in the configuration constraint
+\begin{equation}
+ r\cos{q_2} + q_6 = 0
+\end{equation}
+which must be satisfied for the disc to remain in contact with the ground.
+While this constraint is easily avoided by appropriate choice of coordinates,
+it serves to illustrate considerations which must be made when analyzing
+systems where there is no obvious way to eliminate configuration constraints.
 
+Again for the purpose of illustrating how velocity constraints must be
+accounted for when obtaining linearized equations of motion, we define
+the angular velocity of $C$ and the velocity of $C^*$ relative to $N$ using a
+non-minimal choice of generalized speeds
+\begin{align}
+  \label{w_u}
+  \bm{\omega}^C &= u_1 \bm{c}_x + u_2 \bm{c}_y + u_3 \bm{c}_z \\
+  \label{v_u}
+  \bm{v}^{C^*} &= u_4 \bm{c}_x + u_5 \bm{c}_y + u_6 \bm{c}_z
+\end{align}
+Given these definitions, the velocity of the lowest point of the disc $P^*$ is
+\begin{align*}
+  \bm{v}^{P^*} &= \bm{v}^{C^*} + \bm{\omega}^{C} \times r^{P^*/C^*} \\
+  &= (r u_2 \cos q_3  + u_4) \bm{c}_x
+   + (-r (u_1 \cos q_3  + u_3 \sin q_3) + u_5) \bm{c}_y \\
+   &+ (r u_2 \sin q_3  + u_6) \bm{c}_z
+\end{align*}
+where we have made use of the fact that $\bm{r}^{P^*/C^*} = r\bm{b}_z$.
+Under the assumption of pure rolling this immediately yields three velocity
+constraints
+\begin{align}
+  r u_2 \cos q_3  + u_4 &= 0\\
+  -r (u_1 \cos q_3  + u_3 \sin q_3) + u_5 &= 0\\
+  r u_2 \sin q_3  + u_6 &= 0
+\end{align}
+These equations are linear in the $u_i$'s, nonlinear in the $q_i$'s, involve
+geometric system parameters (but not mass or inertial parameters), and do not
+explicitly involve $\dot{q}_i$'s. This structure will be taken advantage of
+subsequently.
+
+At this point, the reader familiar with the rolling disc problem is certainly
+wondering why we have chosen such a diabolical set of coordinates and speeds.
+In this simple example, there is an \textit{obvious and minimal} choice of
+coordinates and speeds ($q_6, u_4, u_5, u_6$, should be dependent; this choice
+will be valid for all parameters and configurations; further, the derivation of
+the equations of motion can be done without ever introducing these quantities),
+for some systems this is not the case (e.g., Stewart's platform, bicycle). The
+numeric values of system parameters and the configurations in which the system
+will operate will determine which coordinates and speeds can be taken to be
+dependent (and hence potentially eliminated by algebraic manipulations).
+However, it may not be possible \textit{apriori} to easily determine which
+coordinates and speeds should be taken as dependent; further, some systems may
+operate in distinct enough regions of the configuration space that one
+\textit{must} use different choices of dependent coordinates and/or speeds as
+the system moves from one region to another. The purpose of our diabolical
+choice of coordinates and speeds is to illustrate, in the context of a familiar
+example, how constraints must be taken into account when linearizing equations
+of motion. It is our hope that by doing this for a well known and relatively
+simple example, readers can apply the same techniques to more complicated
+systems where its use is more appropriate.
+
+Time differentiating the velocity constraints yields
+\begin{align}
+-r u_2 \dot{q}_3 \sin q_3 + r \dot{u}_2 \cos q_3 + \dot{u}_4 &= 0 \\
+r(u_1 \dot{q}_3 \sin q_3 - u_3 \dot{q}_3 \cos q_3) - r \dot{u}_1 \cos q_3 - r \dot{u}_3 \sin q_3 + \dot{u}_5 &= 0 \\
+r u_2 \dot{q}_3 \cos q_3 + r \dot{u}_2 \sin q_3 + \dot{u}_6 &= 0
+\end{align}
+which must also be satisfied during general motions. There are two types of
+terms in these equations; 1) terms involving $\dot{u}_i$'s and $q_i$'s, and 2)
+terms involving $\dot{q}_i$'s, $u_i$'s, and $q_i$'s. This structure will be
+taken advantage of subsequently.
+
+The kinematic differential equations relate the time derivatives of the
+coordinates and the generalized speeds. From the addition theorem for angular
+velocity, we may write the angular velocity of $C$ as
+\begin{equation}
+  \label{w_qdot}
+  \bm{\omega}^C = \dot{q}_1 \bm{n}_z + \dot{q}_2 \bm{a}_x + \dot{q}_3 \bm{b}_y
+\end{equation}
+while time differentiating $r^{C^*}$ in $N$ yields
+\begin{equation}
+  \label{v_qdot}
+  \bm{v}^{C^*} = \dot{q}_4 \bm{n}_x + \dot{q}_5 \bm{n}_y + \dot{q}_6 \bm{n}_z
+\end{equation}
+Equating (\ref{w_u}) with (\ref{w_qdot}) and (\ref{v_u}) with (\ref{v_qdot}),
+and resolving these vector equations into the $B$ frame, and rearranging so
+that all terms appear to the left of the equality sign, we obtain the kinematic
+differential equations
+\begin{align}
+  \dot{q}_2 - u_1 \cos q_3  - u_3 \sin q_3 &= 0 \\
+  \dot{q}_1 \sin q_2 + \dot{q}_3 - u_2 &= 0 \\
+  \dot{q}_1 \cos q_2 + u_1 \sin q_3  - u_3 \cos q_3  &= 0 \\
+  \dot{q}_4 \cos q_1 + \dot{q}_5 \sin q_1 -u_4 \cos q_3 - u_6 \sin q_3 &= 0 \\
+ -\dot{q}_4 \sin q_1 \cos q_2 + \dot{q}_5 \cos q_1 \cos q_2 + \dot{q}_6 \sin q_2 - u_5 &= 0 \\
+  \dot{q}_4 \sin q_1 \sin q_2 - \dot{q}_5 \sin q_2 \cos q_1 + \dot{q}_6 \cos q_2 + u_4 \sin q_3 - u_6 \cos q_3 &= 0
+\end{align}
+Before formulating the dynamic equations, we 
+
+
+%We apply this linearization technique to the well studied rolling disc.  Figure
+%\ref{fig:disc} illustrates the choice of coordinates, speeds, and parameters.
+%The disc is assumed to be knife edged of radius $r$, mass $m$, spin inertia
+%$J$, and transverse inertia $I$.  To illustrate the concept of dependent
+%quantities, we purposefully choose to describe the configuration and velocity
+%of the disc with a non-minimal set of coordinates and speeds.  This choice is
+%not purely academic.  It is convenient for a physical disc equipped with a rate
+%gyroscope and accelerometer to measure these body fixed quantities (or their
+%time derivatives) directly, rather than the more traditional set which is
+%chosen for analytic convenience.  In more complicated systems with constraints,
+%it is difficult (if not impossible) to describe the system with a minimal
+%choice of coordinates and speeds; the ideas demonstrated by this simple example
+%can be applied to more complicated ones.
+%
+%The orientation of the disc-fixed frame $C$ relative to the inertial frame $N$
+%is given by a sequence of angular rotations (Euler ZXY) through angles $q_0$
+%(yaw), $q_1$ (lean), and $q_2$ (spin).  The angular velocity of $C$ in $N$, the
+%location of disc center $C^*$ relative to the inertial origin $N^*$, and the
+%velocity of $C^*$ in $N$ are
+%\begin{align}
+%  \bm{\omega}^C &= u_0 \bm{c}_x + u_1 \bm{c}_y + u_2 \bm{c}_z \\
+%  \bm{r}^{C^*} &= q_3 \bm{n}_x + q_4 \bm{n}_y + q_5 \bm{n}_z \\
+%  \bm{v}^{C^*} &= u_3 \bm{c}_x + u_4 \bm{c}_y + u_5 \bm{c}_z
+%\end{align}
+%If the disc is in contact with the ground, a configuration constraint involving
+%the height $q_5$ of the disc center and the lean $q_1$.  Similarly, if the disc
+%rolls without slip, other constraints relate the generalized speeds $u_i, (i =
+%0,\dots,5)$.  The derivations of these constraints and the equations of motion
+%are presented in the electronic supplementary material and can also be found in
+%the literature \cite{O'Reilly1996}.
+%\begin{table}[htbp]
+%  \centering
+%  \caption{Rolling disc governing definitions and equations}
+%  \label{table:rollingdisc}
+%  \begin{tabular}[c]{l l l}
+%    Quantity & Shape & Description\\
+%    \hline
+%    $\bm{q},\bm{\dot{q}}$ & $\mathbf{R}^6$ & Coordinates and their time
+%    derivatives\\
+%    $\bm{u}, \bm{\dot{u}}$ & $\mathbf{R}^6$ & Speeds and their time derivatives
+%  \end{tabular}
+%  \begin{tabular}[c]{r @{ $=$ } l}
+%%    \multicolumn{3}{c}{ } \\
+%%    \multicolumn{2}{c}{Equation} &           \\
+%    \hline
+%    % Configuration constraint
+%    $\bm{f}_c$ & $rc_1 + q_5$ \\
+%    % Velocity constraints
+%    $\bm{f}_v$ & $\left[\begin{array}{c}
+%        r u_1 c_2 + u_3 \\
+%        -r (u_0 c_2 + u_2 s_2) + u_4 \\
+%        r u_1 s_2 + u_5
+%    \end{array}\right] $ \\
+%    % Acceleration constraints
+%    $\bm{f}_a$ & $\left[\begin{array}{c}
+%        -r (u_1 \dot{q}_2 s_2 + \dot{u}_1 c_2) + \dot{u}_3 \\
+%        -r ((\dot{u}_2 - u_0 \dot{q}_2) s_2   + (\dot{u}_0 + u_2 \dot{q}_2)c_2) + \dot{u}_4 \\
+%      r (u_1 \dot{q}_2 c_2 + s_2 \dot{u}_1) + \dot{u}_5
+%      \end{array}\right]$ \\
+%    % Kinematic differential equations
+%    $\bm{f}_0$ &
+%        $\left[\begin{array}{c}
+%-\dot{q}_0 s_2 c_1 + \dot{q}_1 c_2 \\
+%\dot{q}_0 s_1 + \dot{q}_2 \\
+%\dot{q}_0 c_1 c_2 + \dot{q}_1 s_2 \\
+%\dot{q}_3 (-s_0 s_1 s_2 + c_0 c_2)
+%+ \dot{q}_4 (s_0 c_2 + s_1 s_2 c_0)
+%- \dot{q}_5 s_2 c_1\\
+%- \dot{q}_3 s_0 c_1 + \dot{q}_4 c_0 c_1 + \dot{q}_5 s_1 \\
+%\dot{q}_3 (s_0s_1c_2 + s_2c_0) + \dot{q}_4 (s_0s_2 - s_1c_0c_2) + \dot{q}_5 c_1 c_2
+%         \end{array}\right]$ \\
+%    $\bm{f}_1$ & $\left[\begin{array}{c}-u_0 \\ -u_1 \\ -u_2 \\
+%             -u_3 \\ -u_4 \\ -u_5 \end{array}\right]$ \\
+%    % Dynamic differential equations
+%  $\bm{f}_2$ & $\left[\begin{array}{c}
+%-I \dot{u}_0 - m r c_2 \dot{u}_4 \\
+%-J \dot{u}_1 + m r s_2 \dot{u}_5 + m r c_2 \dot{u}_3 \\
+%-I \dot{u}_2 - m r s_2 \dot{u}_4
+%                   \end{array}\right]$ \\
+%
+%  $\bm{f}_3$ & $\left[\begin{array}{c}
+%-I u_1 u_2 + J u_1 u_2 + g m r s_1 c_2 - m r (-u_0 u_5 + u_2 u_3) c_2 \\
+%                m r (u_0 u_4 - u_1 u_3) s_2 + m r (u_1 u_5 - u_2 u_4) c_2 \\
+% I u_0 u_1 - J u_0 u_1 + g m r s_1 s_2 - m r (-u_0 u_5 + u_2 u_3) s_2
+%                   \end{array}\right]$
+%  \end{tabular}
+%\end{table}
+%
+%
+%\begin{figure}
+%  \centering
+%  \includegraphics{rollingdisc.pdf}
+%  \caption{Rolling disc configuration}
+%  \label{fig:disc}
+%\end{figure}
+%
+%The matrices which make up the linear equations were created using the method
+%presented in Section \ref{sec:results}. It is important to note that the
+%entries in these matrices must be evaluated at the point of linearization
+%($\bm{q}^*, \bm{\dot{q}}^*, \bm{u}^*, \bm{\dot{u}}^*$), and that this point of
+%linearization must satisfy the equations in Table \ref{table:assumptions}.
+%There is no requirement that this point be an equilibrium point, which implies
+%that in general both $\bm{\dot{q}}$ and $\bm{\dot{u}}$ may be non-zero. To
+%reduce the complexity of the equations, we chose $q_0^* = q_2^* = 0$.  This
+%means that the other quantities in the linearized equations (other $q$'s, the
+%$\dot{q}$'s, the $u$'s, and the $\dot{u}$'s) need to be solved for with these 2
+%quantities already set to 0.
+%
+%The independent state vector is:
+%\begin{align}
+%\begin{bmatrix}
+%\delta \bm{q}_i \\
+%\delta \bm{u}_i
+%\end{bmatrix} =
+%\begin{bmatrix}
+%q_0 &
+%q_1 &
+%q_2 &
+%q_3 &
+%q_4 &
+%u_0 &
+%u_1 &
+%u_2
+%\end{bmatrix}^T
+%\end{align}
+%
+%And the complete (independent and dependent) state vector is:
+%\begin{align}
+%\begin{bmatrix}
+%\delta \bm{q} \\
+%\delta \bm{u}
+%\end{bmatrix} =
+%\left[
+%\begin{array}{cccccccccccc}
+%q_0 &
+%q_1 &
+%q_2 &
+%q_3 &
+%q_4 &
+%q_5 &
+%u_0 &
+%u_1 &
+%u_2 &
+%u_3 &
+%u_4 &
+%u_5
+%\end{array}
+%\right]^T
+%\end{align}
+%
+%The coefficient matrices of the linearized equations (Equation
+%\ref{eq:state_space_constrained}) are:
+%\begin{equation}
+%  \left[
+%    \begin{array}{cc}
+%      \tilde{M}_{qq} & \bm{0}_{n \times o} \\
+%      \tilde{M}_{uqc} & \tilde{M}_{uuc} \\
+%      \tilde{M}_{uqd} & \tilde{M}_{uud}
+%    \end{array}
+%    \right]=
+%\left[\begin{smallmatrix}0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\s_{1} & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\c_{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & 0 & c_{1} & s_{1} & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & 0 & - s_{1} & c_{1} & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & 0 & 0 & 0 & 0 & r & 0 & 1 & 0 & 0\\0 & 0 & - r u_{2} & 0 & 0 & 0 & - r & 0 & 0 & 0 & 1 & 0\\0 & 0 & r u_{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\0 & 0 & 0 & 0 & 0 & 0 & - \frac{1}{4} m r^{2} & 0 & 0 & 0 & - m r & 0\\0 & 0 & 0 & 0 & 0 & 0 & 0 & - \frac{1}{2} m r^{2} & 0 & m r & 0 & 0\\0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - \frac{1}{4} m r^{2} & 0 & 0 & 0\end{smallmatrix}\right]
+%\end{equation}
+%
+%
+%\begin{equation*}
+%   \left[
+%     \begin{array}{cc}
+%       (\tilde{A}_{qq} + \tilde{A}_{qu} C_1 ) C_0 & \tilde{A}_{qu} C_2 \\
+%       (\tilde{A}_{uqc} + \tilde{A}_{uuc} C_1 ) C_0 & \tilde{A}_{uuc} C_2\\
+%       (\tilde{A}_{uqd} + \tilde{A}_{uud} C_1 ) C_0 & \tilde{A}_{uud} C_2
+%     \end{array}
+%   \right]=
+%\end{equation*}
+%\begin{equation}
+%\left[\begin{smallmatrix}0 & 0 & c_{1} \dot{q}_{0} & 0 & 0 & 1 & 0 & 0\\0 & - c_{1} \dot{q}_{0} & 0 & 0 & 0 & 0 & 1 & 0\\0 & s_{1} \dot{q}_{0} & - \dot{q}_{1} & 0 & 0 & 0 & 0 & 1\\- \dot{q}_{4} & 0 & c_{1} \dot{q}_{5} - s_{1} \dot{q}_{4} & 0 & 0 & 0 & - r & 0\\c_{1} \dot{q}_{3} & - c_{1} \dot{q}_{5} + s_{1} \dot{q}_{4} & r u_{2} & 0 & 0 & r & 0 & 0\\- s_{1} \dot{q}_{3} & c_{1} \dot{q}_{4} + s_{1} \dot{q}_{5} & - r u_{1} - \dot{q}_{3} & 0 & 0 & 0 & 0 & 0\\0 & 0 & r u_{1} \dot{q}_{2} & 0 & 0 & 0 & 0 & 0\\0 & 0 & - r u_{0} \dot{q}_{2} & 0 & 0 & 0 & 0 & r \dot{q}_{2}\\0 & 0 & 0 & 0 & 0 & 0 & - r \dot{q}_{2} & 0\\0 & - c_{1} g m r & m r^{2} u_{0} u_{1} & 0 & 0 & - m r u_{5} & - \frac{5}{4} m r^{2} u_{2} & \frac{1}{4} m r \left(- r u_{1} + 4 u_{3}\right)\\0 & 0 & m r \left(r u_{1} + r u_{2} - u_{0} u_{4} + u_{1} u_{3} - \dot{u}_{5}\right) & 0 & 0 & m r^{2} u_{2} & - m r u_{5} & m r u_{4}\\0 & 0 & m r \left(- g s_{1} - u_{0} u_{5} + u_{2} u_{3} + \dot{u}_{4}\right) & 0 & 0 & \frac{1}{4} m r^{2} u_{1} & \frac{1}{4} m r^{2} u_{0} & 0\end{smallmatrix}\right]
+%\end{equation}
+%
+%With this example, we have used our linearization procedure to find linear
+%equations of motion which respect the system's constraints. Parametric
+%stability analysis (eigenvalue analysis) can now be performed on these
+%equations.  These computations were implemented symbolically with the open
+%source symbolic manipulator SymPy \cite{SymPy2012}.
 
 
 

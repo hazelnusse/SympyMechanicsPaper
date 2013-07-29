@@ -1,5 +1,5 @@
 from sympy import (symbols, Matrix, eye, zeros, pi, trigsimp,
-solve_linear_system_LU, solve)
+        solve_linear_system_LU, solve)
 from sympy.physics.mechanics import (dynamicsymbols, ReferenceFrame, Point, dot,
 cross, mprint, RigidBody, inertia, KanesMethod, mlatex)
 from sympy import *
@@ -9,88 +9,94 @@ from sympy.physics.mechanics import *
 t, r, m, g, I, J = symbols('t r m g I J')
 
 # Configuration variables and their time derivatives
-# q[0] -- yaw
-# q[1] -- lean
-# q[2] -- spin
-# q[3] -- disc center distance from inertial origin, N.x direction
-# q[4] -- disc center distance from inertial origin, N.y direction
-# q[5] -- disc center distance from inertial origin, N.z direction
-q = dynamicsymbols('q:6')
-qd = [qi.diff(t) for qi in q]
+# q1 -- yaw
+# q2 -- lean
+# q3 -- spin
+# q4 -- disc center distance from inertial origin, N.x direction
+# q5 -- disc center distance from inertial origin, N.y direction
+# q6 -- disc center distance from inertial origin, N.z direction
+q1, q2, q3, q4, q5, q6 = q = dynamicsymbols('q1:7')
+q1d, q2d, q3d, q4d, q5d, q6d = qd = [qi.diff(t) for qi in q]
 q_zero = {qi : 0 for qi in q}
 qd_zero = {qdi : 0 for qdi in qd}
 
 # Generalized speeds and their time derivatives
-# u[0] -- disc angular velocity component, disc fixed x direction
-# u[1] -- disc angular velocity component, disc fixed y direction
-# u[2] -- disc angular velocity component, disc fixed z direction
-# u[3] -- disc velocity component, disc fixed x direction
-# u[4] -- disc velocity component, disc fixed y direction
-# u[5] -- disc velocity component, disc fixed z direction
+# u1 -- disc angular velocity component, disc fixed x direction
+# u2 -- disc angular velocity component, disc fixed y direction
+# u3 -- disc angular velocity component, disc fixed z direction
+# u4 -- disc velocity component, disc fixed x direction
+# u5 -- disc velocity component, disc fixed y direction
+# u6 -- disc velocity component, disc fixed z direction
 u = dynamicsymbols('u:6')
-ud = [ui.diff(t) for ui in u]
+u1, u2, u3, u4, u5, u6 = u = dynamicsymbols('u1:7')
+u1d, u2d, u3d, u4d, u5d, u6d = ud = [ui.diff(t) for ui in u]
 u_zero = {ui : 0 for ui in u}
 ud_zero = {udi : 0 for udi in ud}
-ud_sym = dict(zip(ud, symbols('ud:6')))
+ud_sym = dict(zip(ud, symbols('ud1:7')))
 ud_sym_inv = {v: k for (k, v) in ud_sym.items()}
 
 # Reference frames
-azi, ele, d = symbols('azi ele d')
-cam = ReferenceFrame('cam')  # OpenGL camera frame, x right, y up
-cam_p = cam.orientnew('cam_p', 'Axis', [-pi/2, cam.y])
-ele_f = cam_p.orientnew('ele_f', 'Axis', [pi/2, cam_p.x])
-azi_f = ele_f.orientnew('azi_f', 'Axis', [-ele, ele_f.y])
-N = azi_f.orientnew('N', 'Axis', [-azi, azi_f.z])
-A = N.orientnew('A', 'Axis', [q[0], N.z])   # Yaw intermediate frame
-B = A.orientnew('B', 'Axis', [q[1], A.x])   # Lean intermediate frame
-C = B.orientnew('C', 'Axis', [q[2], B.y])   # Disc fixed frame
+N = ReferenceFrame('N')                   # Inertial frame
+A = N.orientnew('A', 'Axis', [q1, N.z])   # Yaw intermediate frame
+B = A.orientnew('B', 'Axis', [q2, A.x])   # Lean intermediate frame
+C = B.orientnew('C', 'Axis', [q3, B.y])   # Disc fixed frame
 
 # Inertial angular velocity and angular acceleration of disc fixed frame
-C.set_ang_vel(N, u[0]*C.x + u[1]*C.y + u[2]*C.z)
-C.set_ang_acc(N, ud[0]*C.x + ud[1]*C.y + ud[2]*C.z)
+C.set_ang_vel(N, u1*C.x + u2*C.y + u3*C.z)
+C.set_ang_acc(N, u1d*C.x + u2d*C.y + u3d*C.z)
 
 # Points
-NO = Point('NO')
-O = NO.locatenew('O', q[3]*N.x + q[4]*N.y + q[5]*N.z)  # Disc center
-P = O.locatenew('P', r*B.z)                            # Ground contact
-P.set_vel(N, 0)
-camO = P.locatenew('camO', d*cam_p.x)
+NO = Point('NO')                                       # Inertial origin
+CO = Point('CO')                                       # Disc center
+CO.set_vel(N, u4*C.x + u5*C.y + u6*C.z)
+CO.set_acc(N, CO.vel(N).dt(N) + cross(C.ang_vel_in(N), CO.vel(N)))
+
+P = CO.locatenew('P', r*B.z)                           # Disc-ground contact
+P.v2pt_theory(CO, N, C)
+P.a2pt_theory(CO, N, C)
 
 # Configuration constraint and its Jacobian w.r.t. q        (Table 1)
-f_c = Matrix([q[5] - dot(O.pos_from(P), N.z)])
+f_c = Matrix([q6 - dot(CO.pos_from(P), N.z)])
 f_c_dq = f_c.jacobian(q)
-
-# Velocity and acceleration of the center of the disc
-O.set_vel(N, u[3]*C.x + u[4]*C.y + u[5]*C.z)
-O.set_acc(N, O.vel(N).diff(t, C) + cross(C.ang_vel_in(N), O.vel(N)))
+print("Configuration constraint")
+mprint(f_c)
 
 # Velocity level constraints                                (Table 1)
-v_contact_point = O.vel(N) + cross(C.ang_vel_in(N), P.pos_from(O))
-f_v = Matrix([dot(v_contact_point, uv) for uv in C])
+f_v = Matrix([dot(P.vel(N), uv) for uv in C])
 f_v_dq = f_v.jacobian(q)
 f_v_du = f_v.jacobian(u)
-
-# Acceleration level constraints                            (Table 1)
-f_a = f_v.diff(t)
+print("Velocity constraints")
+mprint(f_v)
 
 # Disc angular velocity in N expressed using time derivatives of coordinates
-w_c_n_qd = qd[0]*A.z + qd[1]*B.x + qd[2]*C.y
+w_c_n_qd = q1d*A.z + q2d*B.x + q3d*B.y
 # Disc center velocity in N expressed using time derivatives of coordinates
-v_o_n_qd = qd[3]*N.x + qd[4]*N.y + qd[5]*N.z
+v_co_n_qd = q4d*N.x + q5d*N.y + q6d*N.z
 
 # Kinematic differential equations
-kindiffs = Matrix([dot(w_c_n_qd - C.ang_vel_in(N), uv) for uv in C] +
-                  [dot(v_o_n_qd - O.vel(N), uv) for uv in C])
+kindiffs = Matrix([dot(w_c_n_qd - C.ang_vel_in(N), uv) for uv in B] +
+                  [dot(v_co_n_qd - CO.vel(N), uv) for uv in B])
+
+print("Kinematic differential equations")
+for kd_i in kindiffs:
+    print("{0} &= 0 \\\\".format(msprint(kd_i)))
 
 # f_0 and f_1                                               (Table 1)
 f_0 = kindiffs.subs(u_zero)
 f_1 = kindiffs.subs(qd_zero)
+
 
 # f_0 == f_0_coef_matrix * qd, used to solve for qdots
 f_0_coef_matrix = zeros((6,6))
 for i in range(6):
     for j in range(6):
         f_0_coef_matrix[i, j] = f_0[i].diff(qd[j])
+
+# Acceleration level constraints                            (Table 1)
+f_a = f_v.diff(t)
+print("Acceleration level constraints")
+mprint(f_a)
+stop
 
 # Kane's dynamic equations via elbow grease
 # Partial angular velocities and velocities

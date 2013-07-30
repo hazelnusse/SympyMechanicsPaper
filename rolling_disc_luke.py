@@ -357,3 +357,17 @@ Amat.simplify()
 print("A:")
 mprint(Amat)
 
+upright_nominal = {q1d: 0, q2: 0, m: 1, r: 1, g: 1}
+M_upright = M.subs(upright_nominal)
+A_upright = Amat.subs(upright_nominal)
+A_ss = M_upright.inv() * A_upright
+pprint(A_ss)
+perm = Pqi.row_join(zeros(6, 3)).col_join(zeros(6, 5).row_join(Pui))
+A_ss_red = perm.T * A_ss
+pprint(A_ss_red)
+
+evals = A_ss_red.eigenvals()
+print(evals.keys())
+q3d_check = 1/sqrt(3)
+print([evalf.N(i.subs({q3d: q3d_check})) for i in evals.keys()])
+

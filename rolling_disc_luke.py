@@ -42,6 +42,8 @@ N = ReferenceFrame('N')                   # Inertial frame
 A = N.orientnew('A', 'Axis', [q1, N.z])   # Yaw intermediate frame
 B = A.orientnew('B', 'Axis', [q2, A.x])   # Lean intermediate frame
 C = B.orientnew('C', 'Axis', [q3, B.y])   # Disc fixed frame
+# Disc angular velocity in N expressed using time derivatives of coordinates
+w_c_n_qd = C.ang_vel_in(N)
 
 # Inertial angular velocity and angular acceleration of disc fixed frame
 C.set_ang_vel(N, u1*C.x + u2*C.y + u3*C.z)
@@ -51,7 +53,10 @@ mprint(C.ang_acc_in(N))
 
 # Points
 NO = Point('NO')                                       # Inertial origin
-CO = Point('CO')                                       # Disc center
+CO = NO.locatenew('CO', q4*N.x + q5*N.y + q6*N.z)      # Disc center
+# Disc center velocity in N expressed using time derivatives of coordinates
+v_co_n_qd = CO.pos_from(NO).dt(N)
+
 CO.set_vel(N, u4*C.x + u5*C.y + u6*C.z)
 CO.set_acc(N, CO.vel(N).dt(C) + cross(C.ang_vel_in(N), CO.vel(N)))
 print("Translational acceleration")
@@ -74,13 +79,8 @@ f_v_du = f_v.jacobian(u)
 print("Velocity constraints")
 mprint(f_v)
 
-# Disc angular velocity in N expressed using time derivatives of coordinates
-w_c_n_qd = q1d*A.z + q2d*B.x + q3d*B.y
 # Disc angular acceleration in N expressed using time derivatives of coordinates
 alpha_c_n_qd = w_c_n_qd.dt(N)
-
-# Disc center velocity in N expressed using time derivatives of coordinates
-v_co_n_qd = q4d*N.x + q5d*N.y + q6d*N.z
 
 # Kinematic differential equations
 kindiffs = Matrix([dot(w_c_n_qd - C.ang_vel_in(N), uv) for uv in B] +
@@ -101,10 +101,12 @@ for i in range(6):
         f_0_coef_matrix[i, j] = f_0[i].diff(qd[j])
 
 # Acceleration level constraints                            (Table 1)
+#v_co_n = cross(C.ang_vel_in(N), CO.pos_from(P))
+#a_co_n = v_co_n.dt(B) + cross(B.ang_vel_in(N), v_co_n)
+#f_a = Matrix([((a_co_n - CO.acc(N)) & uv).expand() for uv in B])
 f_a = f_v.diff(t)
 print("Acceleration level constraints")
 mprint(f_a)
-
 
 # Kane's dynamic equations via elbow grease
 # Partial angular velocities and velocities
@@ -117,7 +119,6 @@ F_O = m*g*A.z
 gaf = [dot(F_O, pv) for pv in partial_v_CO]
 print("Generalized active forces (unconstrained)")
 mprint(gaf)
-
 
 # Inertia force
 R_star_O = -m*CO.acc(N)
@@ -174,7 +175,7 @@ gaf_con = gaf_indep + Bd_inv_Bi.T * gaf_dep
 print("Generalized inertia forces (constrained)")
 mprint(gif_con)
 
-print("Generalized activeforces (constrained)")
+print("Generalized active forces (constrained)")
 mprint(gaf_con)
 
 # Build the part of f_2 and f_3 that come from Kane's equations, the first three
@@ -207,15 +208,14 @@ mprint(f_2)
 print("f_3:")
 mprint(f_3)
 
-
 # Linearization Code
 
-qdep = Pqd.T * Matrix(q)
-udep = Pud.T * Matrix(u)
+#qdep = Pqd.T * Matrix(q)
+#udep = Pud.T * Matrix(u)
 
-n = len(q)
-l = len(qdep)
-o = len(u)
+#n = len(q)
+#l = len(qdep)
+#o = len(u)
 #m = len(udep)
 
 # Point of linearization
@@ -226,65 +226,59 @@ eq_q = {q1: 0,          # yaw angle (ignorable)
         q4: 0,          # x of disc center (ignorable)
         q5: 0,          # y of disc center (ignorable)
         q6: -r*cos(q2)} # z of disc center
-eq_qd = {q2d: 0,        # lean rate
-         q5d: 0,        # dy/dt, when yaw angle is zero
-         q6d: 0}        # height of disc center
+eq_qd = {q2d: 0}        # lean rate
 
+# Dependent generalized speeds in terms of independent ones
+eq_u = solve(f_v.subs(eq_q), [u4, u5, u6])
 
-f_v_eq = f_v.subs(eq_q)
-eq_u_d = solve(f_v_eq, [u4, u5, u6])
+# Solve kinematic equations for qdots in terms of independent u's
+kindiffs_eq = kindiffs.subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
+soln = solve(kindiffs_eq, [u1, u2, u3, q4d, q5d, q6d])
 
-# Now, need to solve kinematic equations for relationships between independent
-# u's and qdots
-kindiffs_eq = kindiffs.subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv).subs(eq_u_d)
-eq_u_i = solve(kindiffs_eq[:3], [u1, u2, u3])
+for ui in [u1, u2, u3]:
+    eq_u[ui] = soln[ui]
 
-eq_u = eq_u_i
-for ui in u[3:]:
-    eq_u.update({ui: eq_u_d[ui].subs(eq_u_i)})
-eq_qd.update({q4d: solve(kindiffs_eq[3], q4d)[0].subs(eq_u)})
+for ui in [u4, u5, u6]:
+    eq_u[ui] = eq_u[ui].subs(soln)
+
+for qdi in [q4d, q5d, q6d]:
+    eq_qd[qdi] = soln[qdi]
 
 print("Equilibrium coordinates:")
 for qi in q:
     if qi in eq_q.keys():
         s = msprint(qi) + " = " + msprint(eq_q[qi])
         print(s)
+
 print("Equilibrium coordinate time derivatives:")
 for qdi in qd:
     if qdi in eq_qd.keys():
         s = msprint(qdi) + " = " + msprint(eq_qd[qdi])
         print(s)
+
 print("Equilibrium generalized speeds:")
 for ui in u:
     if ui in eq_u.keys():
         s = msprint(ui) + " = " + msprint(eq_u[ui])
         print(s)
 
-# u1' under steady conditions can be obtained by equating
-# alpha_C = u1d*c.x + u2d*c.y + u3d*c.z
-# to alpha_c_n_qd.
-eq_qdd = {q1d.diff(t): 0, q2d.diff(t): 0, q3d.diff(t): 0}
-alpha_diff = C.ang_acc_in(N).express(B).subs(eq_q) - alpha_c_n_qd.subs(eq_qdd).subs(eq_qd).subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-eq_u1d = solve(alpha_diff & C.x, u1d)[0].subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-eq_ud_i = {u1d: eq_u1d}
+# Solve differentiated acceleration constraints for dependent du/dt's
+f_a_eq = f_a.subs(eq_qd).subs(ud_sym).subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv).subs(ud_sym_inv)
+eq_ud = solve(f_a_eq, [u4d, u5d, u6d])
 
-# Solve differentiated acceleration constraints for dependent du/dt
-f_a_eq = f_a.subs(eq_ud_i).subs(ud_sym).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv).subs(ud_sym_inv)
-eq_ud_d = solve(f_a_eq, [u4d, u5d, u6d])
+# Evaluate the dynamic equations using the dependent du/dt's
+dyndiffs_eq = (f_2 + f_3).subs(eq_ud).subs(eq_qd).subs(ud_sym).subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv).subs(ud_sym_inv).expand()
 
-# Evaluate the dynamic equations at the known equilibrium conditions
-dyndiffs_eq = (f_2 + f_3).subs(eq_ud_d).subs(eq_ud_i).subs(ud_sym).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv).subs(ud_sym_inv).expand()
-
+mprint(dyndiffs_eq)
 # Solve the dynamic equations for the remaining two independent du/dt's
-eq_ud_i.update(solve(dyndiffs_eq, [u2d, u3d]))
+soln = solve(dyndiffs_eq, [u1d, u2d, u3d])
 
-# Update the dependent du/dut's with solution for the independent du/dt's
+# Update the equilibrium dependent du/dt's with solution for the independent du/dt's
 for udi in [u4d, u5d, u6d]:
-    eq_ud_d[udi] = eq_ud_d[udi].subs(eq_ud_i)
+    eq_ud[udi] = eq_ud[udi].subs(soln)
 
-# Generate dictionary of all equilibrum du/dt's
-eq_ud = eq_ud_i
-eq_ud.update(eq_ud_d)
+for udi in [u1d, u2d, u3d]:
+    eq_ud[udi] = soln[udi]
 
 print("Equilibrium generalized speed time derivatives:")
 for udi in ud:
@@ -295,16 +289,19 @@ for udi in ud:
 print("f_c, f_v, f_a, f_0 + f_1, f_2 + f_3, evaluated at equilibrium conditions")
 f_c_eq = f_c.subs(eq_q)
 f_v_eq = f_v.subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-f_a_eq = f_a.subs(eq_ud).subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
+f_a_eq = f_a.subs(eq_ud).subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv).expand()
 f_0_eq_plus_f_1_eq = (f_0 + f_1).subs(eq_qd).subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-f_2_eq_plus_f_3_eq = (f_2 + f_3).subs(eq_ud).subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
+f_2_eq_plus_f_3_eq = (f_2 + f_3).subs(eq_ud).subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv).expand()
+f_2_eq_plus_f_3_eq.simplify()
 mprint(f_c_eq)
 mprint(f_v_eq)
 mprint(f_a_eq)
 mprint(f_0_eq_plus_f_1_eq)
 mprint(f_2_eq_plus_f_3_eq)
 
-steady_turn_eqn = (f_2_eq_plus_f_3_eq[0] / (m*r*r)).expand()
+"""
+eom_eq = (gif_con + gaf_con).subs(ud_sym).subs(eq_qd).subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv).subs(ud_sym_inv).expand()
+mprint(eom_eq)
 p = Poly(steady_turn_eqn, q1d)
 a, b, c = p.coeffs()
 discriminant = b*b - 4*a*c
@@ -316,6 +313,8 @@ print("b = " + msprint(b))
 print("c = " + msprint(c))
 print("Discriminant which must be non-negative:")
 mprint(discriminant.simplify())
+stop
+"""
 
 M_qq = f_0.jacobian(qd).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
 M_uqc = f_a.jacobian(qd).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
@@ -335,11 +334,11 @@ f_c_jac_q = f_c.jacobian(q).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs
 f_v_jac_q = f_v.jacobian(q).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
 f_v_jac_u = f_v.jacobian(u).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
 
-C_0 = (eye(n) - Pqd * (f_c_jac_q * Pqd).inv() * f_c_jac_q) * Pqi
+C_0 = (eye(len(q)) - Pqd * (f_c_jac_q * Pqd).inv() * f_c_jac_q) * Pqi
 C_1 = -Pud * (f_v_jac_u * Pud).inv() * f_v_jac_q
-C_2 = (eye(o) - Pud * (f_v_jac_u * Pud).inv() * f_v_jac_u) * Pui
+C_2 = (eye(len(u)) - Pud * (f_v_jac_u * Pud).inv() * f_v_jac_u) * Pui
 
-row1 = M_qq.row_join(zeros(n, o))
+row1 = M_qq.row_join(zeros(len(q), len(u)))
 row2 = M_uqc.row_join(M_uuc)
 row3 = M_uqd.row_join(M_uud)
 M = row1.col_join(row2).col_join(row3)

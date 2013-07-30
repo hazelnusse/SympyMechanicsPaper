@@ -58,7 +58,6 @@ CO = NO.locatenew('CO', q4*N.x + q5*N.y + q6*N.z)      # Disc center
 v_co_n_qd = CO.pos_from(NO).dt(N)
 
 CO.set_vel(N, u4*C.x + u5*C.y + u6*C.z)
-CO.set_acc(N, CO.vel(N).dt(C) + cross(C.ang_vel_in(N), CO.vel(N)))
 print("Translational acceleration")
 mprint(CO.acc(N))
 
@@ -79,9 +78,6 @@ f_v_du = f_v.jacobian(u)
 print("Velocity constraints")
 mprint(f_v)
 
-# Disc angular acceleration in N expressed using time derivatives of coordinates
-alpha_c_n_qd = w_c_n_qd.dt(N)
-
 # Kinematic differential equations
 kindiffs = Matrix([dot(w_c_n_qd - C.ang_vel_in(N), uv) for uv in B] +
                   [dot(v_co_n_qd - CO.vel(N), uv) for uv in B])
@@ -95,10 +91,7 @@ f_0 = kindiffs.subs(u_zero)
 f_1 = kindiffs.subs(qd_zero)
 
 # f_0 == f_0_coef_matrix * qd, used to solve for qdots
-f_0_coef_matrix = zeros((6,6))
-for i in range(6):
-    for j in range(6):
-        f_0_coef_matrix[i, j] = f_0[i].diff(qd[j])
+f_0_coef_matrix = f_0.jacobian(qd)
 
 # Acceleration level constraints                            (Table 1)
 #v_co_n = cross(C.ang_vel_in(N), CO.pos_from(P))
@@ -114,17 +107,17 @@ partial_w_C = [C.ang_vel_in(N).diff(ui, N) for ui in u]
 partial_v_CO = [CO.vel(N).diff(ui, N) for ui in u]
 
 # Active forces
-F_O = m*g*A.z
+F_CO = m*g*A.z
 # Generalized active forces (unconstrained)
-gaf = [dot(F_O, pv) for pv in partial_v_CO]
+gaf = [dot(F_CO, pv) for pv in partial_v_CO]
 print("Generalized active forces (unconstrained)")
 mprint(gaf)
 
 # Inertia force
-R_star_O = -m*CO.acc(N)
+R_star_CO = -m*CO.acc(N)
 
-I = m * r**2 / 4
-J = m * r**2 / 2
+I = (m * r**2) / 4
+J = (m * r**2) / 2
 
 # Inertia torque
 I_C_CO = inertia(C, I, J, I)     # Inertia of disc C about point CO
@@ -132,13 +125,11 @@ T_star_C = -(dot(I_C_CO, C.ang_acc_in(N))
              + cross(C.ang_vel_in(N), dot(I_C_CO, C.ang_vel_in(N))))
 
 # Generalized inertia forces (unconstrained)
-gif = [dot(R_star_O, pv) + dot(T_star_C, pav) for pv, pav in
+gif = [dot(R_star_CO, pv) + dot(T_star_C, pav) for pv, pav in
         zip(partial_v_CO, partial_w_C)]
 print("Generalized inertia forces (unconstrained)")
-mprint(gif)
 
 # Constrained dynamic equations
-
 # Coordinates to be independent: q1, q2, q3, q4, q5
 # Coordinates to be dependent: q6
 # Already in the correct order, so permutation matrix is simply a 6x6 identity
@@ -180,18 +171,8 @@ mprint(gaf_con)
 
 # Build the part of f_2 and f_3 that come from Kane's equations, the first three
 # rows of each
-f_2 = zeros(3, 1)
-f_3 = zeros(3, 1)
-Muud = zeros (3, len(u))
-for i in [0, 1, 2]:
-    # Mass matrix terms and f2
-    for j, udj in enumerate(ud):
-        Muud[i, j] = gif_con[i].diff(udj)
-        f_2[i] += Muud[i, j]*udj
-        # Verify that there are no du/dt terms in the generalized active forces
-        assert gaf_con[i].diff(udj) == 0
-    # All other terms that don't have du/dt in them
-    f_3[i] = gif_con[i].subs(ud_zero) + gaf_con[i]
+f_2 = gif_con.subs(ud_sym).subs(u_zero).subs(qd_zero).subs(ud_sym_inv)
+f_3 = gif_con.subs(ud_zero) + gaf_con
 
 print("f_c:")
 mprint(f_c)

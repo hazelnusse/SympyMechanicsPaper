@@ -271,8 +271,8 @@ print([evalf.N(i.subs({q3d: q3d_check})) for i in evals.keys()])
 
 zero = (f_0+f_1).col_join(f_2+f_3).col_join(f_a)
 rhs = solve(zero, qd+ud)
-rhs = Matrix([rhs[i].subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv) for i in qd+ud])
-A_ss_bad_sym = rhs.jacobian(q+u)
-A_ss_bad_num = A_ss_bad_sym.subs({q1d: 0, q2: 0, m: 1, r: 1})
+A_ss_bad_sym = Matrix([rhs[i] for i in qd+ud]).jacobian(q+u)
+A_ss_bad_num = A_ss_bad_sym.subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv).subs({q1d: 0, q2: 0, m: 1, r: 1, g: 1})
 nevals = A_ss_bad_num.eigenvals()
 print([evalf.N(i.subs({q3d: q3d_check})) for i in nevals.keys()])
+

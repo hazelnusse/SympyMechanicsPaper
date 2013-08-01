@@ -424,7 +424,7 @@ Now $\mathbf{F}^*$ can be constructed in a manner similar to $\mathbf{F}$.
 
 \begin{equation}
 \label{eq:definition_Fstar}
-\mathbf{F} =
+\mathbf{F}^* =
 \begin{bmatrix}
 \displaystyle \sum_{i=1}^g \bar{R}^*_{B^*_i} \cdot {^N}\bar{v}^{B^*_i}_1 +
 \sum_{i=1}^h \bar{R}^*_{P_i} \cdot {^N}\bar{v}^{P_i}_1 +
@@ -576,32 +576,33 @@ reasons for this will be covered later.
 To illustrate Kane's method in the presence of configuration and velocity
 constraints, we consider a thin disc $C$ rolling without slip on a horizontal
 plane. The dextral unit vectors $\hat{c}_x, \hat{c}_y, \hat{c}_z$ are fixed to $C$
-with $\hat{c}_y$ perpendicular to the disc plane. We take $r$ and $m$ to be the
-disc radius and mass, respectively, and assume the mass distribution of a thin
-disc so that $I_{xx}=I_{zz}=mr^2/4$ and $I_{yy} = mr^2/2$. We take the inertial
-(Newtonian) frame $N$ to be similarly equipped with dextral unit vectors
-$\hat{n}_x, \hat{n}_y, \hat{n}_z$, with $\hat{n}_z$ perpendicular to the ground
-plane and aligned with local gravitational field ($\hat{n}_z$ points downwards).
-To orient the disc, we first align the $C$ with $N$, then apply successive body
-fixed ZYX rotations: yaw $q_1$, roll $q_2$, and spin $q_3$.  We denote by $A$
-and $B$ the two frames associated with the first two intermediate rotations in
-the sequence; we refer to these as the instantaneous yaw and lean frames,
-respectively. The unit vector $\hat{b}_z$ fixed in the $B$ frame is parallel to
-the disc plane and aligned with the position vector from the disc center $C^*$
-to the lowest point of the disc $P^*$. Traditionally, to locate the center of
-the disc $C^*$ relative to the inertial origin $N^*$, two coordinates are used
-to locate the contact point in the ground plane; those two coordinates plus the
-lean angle $q_2$ determine the location of the center of the disc. The
-advantage of this approach is that the choice of coordinates guarantees the
-disc remain in contact with the ground plane. To illustrate how dependent
-coordinates must be accounted for when linearizing the equations of motion, we
-purposefully locate the center of the disc $C^*$ relative to the inertial
-origin $N^*$ with a non-minimal choice of coordinates
+with $\hat{c}_y$ perpendicular to the disc plane. We take $r$ and $m$ as the
+disc radius and mass, and assume a thin disc mass distribution so that
+$I_{xx}=I_{zz}=mr^2/4$ and $I_{yy} = mr^2/2$. We take the inertial (Newtonian)
+frame $N$ to be similarly equipped with dextral unit vectors $\hat{n}_x,
+\hat{n}_y, \hat{n}_z$, with $\hat{n}_z$ perpendicular to the ground plane
+(downwards) and aligned with local gravitational field. To orient the disc, we
+first align the $C$ with $N$, then apply successive body fixed ZXY rotations:
+yaw $q_1$, roll $q_2$, and spin $q_3$.  We denote by $A$ and $B$ the two frames
+associated with the first two intermediate rotations in the sequence; we refer
+to these as the instantaneous yaw and lean frames, respectively. The unit
+vector $\hat{b}_z$ fixed in the $B$ frame is parallel to the disc plane and
+aligned with the position vector from the disc center $C^*$ to the lowest point
+of the disc $P^*$. Traditionally, to locate the center of the disc $C^*$
+relative to the inertial origin $N^*$, two coordinates are used to locate the
+contact point in the ground plane; those two coordinates plus the lean angle
+$q_2$ determine the location of the center of the disc. The advantage of this
+approach is that the choice of coordinates guarantees the disc remain in
+contact with the ground plane. To illustrate how dependent coordinates must be
+accounted for when linearizing the equations of motion, we purposefully locate
+the center of the disc $C^*$ relative to the inertial origin $N^*$ with a
+non-minimal choice of coordinates
 \begin{equation*}
-  \bar{r}^{C^*} = q_4 \hat{n}_x + q_5 \hat{n}_y + q_6 \hat{n}_z
+  \bar{r}^{N^*C^*} = q_4 \hat{n}_x + q_5 \hat{n}_y + q_6 \hat{n}_z
 \end{equation*}
-which results in the configuration constraint
+which results in the configuration constraint $\mathbf{f}_c$
 \begin{equation}
+  \label{rd:f_c}
   r\cos{q_2} + q_6 = 0
 \end{equation}
 which must be satisfied for the disc to remain in contact with the ground.
@@ -609,47 +610,53 @@ While this constraint is easily avoided by appropriate choice of coordinates,
 it serves to illustrate considerations which must be made when analyzing
 systems where there is no obvious way to eliminate configuration constraints.
 
-Again for the purpose of illustrating how velocity constraints must be
-accounted for when obtaining linearized equations of motion, we define
-the angular velocity of $C$ and the velocity of $C^*$ relative to $N$ using a
-non-minimal choice of generalized speeds
+Again to demonstrate how velocity constraints must be accounted for when
+obtaining linearized equations of motion, we define the velocity of $C^*$ in
+$N$ with a non-minimal choice of speeds, defined in the body-fixed ($C$) frame.
+The angular velocity of $C$ in $N$, however, is defined in the intermediate
+frame $B$, which is the instantaneous lean frame.
 \begin{align}
-  \label{w_u}
-  {^N}\bar{\omega}^C &= u_1 \hat{c}_x + u_2 \hat{c}_y + u_3 \hat{c}_z \\
   \label{v_u}
-  {^N}\bar{v}^{C^*} &= u_4 \hat{c}_x + u_5 \hat{c}_y + u_6 \hat{c}_z
+  {^N}\bar{v}^{C^*} &= u_4 \hat{c}_x + u_5 \hat{c}_y + u_6 \hat{c}_z \\
+  \label{w_u}
+  {^N}\bar{\omega}^C &= u_1 \hat{b}_x + u_2 \hat{b}_y + u_3 \hat{b}_z
 \end{align}
 It should be immediately obvious from these defintions that the partial angular
 velocity and partial velocity of $C^*$, respectively, are
 \begin{align}
-  {^N}\bar{\omega}^C_u &= [\hat{c}_x, \hat{c}_y, \hat{c}_z, 0, 0, 0] \\
-  {^N}\bar{v}^{C^*}_u &= [0, 0, 0, \hat{c}_x, \hat{c}_y, \hat{c}_z]
+  {^N}\bar{v}^{C^*}_u &= [0, 0, 0, \hat{c}_x, \hat{c}_y, \hat{c}_z] \\
+  {^N}\bar{\omega}^C_u &= [\hat{b}_x, \hat{b}_y, \hat{b}_z, 0, 0, 0] 
 \end{align}
 where we present the partial velocities as a $1\times6$ matrix whose entries
 are populated with standard 3-vectors. Given these definitions, the velocity of
 the lowest point of the disc $P^*$ is
 \begin{align*}
-  \bm{v}^{P^*} &= \bm{v}^{C^*} + \bm{\omega}^{C} \times r^{P^*/C^*} \\
-  &= (r u_2 \cos q_3  + u_4) \bm{c}_x
-   + (-r (u_1 \cos q_3  + u_3 \sin q_3) + u_5) \bm{c}_y \\
-   &+ (r u_2 \sin q_3  + u_6) \bm{c}_z
+    {^N}\bm{v}^{P^*} &= \bm{v}^{C^*} + \bm{\omega}^{C} \times r^{P^*/C^*} \\
+                     &= u_4\hat{c}_x + u_5\hat{c}_y + u_6\hat{c}_z + r u_2
+                        \hat{b}_x - r u_1 \hat{b}_y \\
+                     &= (r u_2 \cos(q_3) + u_4) \hat{c}_x + (-r
+                        u_1 + u_5)\hat{c}_y + r u_2 \sin(q_3) +
+                        u6) \hat{c}_z
 \end{align*}
 where we have made use of the fact that $\bm{r}^{P^*/C^*} = r\bm{b}_z$.
 Under the assumption of pure rolling this immediately yields three velocity
-constraints
+constraint equations which make up $\mathbf{f}_v = \mathbf{0}$
+\begin{subequations}
+\label{rd:f_v}
 \begin{align}
-  r u_2 \cos q_3  + u_4 &= 0\\
-  -r (u_1 \cos q_3  + u_3 \sin q_3) + u_5 &= 0\\
-  r u_2 \sin q_3  + u_6 &= 0
+    r u_2 \cos(q_3) + u_4 &= 0\\
+            -r u_1 + u_5 &= 0\\
+    r u_2 \sin(q_3) + u_6 &= 0
 \end{align}
-These equations are linear in the $u_i$'s, nonlinear in the $q_i$'s, involve
-geometric system parameters (but not mass or inertial parameters), and do not
-explicitly involve $\dot{q}_i$'s. This structure will be taken advantage of
-subsequently.
+\end{subequations}
+These equations are linear in the $u_i$ terms, nonlinear in the $q_i$ terms,
+involve geometric system parameters (but not mass or inertial parameters), and
+do not explicitly involve $\dot{q}_i$ terms. This structure will be taken
+advantage of subsequently.
 
 At this point, the reader familiar with the rolling disc problem is certainly
 wondering why we have chosen such a diabolical set of coordinates and speeds.
-In this simple example, there is an \textit{obvious and minimal} choice of
+In this simple example, there is an {\bf \textit{obvious and minimal}} choice of
 coordinates and speeds ($q_6, u_4, u_5, u_6$, should be dependent; this choice
 will be valid for all parameters and configurations; further, the derivation of
 the equations of motion can be done without ever introducing these quantities),
@@ -666,22 +673,30 @@ choice of coordinates and speeds is to illustrate, in the context of a familiar
 example, how constraints must be taken into account when linearizing equations
 of motion. It is our hope that by doing this for a well known and relatively
 simple example, readers can apply the same techniques to more complicated
-systems where its use is more appropriate.
+systems where its use is more appropriate or necessary.
 
-Time differentiating the velocity constraints yields
+Time differentiating the velocity constraint equations yields the acceleration
+constraint equations, $\mathbf{f}_a = \mathbf{0}$, written out as:
+\begin{subequations}
+\label{rd:f_a}
 \begin{align}
--r u_2 \dot{q}_3 \sin q_3 + r \dot{u}_2 \cos q_3 + \dot{u}_4 &= 0 \\
-r(u_1 \dot{q}_3 \sin q_3 - u_3 \dot{q}_3 \cos q_3) - r \dot{u}_1 \cos q_3 - r \dot{u}_3 \sin q_3 + \dot{u}_5 &= 0 \\
-r u_2 \dot{q}_3 \cos q_3 + r \dot{u}_2 \sin q_3 + \dot{u}_6 &= 0
+    -r u_{2} \sin(q_{3}) \dot{q}_{3} + r \cos(q_{3}) \dot{u}_{2} + \dot{u}_{4} &=
+    0\\
+    - r \dot{u}_{1} + \dot{u}_{5} &= 0\\
+    r u_{2} \cos(q_{3}) \dot{q}_{3} + r \sin(q_{3}) \dot{u}_{2} + \dot{u}_{6} &=
+    0
 \end{align}
+\end{subequations}
 which must also be satisfied during general motions. There are two types of
 terms in these equations; 1) terms involving $\dot{u}_i$'s and $q_i$'s, and 2)
 terms involving $\dot{q}_i$'s, $u_i$'s, and $q_i$'s. This structure will be
 taken advantage of subsequently.
 
 The kinematic differential equations relate the time derivatives of the
-coordinates and the generalized speeds. From the addition theorem for angular
-velocity, we may write the angular velocity of $C$ as
+coordinates and the generalized speeds. Here they are solved by equating the
+velocities written with time-differentiated generalized coordinates and the
+velocities written with generalized speeds.  From the addition theorem for
+angular velocity, we may write the angular velocity of $C$ as
 \begin{equation}
   \label{w_qdot}
   {^N}\bar{\omega}^C = \dot{q}_1 \hat{n}_z + \dot{q}_2 \hat{a}_x + \dot{q}_3 \hat{b}_y
@@ -695,20 +710,138 @@ Equating (\ref{w_u}) with (\ref{w_qdot}) and (\ref{v_u}) with (\ref{v_qdot}),
 and resolving these vector equations into the $B$ frame, and rearranging so
 that all terms appear to the left of the equality sign, we obtain
 \begin{align}
-  \dot{q}_2 - u_1 \cos q_3  - u_3 \sin q_3 &= 0 \\
-  \dot{q}_1 \sin q_2 + \dot{q}_3 - u_2 &= 0 \\
-  \dot{q}_1 \cos q_2 + u_1 \sin q_3  - u_3 \cos q_3  &= 0 \\
-  \dot{q}_4 \cos q_1 + \dot{q}_5 \sin q_1 -u_4 \cos q_3 - u_6 \sin q_3 &= 0 \\
- -\dot{q}_4 \sin q_1 \cos q_2 + \dot{q}_5 \cos q_1 \cos q_2 + \dot{q}_6 \sin q_2 - u_5 &= 0 \\
-  \dot{q}_4 \sin q_1 \sin q_2 - \dot{q}_5 \sin q_2 \cos q_1 + \dot{q}_6 \cos q_2 + u_4 \sin q_3 - u_6 \cos q_3 &= 0
+    \label{rd:f_0_f_1}
+\underbrace{\left[\begin{matrix}\dot{q}_{2}\\\sin\left(q_{2}\right)
+    \dot{q}_{1} + \dot{q}_{3}\\\cos\left(q_{2}\right)
+    \dot{q}_{1}\\\dot{q}_{4}\\\dot{q}_{5}\\\dot{q}_{6}\end{matrix}\right]}_{\mathbf{f}_0}
+    + 
+\underbrace{\left[\begin{matrix}- u_{1}\\- u_{2}\\- u_{3}\\r u_{1}
+    \sin\left(q_{1}\right) \cos\left(q_{2}\right) +
+    r u_{2} \cos\left(q_{1}\right)\\- r u_{1}
+    \cos\left(q_{1}\right) \cos\left(q_{2}\right) +
+    r u_{2} \sin\left(q_{1}\right)\\- r u_{1}
+    \sin\left(q_{2}\right)\end{matrix}\right]}_{\mathbf{f}_1}
+    = \left[\begin{matrix} 0\\ 0\\ 0\\ 0\\ 0\\ 0\end{matrix}\right]
 \end{align}
-The angular acceleration of $C$ and the translation acceleration of $C^*$,
-relative to $N$, is
+The translation acceleration of $C^*$ and the angular acceleration of $C$,
+relative to $N$, are
 \begin{align}
-  {^N}\bar{\alpha}^{C} &= \dot{u}_1 \hat{c}_x + \dot{u}_2 \hat{c}_y + \dot{u}_3 \hat{c}_z  \\
-  {^N}\bar{a}^{C^*} &= (u_2 u_6 - u_3 u_5 + \dot{u}_4) \hat{c}_x + (u_3 u_4 - u_1 u_6 +
-+ \dot{u}_5) \hat{c}_y \notag\\&+ (u_1 u_5 - u_2 u_4 + \dot{u}_6) \hat{c}_z
+    {^N}\bar{a}^{C^*} =& (-(u_1 \sin(q_3) + u_3 \cos(q_3)) u_5 + u_2 u_6 +
+                         \dot{u}_4) \hat{c}_x \notag \\
+                      & + ((u_1 \sin(q_3) + u_3 \cos(q_3)) u_4 - (u_1
+                         \cos(q_3) - u_3 \sin(q_3)) u_6 + \dot{u}_5) \hat{c}_y
+                         \notag\\
+                      & + ((u_1 \cos(q_3) - u_3 \sin(q_3)) u_5 - u_2 u_4 +
+                         \dot{u}_6) \hat{c}_z \\
+    {^N}\bar{\alpha}^{C} =& (-u_2 u_3 + u_3^2 \tan(q_2) + \dot{u}_1) \hat{b}_x
+                         + \dot{u}_2 \hat{b}_y + (u_1 u_2 - u_1 u_3 \tan(q2) +
+                         \dot{u}_3) \hat{b}_z
 \end{align}
+
+As stated, the mass of the disc is $m$, and the inertia dyadic of the disc can
+be written as
+\begin{align}
+    \bar{\bar{\mathbf{I}}}^{C/C^*} = \frac{m r^2}{4} \hat{c}_x\hat{c}_x +
+    \frac{m r^2}{2} \hat{c}_y\hat{c}_y + \frac{m r^2}{4} \hat{c}_z\hat{c}_z
+\end{align}
+Using equations (\ref{eq:rb_translational_gen_inertia}) and
+(\ref{eq:rb_rotational_gen_inertia}), $\bar{R}^*_{C^*}$ and $\bar{T}^*_C$ can be
+written.
+\begin{align}
+    \bar{R}^*_{C^*} =& - m (- (u_{1} \sin(q_{3}) + u_{3}
+                       \cos(q_{3})) u_{5} + u_{2} u_{6} +
+                       \dot{u}_{4}) \hat{c}_x \notag \\
+                     & - m ((u_{1} \sin(q_{3}) + u_{3}
+                       \cos(q_{3})) u_{4} - (u_{1}
+                       \cos(q_{3}) - u_{3}
+                       \sin(q_{3})) u_{6} + \dot{u}_{5})
+                       \hat{c}_y \notag \\
+                     & - m ((u_{1} \cos(q_{3}) - u_{3}
+                       \sin(q_{3})) u_{5} - u_{2} u_{4} +
+                   \dot{u}_{6}) \hat{c}_z \\
+    \bar{T}^*_C =& \frac{m r^{2}}{4} (2 u_{1} u_{2} \sin(q_{3})
+                   - u_{1} u_{3} \sin(q_{3}) \tan(q_{2})
+                   + 2 u_{2} u_{3} \cos(q_{3}) \notag\\&\quad\quad- u_{3}^2
+                   \cos(q_{3}) \tan(q_{2}) +
+                   \sin(q_{3}) \dot{u}_{3} - \cos(q_{3})
+                   \dot{u}_{1}) \hat{c}_x \notag \\
+                 & - \frac{m r^{2}}{2} \dot{u}_{2} \hat{c}_y \notag \\
+                 & + \frac{m r^{2}}{4} (- 2 u_{1} u_{2}
+                   \cos(q_{3}) + u_{1} u_{3} \cos(q_{3})
+                   \tan(q_{2}) + 2 u_{2} u_{3}
+                   \sin(q_{3}) \notag\\&\quad\quad - u_{3}^2 \sin(q_{3})
+                   \tan(q_{2}) - \sin(q_{3}) \dot{u}_{1}
+                   - \cos(q_{3}) \dot{u}_{3}) \hat{c}_z
+\end{align}
+
+The generalized active forces for this example are
+\begin{align}
+    \bar{R}_{C^*} &= m g \hat{n}_z \\
+    \bar{T}_C &= 0
+\end{align}
+
+Equations (\ref{eq:definition_F}), (\ref{eq:definition_Fstar}), and
+(\ref{eq:kanes_eq}) can be used to construct the equations of motion.
+For brevity, we omit the results of each step involved, and only write the
+results, after they have been partitioned into the $\mathbf{f}_2$ and
+$\mathbf{f}_3$ vectors.
+\begin{align}
+    \label{rd:f_2_f_3}
+    & \left[\begin{matrix} 0\\ 0\\ 0\end{matrix}\right] =
+    \underbrace{\left[\begin{matrix}- \frac{m r}{4} \left(r \dot{u}_{1} + 4
+                \dot{u}_{5}\right)\\\frac{m r}{2} \left(- r \dot{u}_{2} + 2
+                \sin\left(q_{3}\right) \dot{u}_{6} + 2 \cos\left(q_{3}\right)
+                \dot{u}_{4}\right)\\- \frac{m r^{2}}{4}
+                \dot{u}_{3}\end{matrix}\right]}_{\mathbf{f}_2} + \notag\\
+    &\underbrace{\left[\begin{matrix}
+                m r \left( g \sin(q_2) - u_1 u_4 \sin(q_3) + u_1 u_6 \cos(q_3)
+                    + (\frac{r u_2}{2} - \frac{r u_3}{4} \tan(q_2) - u_4
+                \cos(q_3) - u_6 \sin(q_3)) u_3 \right)
+                \\m r \left(- u_{2} u_{4}
+                \sin\left(q_{3}\right) + u_{2} u_{6}
+                \cos\left(q_{3}\right) - u_{3} u_{5}\right)\\\frac{m r^{2}}{4}
+                \left(- 2 u_{2} + u_{3} \tan\left(q_{2}\right)\right)
+                u_{1}\end{matrix}\right]}_{\mathbf{f}_3} 
+\end{align}
+
+As there are 12 unknown quantities, $\dot{q}_{1-6}$ and $\dot{u}_{1-6}$, we
+need 3 additional equations so solve for the time-derivative terms.
+The acceleration constraints $\mathbf{f}_a$ provide the final 3 equations.
+Combining (\ref{rd:f_0_f_1}), (\ref{rd:f_2_f_3}), and (\ref{rd:f_a}), the
+complete second order differential equations can be written.
+\begin{align}
+\label{rd:ode}
+\begin{bmatrix} \mathbf{f}_0 + \mathbf{f}_1\\
+                \mathbf{f}_2 + \mathbf{f}_3\\
+                \mathbf{f}_a \end{bmatrix} = \mathbf{0}
+\end{align}
+
+The naive approach to linearizing these equations of motion would be to solve
+for the ($\dot{q}_i$, $\dot{u}_i$) terms to construct the right-hand side of
+\begin{align}
+\begin{bmatrix}\dot{\mathbf{q}} \\ \dot{\mathbf{u}}\end{bmatrix} =
+    \mathbf{f}(\mathbf{q}, \mathbf{u}, t)
+\end{align}
+and then take the jacobian of $\mathbf{f}$ with respect to $[\mathbf{q}
+\quad \mathbf{u}]^T$. However, this will give the incorrect results. As
+discussed in Schwab, this system has a critical speed where all the eigenvalues
+are 0 under the following conditions: the system is linearized about the
+upright rolling steady-state configuration, and all parameters ($r$, $m$, and
+$g$) are unity. When these conditions are met, the critical speed is
+$v=\frac{1}{\sqrt{3}}$.
+
+When following the naive approach, 8 of the eigenvalues are 0 and 4 are
+non-zero under the same conditions:
+\begin{align}
+\sqrt{-v^2},\quad -\sqrt{-v^2},\quad \sqrt{-\frac{12}{5} v^2 +
+\frac{4}{5}},\quad -\sqrt{-\frac{12}{5} v^2 + \frac{4}{5}}
+\end{align}
+At the critical speed, two of these non-zero eigenvalues go to zero. But at any
+forward speed, there is a nonzero imaginary eigenvalue pair. Having illustrated
+the failings of the simple approach to linearization of a constrained multibody
+system defined with Kane's method, we will now outline a linearization
+procedure which addresses this issue and then revisit this example applying the
+proper linearization procedure.
 
 
 %We apply this linearization technique to the well studied rolling disc.  Figure

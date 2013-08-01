@@ -576,24 +576,28 @@ reasons for this will be covered later.
 To illustrate Kane's method in the presence of configuration and velocity
 constraints, we consider a thin disc $C$ rolling without slip on a horizontal
 plane. The dextral unit vectors $\hat{c}_x, \hat{c}_y, \hat{c}_z$ are fixed to $C$
-with $\hat{c}_y$ perpendicular to the disc plane. We take $r$ and $m$ as the
+with $\hat{c}_y$ perpendicular to the disc plane. Let $r$ and $m$ be the
 disc radius and mass, and assume a thin disc mass distribution so that
-$I_{xx}=I_{zz}=mr^2/4$ and $I_{yy} = mr^2/2$. We take the inertial (Newtonian)
+$I_{xx}=I_{zz}=mr^2/4$ and $I_{yy} = mr^2/2$. Take the inertial (Newtonian)
 frame $N$ to be similarly equipped with dextral unit vectors $\hat{n}_x,
 \hat{n}_y, \hat{n}_z$, with $\hat{n}_z$ perpendicular to the ground plane
-(downwards) and aligned with local gravitational field. To orient the disc, we
-first align the $C$ with $N$, then apply successive body fixed ZXY rotations:
-yaw $q_1$, roll $q_2$, and spin $q_3$.  We denote by $A$ and $B$ the two frames
+(downwards) and aligned with the local gravitational field. To orient the disc,
+first align $C$ with $N$, then apply successive body fixed ZXY rotations:
+yaw $q_1$, roll $q_2$, and spin $q_3$.  Denote by $A$ and $B$ the two frames
 associated with the first two intermediate rotations in the sequence; we refer
 to these as the instantaneous yaw and lean frames, respectively. The unit
-vector $\hat{b}_z$ fixed in the $B$ frame is parallel to the disc plane and
+vector, $\hat{b}_z$ fixed in the $B$ frame, is parallel to the disc plane and
 aligned with the position vector from the disc center $C^*$ to the lowest point
-of the disc $P^*$. Traditionally, to locate the center of the disc $C^*$
+of the disc $P^*$.
+
+Traditionally, to locate the center of the disc $C^*$
 relative to the inertial origin $N^*$, two coordinates are used to locate the
-contact point in the ground plane; those two coordinates plus the lean angle
-$q_2$ determine the location of the center of the disc. The advantage of this
-approach is that the choice of coordinates guarantees the disc remain in
-contact with the ground plane. To illustrate how dependent coordinates must be
+contact point in the ground plane; these two coordinates and the lean angle
+and yaw angles determine the location of the center of the disc. The advantage of this
+approach is that the choice of coordinates guarantees that the disc remain in
+contact with the ground plane.
+
+To illustrate how dependent coordinates must be
 accounted for when linearizing the equations of motion, we purposefully locate
 the center of the disc $C^*$ relative to the inertial origin $N^*$ with a
 non-minimal choice of coordinates
@@ -608,7 +612,7 @@ which results in the configuration constraint $\mathbf{f}_c$
 which must be satisfied for the disc to remain in contact with the ground.
 While this constraint is easily avoided by appropriate choice of coordinates,
 it serves to illustrate considerations which must be made when analyzing
-systems where there is no obvious way to eliminate configuration constraints.
+systems in which there is no obvious way to eliminate configuration constraints.
 
 Again to demonstrate how velocity constraints must be accounted for when
 obtaining linearized equations of motion, we define the velocity of $C^*$ in
@@ -621,11 +625,11 @@ frame $B$, which is the instantaneous lean frame.
   \label{w_u}
   {^N}\bar{\omega}^C &= u_1 \hat{b}_x + u_2 \hat{b}_y + u_3 \hat{b}_z
 \end{align}
-It should be immediately obvious from these defintions that the partial angular
-velocity and partial velocity of $C^*$, respectively, are
+The unconstrained partial angular velocity and partial velocity of $C^*$,
+respectively, are then
 \begin{align}
   {^N}\bar{v}^{C^*}_u &= [0, 0, 0, \hat{c}_x, \hat{c}_y, \hat{c}_z] \\
-  {^N}\bar{\omega}^C_u &= [\hat{b}_x, \hat{b}_y, \hat{b}_z, 0, 0, 0] 
+  {^N}\bar{\omega}^C_u &= [\hat{b}_x, \hat{b}_y, \hat{b}_z, 0, 0, 0]
 \end{align}
 where we present the partial velocities as a $1\times6$ matrix whose entries
 are populated with standard 3-vectors. Given these definitions, the velocity of
@@ -664,11 +668,11 @@ for some systems this is not the case (e.g., Stewart's platform, bicycle). The
 numeric values of system parameters and the configurations in which the system
 will operate will determine which coordinates and speeds can be taken to be
 dependent (and hence potentially eliminated by algebraic manipulations).
-However, it may not be possible \textit{apriori} to easily determine which
+However, it may not be possible \textit{apriori} to determine easily which
 coordinates and speeds should be taken as dependent; further, some systems may
 operate in distinct enough regions of the configuration space that one
 \textit{must} use different choices of dependent coordinates and/or speeds as
-the system moves from one region to another. The purpose of our diabolical
+the system moves from one region to another. The purpose of our complex
 choice of coordinates and speeds is to illustrate, in the context of a familiar
 example, how constraints must be taken into account when linearizing equations
 of motion. It is our hope that by doing this for a well known and relatively

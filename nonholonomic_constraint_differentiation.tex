@@ -1,0 +1,83 @@
+\documentclass[letterpaper,11pt]{article}
+\usepackage[round]{natbib}
+\usepackage[margin=1in,centering]{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+    pdftitle={Nonholonomic constraint time differentation},
+    pdfauthor={Dale Lukas Peterson},
+    pdfsubject={Subject},
+    pdfkeywords={Keywords}}
+
+\pagestyle{fancy}
+\fancyhead[L]{}
+\fancyhead[R]{}  % page number on the right
+\fancyfoot[L,C,R]{}  %  No footer on left, center or right, on even or odd pages
+
+\begin{document}
+\begin{abstract}
+  When linear velocity constraints are encountered in the modelling of a
+  mechanical system, it is generally possible to find a set of independent
+  speeds which allow for these constraints to be solved for the remaining
+  dependent speeds in terms of the independent speeds.  Under these conditions
+  we investigate whether time differentation of the motion constraints, and
+  subsequently solving these time differentiated equations for the time
+  derivatives of the dependent speeds yields the same results as if the
+  dependent speeds are differentiated directly.  We find that they are equivalent, a finding that has practical implications for symbolic multibody
+  dynamic codes.
+\end{abstract}
+
+\section{Problem statement}
+Assume the constraints are of the form
+\begin{equation}
+  \label{eq:velocity_constraints}
+  B u = 0
+\end{equation}
+where $u\in\mathbf{R}^o$, and $B \in \mathbf{R}^{m \times o}$.  Assume that $u
+= \left[\begin{array}{cc}u_i & u_d\end{array}\right]^{T}$, i.e., that $o-m$
+  independent speeds come first, followed by the $m$ dependent speeds.  We can
+  then rewrite equation \ref{eq:velocity_constraints} as
+\begin{align}
+  \label{eq:BiuiBdud}
+  B_i u_i + B_d u_d &= 0 \\
+  \label{eq:ud}
+  \implies u_d &= -B_d^{-1} B_i u_i
+\end{align}
+
+Direct differentiation of equation \ref{eq:BiuiBdud} yields
+\begin{align}
+  \frac{d}{dt} \left(B_i u_i + B_d u_d \right) &= \frac{d}{dt} 0 \\
+  \dot{B}_i u_i + B_i \dot{u}_i + \dot{B}_d u_d + B_d \dot{u}_d &= 0 \\
+  \implies \dot{u}_d &= -B_d^{-1} \left(\dot{B}_i u_i + B_i \dot{u}_i + \dot{B}_d u_d \right)\\
+  &= -B_d^{-1} \left(\dot{B}_i u_i + B_i \dot{u}_i+ \dot{B}_d \left(-B_d^{-1} B_i u_i \right) 
+  \right) \\
+  &= -B_d^{-1} \left( \dot{B}_i - \dot{B}_d B_d^{-1} B_i \right) u_i - B_d^{-1}
+  B_i \dot{u}_i
+\end{align}
+In contrast, direct differentiation of equation \ref{eq:ud} yields
+\begin{align}
+  \frac{d}{dt} u_d &= -\frac{d}{dt}\left(B_d^{-1} B_i u_i\right)\\
+\implies  \dot{u}_d &= -\frac{d}{dt}\left(B_d^{-1} B_i \right) u_i -
+  \left(B_d^{-1} B_i \right) \frac{d}{dt}\left(u_i\right)\\
+  &= -\dot{B}_d^{-1} B_i u_i - B_d^{-1} \dot{B}_i u_i
+                    - B_d^{-1} B_i \dot{u}_i \\
+  &= -\left(\dot{B}_d^{-1} B_i + B_d^{-1} \dot{B}_i\right) u_i - B_d^{-1} B_i \dot{u}_i
+\end{align}
+
+The latter terms of both versions of $\dot{u}_d$ are clearly equal.  For the
+first term to be equal, we must then have
+
+\begin{align}
+-B_d^{-1} \left( \dot{B}_i - \dot{B}_d B_d^{-1} B_i \right) &=
+-\left(\dot{B}_d^{-1} B_i + B_d^{-1} \dot{B}_i\right) \\
+\implies B_d^{-1} \dot{B}_d B_d^{-1} B_i &= -\dot{B}_d^{-1} B_i\\
+\implies B_d^{-1} \dot{B}_d B_d^{-1} &= -\dot{B}_d^{-1} \\
+\implies \dot{B}_d B_d^{-1} + B_d \dot{B}_d^{-1} &= 0 \\
+\implies \frac{d}{dt} \left(B_d B_d^{-1} \right) &= 0 \\
+\implies \frac{d}{dt} I &= 0
+\end{align}
+
+\end{document}

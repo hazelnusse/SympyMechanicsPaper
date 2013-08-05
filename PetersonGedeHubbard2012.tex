@@ -511,6 +511,7 @@ motivation for this organizational scheme will be made apparent in Section
 
 
 \section{Dynamics Example}
+\label{sec:example}
 To illustrate Kane's method in the presence of configuration and velocity
 constraints, we consider a thin disk $C$ rolling without slip on a horizontal
 plane. The dextral unit vectors $\hat{c}_x, \hat{c}_y, \hat{c}_z$ are fixed to $C$
@@ -594,7 +595,7 @@ constraint equations which make up $\mathbf{f}_v = \mathbf{0}$
 These equations are linear in the $u_i$ terms, nonlinear in the $q_i$ terms,
 involve geometric system parameters (but not mass or inertial parameters), and
 do not explicitly involve $\dot{q}_i$ terms. This structure will be taken
-advantage of subsequently.
+advantage of in Section \ref{sec:derivations}.
 
 At this point, the reader familiar with the rolling disk problem is certainly
 wondering why we have chosen such a diabolical set of coordinates and speeds.
@@ -769,7 +770,7 @@ and then take the Jacobian of $\mathbf{f}$ with respect to $[\mathbf{q} \quad
 \mathbf{u}]^T$. However, this will give the incorrect results. As discussed in
 \cite{Schwab2003}, when $m, r,$ and $g$ are taken to be unity, and the system
 is linearized about the upright steady rolling condition, the critical speed is
-$v^*=\pm\frac{1}{\sqrt{3}}$. When following the naive approach, and
+$v \triangleq -r\dot{q}_3 =\pm\frac{1}{\sqrt{3}}$. When following the naive approach, and
 evaluating the Jacobian at the same operating conditions and parameters, eight
 of the twelve eigenvalues are identically zero while the remaining four are
 \begin{align}
@@ -780,8 +781,8 @@ $v=\pm\frac{1}{\sqrt{3}}$ is not a critical point of these eigenvalues).
 Further, the fact that twelve eigenvalues are obtained should be an alert that
 something is incorrect since the number of independent quantities is only eight
 (five coordinates and three speeds). We now outline a linearization procedure
-which addresses this issue and then revisit this example applying the proper
-linearization procedure.
+which addresses this issue; we revisit this example in
+\ref{sec:example_revisited}.
 
 \section{Derivation of linearization procedure}
 \label{sec:derivations}
@@ -1086,8 +1087,91 @@ of linearization $\bm{q}=\bm{q}^*, \bm{\dot{q}}=\bm{\dot{q}}^*,
 satisfy the equations in Table \ref{table:assumptions}, and may or may not be
 an equilibrium point.
 
-\section{Dynamics Example, Revisted}
+\section{Dynamics Example, Revisited}
+\label{sec:example_revisited}
+As shown at the end of Section \ref{sec:example}, obtaining correct linearized
+equations in the presence of constraints requires a technique other than
+straightforward calculation of the Jacobian. In this section, we demonstrate
+that our linearization procedure yields eigenvalues which match published
+results~\cite{Schwab2003,Kane1985,Neimark1972}. The first step in the procedure
+is to form the matrices in Equation (\ref{eq:quant_to_compute}). Once obtained,
+these matrices can be evaluated at the equilibrium conditions and parameters of
+interest.  The standard approach to finding the equilibrium conditions is to
+\textit{choose} the independent quantities and solve the constraint equations
+for the dependent quantities.
 
+We first consider the case of upright steady cruise and begin by choosing the
+independent coordinates to be zero ($q_i^* = 0$, $i = 1,\dots,5$), which
+implies (by appealing to the configuration constraint) that $q_6^* = -r
+\cos{q_2} = -r$.  This corresponds to the disk upright, the lowest point of the
+disc in contact with the ground, and the disk heading aligned with the
+$\hat{n}_x$ unit vector.  Next, we solve the velocity constraint equations for
+the dependent speeds in terms of the independent ones, and substitute these
+expression into the kinematic differential equations. This yields six equations
+with nine unknowns: $u_i (i=1,2,3)$ and $\dot{q}_i (i=1,\dots6)$. We choose yaw
+rate $\dot{q}_1^* = 0$ and lean rate $\dot{q}_2^* = 0$, and let spin rate
+$\dot{q}_3^*$ be a free variable, and solve for the remaining six unknowns.
+This yields $u_1^* = u_3^* = 0$, $u_2^* = \dot{q}_3^*$, $\dot{q}_4^* =
+-r\dot{q}_3^*$, $\dot{q}_5^* = \dot{q}_6^* = 0$. Back substituting the first
+three of these results into the velocity constraint equations yields $u_4^* =
+-r\dot{q}_3^*$, $u_5^* = u_6^* = 0$. Finally, by evaluating the acceleration
+constraints $f_a$ and the dynamic equations $f_2 + f_3$ at these conditions, we
+can solve for $\dot{u}_i^*$, $i = 1,\dots6$. We obtain $\dot{u}_1^* =
+\dot{u}_2^* = \dot{u}_3^* = \dot{u}_4^* = \dot{u}_5^* = 0$, and $\dot{u}_6^* =
+-r \dot{q}_3^{*2}$. The upright equilibrium conditions are thus parameterized
+in terms of the disc spin rate $\dot{q}_3$; for this upright configuration
+($q_2 = 0$) it is convenient to introduce the forward speed $v \triangleq
+-r\dot{q}_3^*$.
+
+Evaluating the matrices in Equations (\ref{eq:quant_to_compute}) and
+(\ref{eq:C_0}-\ref{eq:C_2}) at these equilibrium conditions permits the
+matrices in the linearized equations of motion
+(\ref{eq:state_space_constrained}) to be computed. Solving these equations for
+$\delta\dot{\mathbf{q}}$ and $\delta\dot{\mathbf{u}}$ yields the linearized
+relationship between the time derivatives of all state variables and the
+independent state variables. By taking only the rows associated with the
+independent states, the linear relationship between the independent states and
+their time derivatives are formed. The eigenvalues, parameterized by forward
+speed $v$, of this coefficient matrix may be computed symbolically. Six of the
+eight eigenvalues of this matrix are zero, and the remaining two are
+\begin{align}
+\label{eq:upright_evals}
+  \lambda_{1,2} &= \pm \frac{2\sqrt{1 - 3v^2}}{\sqrt{5}}
+\end{align}
+which has critical points at $v^*=\pm\frac{1}{\sqrt{3}}$ and matches previously
+published results~\cite{Schwab2003,Kane1985,Neimark1972}. For $|v| < v^*$,
+the disk is unstable, but for $|v| \geq v^*$, the eigenvalues are purely
+imaginary and are hence marginally stable. We omit the details of these
+calculation and direct the reader to the electronic supplementary material.
+
+A more general analysis of the stability of the rolling disk equilibria
+considers the case where the disk lean $q_2$ is constant but not necessarily
+zero. To satisfy the dynamics, the yaw rate $\dot{q}_1$ and spin rate
+$\dot{q}_3$ must be chosen to satisfy
+\begin{align}
+  \frac{g}{r}\sin{(q_2)}  + \frac{3}{2}\cos{(q_2)} \dot{q}_3 \dot{q}_1 +
+  \frac{5}{4}\cos{(q_2)}\sin{(q_2)} \dot{q}_1^2
+ &= 0
+\end{align}
+which is a quadratic equation in the yaw rate $\dot{q}_1$ with roots
+\begin{align}
+\dot{q}_1 &= \frac{r}{2 g \sin\left(q_{2}\right)} \left( - \frac{3}{2} \dot{q}_{3}\cos\left(q_{2}\right) \pm \sqrt{- \frac{5 g}{r} \sin^{2}\left(q_{2}\right) \cos\left(q_{2}\right) + \frac{9}{4} \dot{q}_{3}^{2} \cos^{2}\left(q_{2}\right)} \right)
+\end{align}
+To be physically meaningful, these roots must be real, which gives rise to the following additional requirement
+\begin{align}
+  \dot{q}_3^2 &\geq \frac{20g}{9r}\sin{(q_2)} \tan{(q_2)}
+\end{align}
+For a given set of parameters the eigenvalues of the linearized dynamics can be
+parameterized by three quantities lean $q_2$, yaw rate $\dot{q}_1$, and spin
+rate $\dot{q}_3$ (though only two can be independent because of the above
+restrictions). For this more general equilibrium condition, there are still six
+zero eigenvalues, while the two non-zero eigenvalues are
+\begin{align}
+\lambda_{1,2} = \pm\sqrt{\frac{4}{5} \cos\left(q_{2}\right) - \dot{q}_{1}^{2} -\frac{14}{5} \sin\left(q_{2}\right) \dot{q}_{1} \dot{q}_{3} - \frac{12}{5}\dot{q}_{3}^{2}}
+\end{align}
+which can be easily shown to reduce to Equation (\ref{eq:upright_evals}) when
+$q_2 = \dot{q}_1 = 0$. For a more detailed stability of steadily rolling disks,
+see~\cite{O'Reilly1996,Neimark1972,Kuleshov2001}.
 
 \section{Discussion}
 \label{sec:discussion}
@@ -1139,10 +1223,10 @@ independent states by defining
 where $P^\prime \in \bm{R}^{(o + n) \times (o - m + n - l)}$.  Defining
 $\bm{x}_i = \left[\delta\bm{q}_i,\,\delta\bm{u}_i\right]^{T}$ yields the square
 state space system $\dot{\bm{x}}_i = A \bm{x}_i + B \bm{r}$ to which standard
-linear systems analyses may applied.  It is worth noting that the rows
-of $A^\prime$ and $B^\prime$ which correspond to dependent states can be used
-in the output or measurement equations of a linear state space model, as in the
-case when the controlling or measuring dependent state(s).
+linear systems analyses may applied.  It is worth noting that the rows of
+$A^\prime$ and $B^\prime$ which correspond to dependent states can be used in
+output or measurement equations of a linear state space model (e.g.,
+measurements from an accelerometer, or measurements of dependent speeds).
 
 It is notable that there is a second opportunity (after constraining the
 nonlinear equations of motion) to determine which speeds are dependent.
@@ -1159,202 +1243,20 @@ variables are discussed in \cite{Reckdahl1996}; they involve computing the SVD
 of the Jacobian of the constraint matrices to determine a set of independent
 states which will ensure the non-singularity of the aforementioned matrices.
 
-%\section{Example}
-%\label{example}
-%We apply this linearization technique to the well studied rolling disk.  Figure
-%\ref{fig:disk} illustrates the choice of coordinates, speeds, and parameters.
-%The disk is assumed to be knife edged of radius $r$, mass $m$, spin inertia
-%$J$, and transverse inertia $I$.  To illustrate the concept of dependent
-%quantities, we purposefully choose to describe the configuration and velocity
-%of the disk with a non-minimal set of coordinates and speeds.  This choice is
-%not purely academic.  It is convenient for a physical disk equipped with a rate
-%gyroscope and accelerometer to measure these body fixed quantities (or their
-%time derivatives) directly, rather than the more traditional set which is
-%chosen for analytic convenience.  In more complicated systems with constraints,
-%it is difficult (if not impossible) to describe the system with a minimal
-%choice of coordinates and speeds; the ideas demonstrated by this simple example
-%can be applied to more complicated ones.
-%
-%The orientation of the disk-fixed frame $C$ relative to the inertial frame $N$
-%is given by a sequence of angular rotations (Euler ZXY) through angles $q_0$
-%(yaw), $q_1$ (lean), and $q_2$ (spin).  The angular velocity of $C$ in $N$, the
-%location of disk center $C^*$ relative to the inertial origin $N^*$, and the
-%velocity of $C^*$ in $N$ are
-%\begin{align}
-%  \bm{\omega}^C &= u_0 \bm{c}_x + u_1 \bm{c}_y + u_2 \bm{c}_z \\
-%  \bm{r}^{C^*} &= q_3 \bm{n}_x + q_4 \bm{n}_y + q_5 \bm{n}_z \\
-%  \bm{v}^{C^*} &= u_3 \bm{c}_x + u_4 \bm{c}_y + u_5 \bm{c}_z
-%\end{align}
-%If the disk is in contact with the ground, a configuration constraint involving
-%the height $q_5$ of the disk center and the lean $q_1$.  Similarly, if the disk
-%rolls without slip, other constraints relate the generalized speeds $u_i, (i =
-%0,\dots,5)$.  The derivations of these constraints and the equations of motion
-%are presented in the electronic supplementary material and can also be found in
-%the literature \cite{O'Reilly1996}.
-%\begin{table}[htbp]
-%  \centering
-%  \caption{Rolling disk governing definitions and equations}
-%  \label{table:rollingdisk}
-%  \begin{tabular}[c]{l l l}
-%    Quantity & Shape & Description\\
-%    \hline
-%    $\bm{q},\bm{\dot{q}}$ & $\mathbf{R}^6$ & Coordinates and their time
-%    derivatives\\
-%    $\bm{u}, \bm{\dot{u}}$ & $\mathbf{R}^6$ & Speeds and their time derivatives
-%  \end{tabular}
-%  \begin{tabular}[c]{r @{ $=$ } l}
-%%    \multicolumn{3}{c}{ } \\
-%%    \multicolumn{2}{c}{Equation} &           \\
-%    \hline
-%    % Configuration constraint
-%    $\bm{f}_c$ & $rc_1 + q_5$ \\
-%    % Velocity constraints
-%    $\bm{f}_v$ & $\left[\begin{array}{c}
-%        r u_1 c_2 + u_3 \\
-%        -r (u_0 c_2 + u_2 s_2) + u_4 \\
-%        r u_1 s_2 + u_5
-%    \end{array}\right] $ \\
-%    % Acceleration constraints
-%    $\bm{f}_a$ & $\left[\begin{array}{c}
-%        -r (u_1 \dot{q}_2 s_2 + \dot{u}_1 c_2) + \dot{u}_3 \\
-%        -r ((\dot{u}_2 - u_0 \dot{q}_2) s_2   + (\dot{u}_0 + u_2 \dot{q}_2)c_2) + \dot{u}_4 \\
-%      r (u_1 \dot{q}_2 c_2 + s_2 \dot{u}_1) + \dot{u}_5
-%      \end{array}\right]$ \\
-%    % Kinematic differential equations
-%    $\bm{f}_0$ &
-%        $\left[\begin{array}{c}
-%-\dot{q}_0 s_2 c_1 + \dot{q}_1 c_2 \\
-%\dot{q}_0 s_1 + \dot{q}_2 \\
-%\dot{q}_0 c_1 c_2 + \dot{q}_1 s_2 \\
-%\dot{q}_3 (-s_0 s_1 s_2 + c_0 c_2)
-%+ \dot{q}_4 (s_0 c_2 + s_1 s_2 c_0)
-%- \dot{q}_5 s_2 c_1\\
-%- \dot{q}_3 s_0 c_1 + \dot{q}_4 c_0 c_1 + \dot{q}_5 s_1 \\
-%\dot{q}_3 (s_0s_1c_2 + s_2c_0) + \dot{q}_4 (s_0s_2 - s_1c_0c_2) + \dot{q}_5 c_1 c_2
-%         \end{array}\right]$ \\
-%    $\bm{f}_1$ & $\left[\begin{array}{c}-u_0 \\ -u_1 \\ -u_2 \\
-%             -u_3 \\ -u_4 \\ -u_5 \end{array}\right]$ \\
-%    % Dynamic differential equations
-%  $\bm{f}_2$ & $\left[\begin{array}{c}
-%-I \dot{u}_0 - m r c_2 \dot{u}_4 \\
-%-J \dot{u}_1 + m r s_2 \dot{u}_5 + m r c_2 \dot{u}_3 \\
-%-I \dot{u}_2 - m r s_2 \dot{u}_4
-%                   \end{array}\right]$ \\
-%
-%  $\bm{f}_3$ & $\left[\begin{array}{c}
-%-I u_1 u_2 + J u_1 u_2 + g m r s_1 c_2 - m r (-u_0 u_5 + u_2 u_3) c_2 \\
-%                m r (u_0 u_4 - u_1 u_3) s_2 + m r (u_1 u_5 - u_2 u_4) c_2 \\
-% I u_0 u_1 - J u_0 u_1 + g m r s_1 s_2 - m r (-u_0 u_5 + u_2 u_3) s_2
-%                   \end{array}\right]$
-%  \end{tabular}
-%\end{table}
-%
-%
-%\begin{figure}
-%  \centering
-%  \includegraphics{rollingdisk.pdf}
-%  \caption{Rolling disk configuration}
-%  \label{fig:disk}
-%\end{figure}
-%
-%The matrices which make up the linear equations were created using the method
-%presented in Section \ref{sec:results}. It is important to note that the
-%entries in these matrices must be evaluated at the point of linearization
-%($\bm{q}^*, \bm{\dot{q}}^*, \bm{u}^*, \bm{\dot{u}}^*$), and that this point of
-%linearization must satisfy the equations in Table \ref{table:assumptions}.
-%There is no requirement that this point be an equilibrium point, which implies
-%that in general both $\bm{\dot{q}}$ and $\bm{\dot{u}}$ may be non-zero. To
-%reduce the complexity of the equations, we chose $q_0^* = q_2^* = 0$.  This
-%means that the other quantities in the linearized equations (other $q$'s, the
-%$\dot{q}$'s, the $u$'s, and the $\dot{u}$'s) need to be solved for with these 2
-%quantities already set to 0.
-%
-%The independent state vector is:
-%\begin{align}
-%\begin{bmatrix}
-%\delta \bm{q}_i \\
-%\delta \bm{u}_i
-%\end{bmatrix} =
-%\begin{bmatrix}
-%q_0 &
-%q_1 &
-%q_2 &
-%q_3 &
-%q_4 &
-%u_0 &
-%u_1 &
-%u_2
-%\end{bmatrix}^T
-%\end{align}
-%
-%And the complete (independent and dependent) state vector is:
-%\begin{align}
-%\begin{bmatrix}
-%\delta \bm{q} \\
-%\delta \bm{u}
-%\end{bmatrix} =
-%\left[
-%\begin{array}{cccccccccccc}
-%q_0 &
-%q_1 &
-%q_2 &
-%q_3 &
-%q_4 &
-%q_5 &
-%u_0 &
-%u_1 &
-%u_2 &
-%u_3 &
-%u_4 &
-%u_5
-%\end{array}
-%\right]^T
-%\end{align}
-%
-%The coefficient matrices of the linearized equations (Equation
-%\ref{eq:state_space_constrained}) are:
-%\begin{equation}
-%  \left[
-%    \begin{array}{cc}
-%      \tilde{M}_{qq} & \bm{0}_{n \times o} \\
-%      \tilde{M}_{uqc} & \tilde{M}_{uuc} \\
-%      \tilde{M}_{uqd} & \tilde{M}_{uud}
-%    \end{array}
-%    \right]=
-%\left[\begin{smallmatrix}0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\s_{1} & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\c_{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & 0 & c_{1} & s_{1} & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & 0 & - s_{1} & c_{1} & 0 & 0 & 0 & 0 & 0 & 0\\0 & 0 & 0 & 0 & 0 & 0 & 0 & r & 0 & 1 & 0 & 0\\0 & 0 & - r u_{2} & 0 & 0 & 0 & - r & 0 & 0 & 0 & 1 & 0\\0 & 0 & r u_{1} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\0 & 0 & 0 & 0 & 0 & 0 & - \frac{1}{4} m r^{2} & 0 & 0 & 0 & - m r & 0\\0 & 0 & 0 & 0 & 0 & 0 & 0 & - \frac{1}{2} m r^{2} & 0 & m r & 0 & 0\\0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - \frac{1}{4} m r^{2} & 0 & 0 & 0\end{smallmatrix}\right]
-%\end{equation}
-%
-%
-%\begin{equation*}
-%   \left[
-%     \begin{array}{cc}
-%       (\tilde{A}_{qq} + \tilde{A}_{qu} C_1 ) C_0 & \tilde{A}_{qu} C_2 \\
-%       (\tilde{A}_{uqc} + \tilde{A}_{uuc} C_1 ) C_0 & \tilde{A}_{uuc} C_2\\
-%       (\tilde{A}_{uqd} + \tilde{A}_{uud} C_1 ) C_0 & \tilde{A}_{uud} C_2
-%     \end{array}
-%   \right]=
-%\end{equation*}
-%\begin{equation}
-%\left[\begin{smallmatrix}0 & 0 & c_{1} \dot{q}_{0} & 0 & 0 & 1 & 0 & 0\\0 & - c_{1} \dot{q}_{0} & 0 & 0 & 0 & 0 & 1 & 0\\0 & s_{1} \dot{q}_{0} & - \dot{q}_{1} & 0 & 0 & 0 & 0 & 1\\- \dot{q}_{4} & 0 & c_{1} \dot{q}_{5} - s_{1} \dot{q}_{4} & 0 & 0 & 0 & - r & 0\\c_{1} \dot{q}_{3} & - c_{1} \dot{q}_{5} + s_{1} \dot{q}_{4} & r u_{2} & 0 & 0 & r & 0 & 0\\- s_{1} \dot{q}_{3} & c_{1} \dot{q}_{4} + s_{1} \dot{q}_{5} & - r u_{1} - \dot{q}_{3} & 0 & 0 & 0 & 0 & 0\\0 & 0 & r u_{1} \dot{q}_{2} & 0 & 0 & 0 & 0 & 0\\0 & 0 & - r u_{0} \dot{q}_{2} & 0 & 0 & 0 & 0 & r \dot{q}_{2}\\0 & 0 & 0 & 0 & 0 & 0 & - r \dot{q}_{2} & 0\\0 & - c_{1} g m r & m r^{2} u_{0} u_{1} & 0 & 0 & - m r u_{5} & - \frac{5}{4} m r^{2} u_{2} & \frac{1}{4} m r \left(- r u_{1} + 4 u_{3}\right)\\0 & 0 & m r \left(r u_{1} + r u_{2} - u_{0} u_{4} + u_{1} u_{3} - \dot{u}_{5}\right) & 0 & 0 & m r^{2} u_{2} & - m r u_{5} & m r u_{4}\\0 & 0 & m r \left(- g s_{1} - u_{0} u_{5} + u_{2} u_{3} + \dot{u}_{4}\right) & 0 & 0 & \frac{1}{4} m r^{2} u_{1} & \frac{1}{4} m r^{2} u_{0} & 0\end{smallmatrix}\right]
-%\end{equation}
-%
-%With this example, we have used our linearization procedure to find linear
-%equations of motion which respect the system's constraints. Parametric
-%stability analysis (eigenvalue analysis) can now be performed on these
-%equations.  These computations were implemented symbolically with the open
-%source symbolic manipulator SymPy \cite{SymPy2012}.
-%
 \section{Conclusions}
 A procedure for forming linearized equations of motion for constrained
 multi-body systems has been presented.  This procedure can be implemented
 symbolically or numerically, and handles configuration, velocity, and
-acceleration level constraints. 
+acceleration level constraints.
 
 %TODO: mention if it is compatible with other procedures.
 
-The procedure has been implemented
-symbolically in the \texttt{sympy.physics.mechanics} sub-module of the open
-source symbolic manipulator SymPy\cite{SymPy2012}.
+The procedure has been implemented symbolically in the
+\texttt{physics.mechanics} sub-module of the open source symbolic
+manipulator SymPy\cite{SymPy2012}. In addition to applying it on the rolling
+disk example, we have also applied it to the Whipple bicycle model and found
+that it matches eigenvalues published for a benchmark set of
+parameters~\cite{Meijaard2007}.
 
 \begin{acknowledgements}
  This material is based upon work partially supported by the National Science

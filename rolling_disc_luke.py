@@ -222,45 +222,46 @@ assert(f_a_eq == zeros((3,1)))
 assert(f_0_eq_plus_f_1_eq == zeros((6,1)))
 assert(f_2_eq_plus_f_3_eq == zeros((3,1)))
 
-M_qq = f_0.jacobian(qd).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-M_uqc = f_a.jacobian(qd).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-M_uuc = f_a.jacobian(ud).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-M_uqd = f_2.jacobian(qd).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-M_uud = f_2.jacobian(ud).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-
-A_qq = -(f_0 + f_1).jacobian(q).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-
-A_qu = -f_1.jacobian(u).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-A_uqc = -f_a.jacobian(q).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-A_uuc = -f_a.jacobian(u).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-A_uqd = -(f_2 + f_3).jacobian(q).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-A_uud = -f_3.jacobian(u).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-
-f_c_jac_q = f_c.jacobian(q).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-f_v_jac_q = f_v.jacobian(q).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-f_v_jac_u = f_v.jacobian(u).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
-
-C_0 = (eye(len(q)) - Pqd * (f_c_jac_q * Pqd).inv() * f_c_jac_q) * Pqi
-C_1 = -Pud * (f_v_jac_u * Pud).inv() * f_v_jac_q
-C_2 = (eye(len(u)) - Pud * (f_v_jac_u * Pud).inv() * f_v_jac_u) * Pui
+M_qq = f_0.jacobian(qd)
+M_uqc = f_a.jacobian(qd)
+M_uuc = f_a.jacobian(ud)
+M_uqd = f_2.jacobian(qd)
+M_uud = f_2.jacobian(ud)
 
 row1 = M_qq.row_join(zeros(len(q), len(u)))
 row2 = M_uqc.row_join(M_uuc)
 row3 = M_uqd.row_join(M_uud)
 M = row1.col_join(row2).col_join(row3)
+M_eq = M.subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
+M_eq.simplify()
 
-M.simplify()
+
+A_qq = -(f_0 + f_1).jacobian(q).subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
+
+A_qu = -f_1.jacobian(u)
+A_uqc = -f_a.jacobian(q)
+A_uuc = -f_a.jacobian(u)
+A_uqd = -(f_2 + f_3).jacobian(q)
+A_uud = -f_3.jacobian(u)
+
+f_c_jac_q = f_c.jacobian(q)
+f_v_jac_q = f_v.jacobian(q)
+f_v_jac_u = f_v.jacobian(u)
+
+C_0 = (eye(len(q)) - Pqd * (f_c_jac_q * Pqd).inv() * f_c_jac_q) * Pqi
+C_1 = -Pud * (f_v_jac_u * Pud).inv() * f_v_jac_q
+C_2 = (eye(len(u)) - Pud * (f_v_jac_u * Pud).inv() * f_v_jac_u) * Pui
 
 row1 = ((A_qq + A_qu * C_1) * C_0).row_join(A_qu * C_2)
 row2 = ((A_uqc + A_uuc * C_1) * C_0).row_join(A_uuc * C_2)
 row3 = ((A_uqd + A_uud * C_1) * C_0).row_join(A_uud * C_2)
 Amat = row1.col_join(row2).col_join(row3)
-
-Amat.simplify()
+Amat_eq = Amat.subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
+Amat_eq.simplify()
 
 upright_nominal = {q1d: 0, q2: 0, m: 1, r: 1, g: 1}
-M_upright = M.subs(upright_nominal)
-A_upright = Amat.subs(upright_nominal)
+M_upright = M_eq.subs(upright_nominal)
+A_upright = Amat_eq.subs(upright_nominal)
 A_ss = M_upright.inv() * A_upright
 perm = Pqi.row_join(zeros(6, 3)).col_join(zeros(6, 5).row_join(Pui))
 A_ss_red = perm.T * A_ss
@@ -275,4 +276,32 @@ A_ss_bad_sym = Matrix([rhs[i] for i in qd+ud]).jacobian(q+u)
 A_ss_bad_num = A_ss_bad_sym.subs(eq_ud).subs(eq_u).subs(eq_qd).subs(qd_sym).subs(eq_q).subs(qd_sym_inv).subs({q1d: 0, q2: 0, m: 1, r: 1, g: 1})
 nevals = A_ss_bad_num.eigenvals()
 print([evalf.N(i.subs({q3d: q3d_check})) for i in nevals.keys()])
+
+# Steady equilibrium
+steady = f_3[0].subs(eq_u).subs(qd_sym).subs({q1:0,q3:0}).subs(qd_sym_inv)/(m*r*r)
+p = Poly(steady, q1d)
+c, b, a = p.coeffs()
+discriminant = b*b - 4*a*c
+root1 = (-b + sqrt(discriminant))/(2*a)
+root2 = (-b - sqrt(discriminant))/(2*a)
+print("Discriminant:")
+mprint(discriminant)
+print("Roots:")
+mprint(root1)
+mprint(root2)
+
+# Rolling equilibrium
+leaned_nominal = {m: 1, r: 1, g: 1, u1d: 0, u2d: 0, u3d: 0}
+udots_dep = solve(f_a.subs(leaned_nominal), [u4d, u5d, u6d])
+leaned_nominal.update(udots_dep)
+M_leaned = M.subs(leaned_nominal).subs({q3: 0})
+M_leaned.simplify()
+A_leaned = Amat.subs(leaned_nominal).subs(eq_u).subs(qd_sym).subs({q1: 0, q3: 0}).subs(qd_sym_inv)
+A_leaned.simplify()
+A_ss_leaned = M_leaned.inv() * A_leaned
+A_ss_leaned.simplify()
+perm = Pqi.row_join(zeros(6, 3)).col_join(zeros(6, 5).row_join(Pui))
+A_ss_red_leaned = perm.T * A_ss_leaned
+A_ss_red_leaned.simplify()
+evals_leaned = A_ss_red_leaned.eigenvals()
 

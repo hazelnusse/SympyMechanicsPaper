@@ -1,0 +1,67 @@
+Generalized active forces (unconstrained)
+[0, 0, 0, -g*m*sin(q3)*cos(q2), g*m*sin(q2), g*m*cos(q2)*cos(q3)]
+Generalized inertia forces (unconstrained)
+[(-m*r**2*(-(u1*u2 - u1*u3*sin(q2)/cos(q2) + u3')*sin(q3) + (-u2*u3 + u3**2*sin(q2)/cos(q2) + u1')*cos(q3))/4 + m*r**2*(u1*sin(q3) + u3*cos(q3))*u2/4)*cos(q3) + (-m*r**2*((u1*u2 - u1*u3*sin(q2)/cos(q2) + u3')*cos(q3) + (-u2*u3 + u3**2*sin(q2)/cos(q2) + u1')*sin(q3))/4 - m*r**2*(u1*cos(q3) - u3*sin(q3))*u2/4)*sin(q3), -m*r**2*u2'/2, -(-m*r**2*(-(u1*u2 - u1*u3*sin(q2)/cos(q2) + u3')*sin(q3) + (-u2*u3 + u3**2*sin(q2)/cos(q2) + u1')*cos(q3))/4 + m*r**2*(u1*sin(q3) + u3*cos(q3))*u2/4)*sin(q3) + (-m*r**2*((u1*u2 - u1*u3*sin(q2)/cos(q2) + u3')*cos(q3) + (-u2*u3 + u3**2*sin(q2)/cos(q2) + u1')*sin(q3))/4 - m*r**2*(u1*cos(q3) - u3*sin(q3))*u2/4)*cos(q3), -m*(-(u1*sin(q3) + u3*cos(q3))*u5 + u2*u6 + u4'), -m*((u1*sin(q3) + u3*cos(q3))*u4 - (u1*cos(q3) - u3*sin(q3))*u6 + u5'), -m*((u1*cos(q3) - u3*sin(q3))*u5 - u2*u4 + u6')]
+Generalized inertia forces (constrained)
+Matrix([
+[g*m*r*sin(q2)],
+[            0],
+[            0]])
+Generalized inertia forces (constrained)
+Matrix([
+[-m*r*((u1*sin(q3) + u3*cos(q3))*u4 - (u1*cos(q3) - u3*sin(q3))*u6 + u5') + (-m*r**2*(-(u1*u2 - u1*u3*sin(q2)/cos(q2) + u3')*sin(q3) + (-u2*u3 + u3**2*sin(q2)/cos(q2) + u1')*cos(q3))/4 + m*r**2*(u1*sin(q3) + u3*cos(q3))*u2/4)*cos(q3) + (-m*r**2*((u1*u2 - u1*u3*sin(q2)/cos(q2) + u3')*cos(q3) + (-u2*u3 + u3**2*sin(q2)/cos(q2) + u1')*sin(q3))/4 - m*r**2*(u1*cos(q3) - u3*sin(q3))*u2/4)*sin(q3)],
+[                                                                                                                                                                                                                                                                   -m*r**2*u2'/2 + m*r*(-(u1*sin(q3) + u3*cos(q3))*u5 + u2*u6 + u4')*cos(q3) + m*r*((u1*cos(q3) - u3*sin(q3))*u5 - u2*u4 + u6')*sin(q3)],
+[                                                                          -(-m*r**2*(-(u1*u2 - u1*u3*sin(q2)/cos(q2) + u3')*sin(q3) + (-u2*u3 + u3**2*sin(q2)/cos(q2) + u1')*cos(q3))/4 + m*r**2*(u1*sin(q3) + u3*cos(q3))*u2/4)*sin(q3) + (-m*r**2*((u1*u2 - u1*u3*sin(q2)/cos(q2) + u3')*cos(q3) + (-u2*u3 + u3**2*sin(q2)/cos(q2) + u1')*sin(q3))/4 - m*r**2*(u1*cos(q3) - u3*sin(q3))*u2/4)*cos(q3)]])
+f_c:
+Matrix([[r*cos(q2) + q6]])
+f_v:
+Matrix([
+[r*u2*cos(q3) + u4],
+[       -r*u1 + u5],
+[r*u2*sin(q3) + u6]])
+f_a:
+Matrix([
+[-r*u2*sin(q3)*q3' + r*cos(q3)*u2' + u4'],
+[                           -r*u1' + u5'],
+[ r*u2*cos(q3)*q3' + r*sin(q3)*u2' + u6']])
+f_0:
+Matrix([
+[              q2'],
+[sin(q2)*q1' + q3'],
+[      cos(q2)*q1'],
+[              q4'],
+[              q5'],
+[              q6']])
+f_1:
+Matrix([
+[                                 -u1],
+[                                 -u2],
+[                                 -u3],
+[ r*u1*sin(q1)*cos(q2) + r*u2*cos(q1)],
+[-r*u1*cos(q1)*cos(q2) + r*u2*sin(q1)],
+[                       -r*u1*sin(q2)]])
+f_2:
+Matrix([
+[-m*r**2*(sin(q3)*u1' + cos(q3)*u3')*sin(q3)/4 - m*r**2*(-sin(q3)*u3' + cos(q3)*u1')*cos(q3)/4 - m*r*u5'],
+[                                                      -m*r**2*u2'/2 + m*r*sin(q3)*u6' + m*r*cos(q3)*u4'],
+[          -m*r**2*(sin(q3)*u1' + cos(q3)*u3')*cos(q3)/4 + m*r**2*(-sin(q3)*u3' + cos(q3)*u1')*sin(q3)/4]])
+f_3:
+Matrix([
+[g*m*r*sin(q2) - m*r*((u1*sin(q3) + u3*cos(q3))*u4 - (u1*cos(q3) - u3*sin(q3))*u6) + (-m*r**2*(-(u1*u2 - u1*u3*sin(q2)/cos(q2))*sin(q3) + (-u2*u3 + u3**2*sin(q2)/cos(q2))*cos(q3))/4 + m*r**2*(u1*sin(q3) + u3*cos(q3))*u2/4)*cos(q3) + (-m*r**2*((u1*u2 - u1*u3*sin(q2)/cos(q2))*cos(q3) + (-u2*u3 + u3**2*sin(q2)/cos(q2))*sin(q3))/4 - m*r**2*(u1*cos(q3) - u3*sin(q3))*u2/4)*sin(q3)],
+[                                                                                                                                                                                                                                                                                m*r*(-(u1*sin(q3) + u3*cos(q3))*u5 + u2*u6)*cos(q3) + m*r*((u1*cos(q3) - u3*sin(q3))*u5 - u2*u4)*sin(q3)],
+[                                                                                   -(-m*r**2*(-(u1*u2 - u1*u3*sin(q2)/cos(q2))*sin(q3) + (-u2*u3 + u3**2*sin(q2)/cos(q2))*cos(q3))/4 + m*r**2*(u1*sin(q3) + u3*cos(q3))*u2/4)*sin(q3) + (-m*r**2*((u1*u2 - u1*u3*sin(q2)/cos(q2))*cos(q3) + (-u2*u3 + u3**2*sin(q2)/cos(q2))*sin(q3))/4 - m*r**2*(u1*cos(q3) - u3*sin(q3))*u2/4)*cos(q3)]])
+Turning eigenvalues, symbolic:
+{0: 6, 2*sqrt(5)*sqrt(-3*Derivative(q3(t), t)**2 + 1)/5: 1, -2*sqrt(5)*sqrt(-3*Derivative(q3(t), t)**2 + 1)/5: 1}
+Upright steady eigenvalues at d/dt (q_3) = 1/sqrt(3):
+[0, 0, 0]
+Turning eigenvalues, symbolic:
+{0: 6, -sqrt(-14*sin(q2(t))*Derivative(q1(t), t)*Derivative(q3(t), t)/5 + 4*cos(q2(t))/5 - Derivative(q1(t), t)**2 - 12*Derivative(q3(t), t)**2/5): 1, sqrt(-14*sin(q2(t))*Derivative(q1(t), t)*Derivative(q3(t), t)/5 + 4*cos(q2(t))/5 - Derivative(q1(t), t)**2 - 12*Derivative(q3(t), t)**2/5): 1}
+Turning eigenvalues, evaluated for upright steady motion at d/dt (q_3) = 1/sqrt(3), should match previous.
+[0, 0, 0]
+Naive (incorrect) linearization eigenvalues:
+[0, 0, 0.471404520791032*I, -0.471404520791032*I, 0]
+Steady turning discriminant (must be non-negative):
+-5*g*sin(q2)**2*cos(q2)/r + 9*cos(q2)**2*q3'**2/4
+Steady turning roots (must be satisfied to maintain balance):
+r*(sqrt(-5*g*sin(q2)**2*cos(q2)/r + 9*cos(q2)**2*q3'**2/4) - 3*cos(q2)*q3'/2)/(2*g*sin(q2))
+r*(-sqrt(-5*g*sin(q2)**2*cos(q2)/r + 9*cos(q2)**2*q3'**2/4) - 3*cos(q2)*q3'/2)/(2*g*sin(q2))

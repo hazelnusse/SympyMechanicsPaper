@@ -24,6 +24,5 @@ plt.text(-np.pi/8, np.pi/2, 'Equilibrium feasible')#, fontdict=font)
 plt.text(-np.pi/8, -np.pi/2, 'Equilibrium feasible')#, fontdict=font)
 plt.text(-3*np.pi/8, 0, 'Equilibrium infeasible')#, fontdict=font)
 plt.text(np.pi/8, 0, 'Equilibrium infeasible')#, fontdict=font)
-#plt.title("Feasibility regions for rolling disk, $m = r = g = 1$")
-plt.show()
-
+plt.title("Feasibility regions for rolling disk, $m = r = g = 1$")
+plt.savefig("rolling_disk_feasibility_regions.pdf")

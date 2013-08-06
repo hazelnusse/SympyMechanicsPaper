@@ -97,6 +97,8 @@ partial_v_CO = [CO.vel(N).diff(ui, N) for ui in u]
 F_CO = m*g*A.z
 # Generalized active forces (unconstrained)
 gaf = [dot(F_CO, pv) for pv in partial_v_CO]
+print("Generalized active forces (unconstrained)")
+mprint(gaf)
 
 # Inertia force
 R_star_CO = -m*CO.acc(N)
@@ -113,6 +115,7 @@ T_star_C = -(dot(I_C_CO, C.ang_acc_in(N))
 gif = [dot(R_star_CO, pv) + dot(T_star_C, pav) for pv, pav in
         zip(partial_v_CO, partial_w_C)]
 print("Generalized inertia forces (unconstrained)")
+mprint(gif)
 
 # Constrained dynamic equations
 # Coordinates to be independent: q1, q2, q3, q4, q5
@@ -147,6 +150,12 @@ gaf_dep = Matrix([gaf[i] for i in dep_indices])
 
 gif_con = gif_indep + Bd_inv_Bi.T * gif_dep
 gaf_con = gaf_indep + Bd_inv_Bi.T * gaf_dep
+
+
+print("Generalized inertia forces (constrained)")
+mprint(gaf_con)
+print("Generalized inertia forces (constrained)")
+mprint(gif_con)
 
 # Build the part of f_2 and f_3 that come from Kane's equations, the first three
 # rows of each
@@ -277,6 +286,8 @@ A_ss_reduced.simplify()
 
 evals = A_ss_reduced.eigenvals()
 upright_check = {q3d: 1/sqrt(3)}
+print("Turning eigenvalues, symbolic:")
+print(evals)
 print("Upright steady eigenvalues at d/dt (q_3) = 1/sqrt(3):")
 print([i.subs(upright_check).n() for i in evals.keys()])
 
@@ -296,6 +307,8 @@ A_ss_reduced.simplify()
 
 evals = A_ss_reduced.eigenvals()
 leaned_check = {q1d: 0, q3d: 1/sqrt(3), q2: 0}
+print("Turning eigenvalues, symbolic:")
+print(evals)
 print("Turning eigenvalues, evaluated for upright steady motion at " +
       "d/dt (q_3) = 1/sqrt(3), should match previous.")
 print([i.subs(leaned_check).n() for i in evals.keys()])

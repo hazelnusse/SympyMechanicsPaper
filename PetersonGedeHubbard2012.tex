@@ -78,10 +78,10 @@ Jacobian) is incorrect and will yield incorrect linearized equations (and
 subsequently incorrect eigenvalues, in the case of a stability analysis). We
 illustrate this by means of a familiar example, the rolling disk, formulated
 with a non-traditional set of coordinates and generalized speeds which are not
-all independent. We then provide a systematic method to correctly generate the
+all independent. We provide a systematic method to correctly generate the
 linear equations of motion for constrained systems which have been found using
 Kane's method (or any other method which results in equations with the same
-form). We then apply this method to the rolling disk example to illustrate that
+form). We apply this method to the rolling disk example to illustrate that
 it yields eigenvalues that match previously published results.
 
 We consider three types of constraints: configuration, velocity, and
@@ -143,12 +143,12 @@ generate the equations of motion for the rolling disk, but we purposefully
 introduce a dependent coordinate and three dependent speeds in the formulation.
 The need for a different linearization technique is demonstrated with this
 example. In response to this need, we present the newly developed linearization
-procedure and its derivation.  This new linearization procedure is then applied
-the same rolling disk example to illustrate its validity and an example of its
-application.  Finally, we discuss other details and nuances of the procedure
-and its use, as well as directions for future work.
+procedure and its derivation. This new linearization procedure is applied the
+same rolling disk example to illustrate its validity and an example of its
+application. Finally, we discuss other details and nuances of the procedure and
+its use, as well as directions for future work.
 
-\section{Kane's Method, Briefly}
+\section{Kane's Method, briefly}
 \label{sec:kane_method}
 To familiarize the reader with Kane's method, some concepts relating to its use
 will be described.  The first is the use of generalized speeds in addition to
@@ -177,8 +177,8 @@ allows for the angular velocity to be expressed more simply as
 \it{\omega}_3 \hat{b}_3
 \end{align}
 or, the angular velocity of rigid body $B$ in the reference frame $N$ is the
-defined as the sum of three generalized-speed/basis-vector products.
-The derivatives of these generalized speeds will then appear in the equations
+defined as the sum of three generalized--speed basis--vector products.
+The derivatives of these generalized speeds will appear in the equations
 of motion, rather than the twice time differentiated generalized coordinates
 ($\ddot{\mathbf{q}}$'s).
 
@@ -186,10 +186,10 @@ A drawback of allowing such definitions can be seen when formulating the
 kinematic differential equations, which relate the rate of change of the
 generalized coordinates to the generalized speeds. These equations become more
 complicated (in comparison to $\dot{q}_i = u_i$), but this is usually offset by
-the significantly simpler dynamical equations of motion\cite{Mitiguy1996}
+the significantly simpler dynamical equations of motion~\cite{Mitiguy1996}.
 
 Use and understanding of Kane's method requires the use and understanding of
-partial velocities and partial angular velocities. These are simply the the
+partial velocities and partial angular velocities. These are simply the
 partial derivatives of the (angular) velocity vectors with respect to the
 generalized speeds. For example, for the angular velocity in equation
 (\ref{eq:ex1}), the partial angular velocities of body $B$ in reference frame
@@ -293,7 +293,7 @@ form
 \mathbf{0}
 \end{align}
 In contrast to the velocity constraints, our formulation permits the
-acceleration constraints to involve $\dot{\mathbf{q}}$ terms (althernatively
+acceleration constraints to involve $\dot{\mathbf{q}}$ terms (alternatively
 they can be eliminated by appealing to the kinematic differential equations).
 
 By assumption, the velocity constraints are linear with respect to
@@ -309,7 +309,7 @@ which implies
 \mathbf{B}\mathbf{u} + \mathbf{f}_{vt}(\mathbf{q}, t) &= \mathbf{0}
 \end{align}
 where $\mathbf{f}_{vt}$ arises from explicit time varying terms that occur in
-the velocity constraints. These typically arise from specified quantites whose
+the velocity constraints. These typically arise from specified quantities whose
 dynamics are being ignored (e.g., a motor spinning at constant speed).
 
 With these definitions established, Kane's method can be applied. In vector
@@ -442,15 +442,15 @@ allowing the nonholonomic generalized forces to be written:
 \end{align}
 which allows Kane's nonholonomic dynamical equations to be written as
 \begin{align}
-\label{eq:Kanes_nonholonomic}
+\label{eq:kanes_eq_nonholonomic}
 \tilde{\mathbf{F}} + \tilde{\mathbf{F}}^* = \mathbf{0}
 \end{align}
 This process of constraining the equations of motion reduces the number of
-equations from $o$ to $o-m$. However, the (\ref{eq:Kanes_nonholonomic}) still
+equations from $o$ to $o-m$. However, the (\ref{eq:kanes_eq_nonholonomic}) still
 contain $o$ unknowns ($\dot{\mathbf{u}}_1,...,\dot{\mathbf{u}}_o$). By
-augmenting (\ref{eq:Kanes_nonholonomic}) with the acceleration constraint
-equations (\ref{eq:acceleration_constraints}), we end up with $o$ equations and
-$o$ unknowns. Note that equations (\ref{eq:Kanes_nonholonomic}) and
+augmenting (\ref{eq:kanes_eq_nonholonomic}) with the acceleration constraint
+equations (\ref{eq:acceleration_constraints}), we obtain $o$ equations in
+$o$ unknowns. Note that equations (\ref{eq:kanes_eq_nonholonomic}) and
 (\ref{eq:acceleration_constraints}) are linear in the $\dot{u}_i$'s. The
 augmented system of equations is
 \begin{align}
@@ -565,7 +565,7 @@ lean frame $B$.
   {^N}\bar{\omega}^C &= u_1 \hat{b}_x + u_2 \hat{b}_y + u_3 \hat{b}_z
 \end{align}
 The unconstrained partial angular velocity and partial velocity of $C^*$,
-respectively, are then
+respectively, are
 \begin{align}
   {^N}\bar{v}^{C^*}_u &= [0, 0, 0, \hat{c}_x, \hat{c}_y, \hat{c}_z] \\
   {^N}\bar{\omega}^C_u &= [\hat{b}_x, \hat{b}_y, \hat{b}_z, 0, 0, 0]
@@ -636,10 +636,10 @@ terms involving $\dot{q}_i$'s, $u_i$'s, and $q_i$'s. This structure will be
 taken advantage of subsequently.
 
 The kinematic differential equations relate the time derivatives of the
-coordinates and the generalized speeds. Here they are solved by equating the
-velocities written with time-differentiated generalized coordinates and the
-velocities written with generalized speeds.  From the addition theorem for
-angular velocity, we may write the angular velocity of $C$ as
+coordinates and the generalized speeds. They are obtained by equating the
+velocities written using time-differentiated generalized coordinates and the
+velocities written using generalized speeds. From the addition theorem for
+angular velocity, the angular velocity of $C$ is
 \begin{equation}
   \label{w_qdot}
   {^N}\bar{\omega}^C = \dot{q}_1 \hat{n}_z + \dot{q}_2 \hat{a}_x + \dot{q}_3 \hat{b}_y
@@ -766,7 +766,7 @@ for the ($\dot{q}_i$, $\dot{u}_i$) terms to construct the right-hand side of
 \begin{bmatrix}\dot{\mathbf{q}} \\ \dot{\mathbf{u}}\end{bmatrix} =
     \mathbf{f}(\mathbf{q}, \mathbf{u}, t)
 \end{align}
-and then take the Jacobian of $\mathbf{f}$ with respect to $[\mathbf{q} \quad
+and take the Jacobian of $\mathbf{f}$ with respect to $[\mathbf{q} \quad
 \mathbf{u}]^T$. However, this will give the incorrect results. As discussed in
 \cite{Schwab2003}, when $m, r,$ and $g$ are taken to be unity, and the system
 is linearized about the upright steady rolling condition, the critical speed is
@@ -774,6 +774,7 @@ $v \triangleq -r\dot{q}_3 =\pm\frac{1}{\sqrt{3}}$. When following the naive appr
 evaluating the Jacobian at the same operating conditions and parameters, eight
 of the twelve eigenvalues are identically zero while the remaining four are
 \begin{align}
+  \label{eq:evals_incorrect}
   \lambda_{1,2}=\pm\sqrt{-v^2},\quad \lambda_{3,4} = \pm\sqrt{-\frac{12}{5} v^2 + \frac{4}{5}}
 \end{align}
 which demonstrates the incorrectness of this naive approach (since
@@ -781,47 +782,43 @@ $v=\pm\frac{1}{\sqrt{3}}$ is not a critical point of these eigenvalues).
 Further, the fact that twelve eigenvalues are obtained should be an alert that
 something is incorrect since the number of independent quantities is only eight
 (five coordinates and three speeds). We now outline a linearization procedure
-which addresses this issue; we revisit this example in
+which addresses this issue; we revisit this example in Section
 \ref{sec:example_revisited}.
 
 \section{Derivation of linearization procedure}
 \label{sec:derivations}
-
-In response to the need we have demonstrated, we present a solution to this
-constrained, linearization problem.
-There is a reason that the equations generated by taking the gradient with
-respect to the generalized speeds are incorrect.
-When finding the equations of motion for a constrained system, some generalized
-coordinates and speeds are classified as dependent speeds, meaning their
-behavior is determined by the other coordinates and speeds.
-These terms should in fact be written as:
+In response to the need we have demonstrated, we present a linearization
+procedure that properly accounts for system constraints. Taking the Jacobian
+of the right hand side of the ODE's as we did at the end of the previous
+section is incorrect because it fails to apply the chain rule and thereby
+properly account for the relationships imposed by configuration, velocity, and
+acceleration constraints. That it isn't immediately obvious that the chain rule
+needs to be applied is a byproduct of the commonly use notation which doesn't
+make it explicitly clear that dependent coordinates and dependent speeds are not
+only functions of time, but also functions of the independent coordinates and
+independent speeds. These dependent terms should in fact be written as
 \begin{align}
 \label{eq:q_d_redefined}
-\mathbf{q}_d (t) \to \mathbf{q}_d (\mathbf{q}, t) \\
+\mathbf{q}_d (t) \to \mathbf{q}_d (\mathbf{q}_i, t) \\
 \label{eq:u_d_redefined}
-\mathbf{u}_d (t) \to \mathbf{u}_d (\mathbf{q}, \dot{\mathbf{q}}, \mathbf{u}, t)
+\mathbf{u}_d (t) \to \mathbf{u}_d (\mathbf{q}_i, \mathbf{u}_i, t)
 \end{align}
-Then, upon taking the derivative of each of these terms with respect to an
-independent speed, the dependent speed would need to be solved for and its
-derivative found.
-No previous authors appear to have made clear that this distinction should be
-made when using Kane's method.
-
-What we present addresses this issue.
-Rather then substituting in the solutions to the dependent speeds though, we
-use knowledge of the structure of the equations and constraints (as defined in
-Table \ref{table:assumptions}) to generate linear equations.
-
+While this might seem obvious, no previous author appears to make this
+explicitly clear when presenting techniques for symbolically linearizing
+equations of motion which are subject to constraints. While the concept is
+simple in principle, correctly accounting for all quantities is tedious and
+error prone. Having a high level, systematic procedure that can be implemented
+reliably in software is therefore a strong argument for the detailed and
+explicit procedure we present.
 
 We begin with a first order Taylor series expansion of the equations in Table
 \ref{table:assumptions} about $\bm{q}=\bm{q}^*$, $\bm{\dot{q}}=\bm{\dot{q}}^*$,
 $\bm{u}=\bm{u}^*$, $\bm{\dot{u}}=\bm{\dot{u}}^*$, $\bm{r}=\bm{r}^*$; it is
 assumed that all of the equations in Table \ref{table:assumptions} are
-satisfied by these quantities (i.e., the system is in a valid state).
-In the interest of brevity, we omit writing this point of linearization in each
-gradient in the calculations below; all are evaluated at this point.
-Expansion of the three constraint equations, keeping only first order terms,
-yields
+satisfied by these quantities (i.e., the system is in a valid state).  In the
+interest of brevity, we omit writing this point of linearization in each
+gradient in the calculations below; all are evaluated at this point. Expansion
+of the three constraint equations, keeping only first order terms, yields
 \begin{align}
   \label{eq:configuration_expansion}
   \bm{f}_{c}(\bm{q}, t) &\approx \underbrace{\bm{f}_{c}(\bm{q}^*, t)}_{\bm{0}} +
@@ -953,8 +950,8 @@ enables the unconstrained linear state space equations to be written as
 Equation (\ref{eq:state_space_unconstrained}) has a state space of dimension $n
 + o$, yet only $p = n - l + o - m$ of these quantities are independent.  To
 address this issue, a smaller set of independent coordinates and speeds must be
-selected. To this end, consider the following partitioning of the generalized
-coordinates and generalized speeds:
+selected. To this end, we partition the generalized coordinates and generalized
+speeds as
 \begin{equation*}
   \tilde{\bm{q}} \triangleq \left[\begin{array}{cc}\bm{q}_{i} &
       \bm{q}_{d}\end{array}\right]^{T} =  P_{q}^{-1} \bm{q}
@@ -972,48 +969,41 @@ $P_{qd}$ to denote the first $n-l$ and last $l$ columns of $P_q$, respectively;
 similarly, $P_{ui}$ is the first $o-m$ columns of $P_{u}$ while $P_{ud}$ is the
 last $m$ columns of $P_u$.
 
-By assumption, equation
-(\ref{eq:configuration_expansion}) is zero; making use of $P_q$, we have
+Making use of $P_q$ and the assumption that equation
+(\ref{eq:configuration_expansion}) is zero gives
 \begin{align}
-  \bm{0} &= \nabla_{\bm{q}}\bm{f}_{c} P_{q} \delta \bm{\tilde{q}} \notag \\
+\nabla_{\bm{q}}\bm{f}_{c} \delta \bm{q} &= \nabla_{\bm{q}}\bm{f}_{c} P_{q} \delta \bm{\tilde{q}} \notag \\
    &= \nabla_{\bm{q}}\bm{f}_{c} P_{qi} \delta \bm{q_i} +
   \nabla_{\bm{q}}\bm{f}_{c} P_{qd} \delta \bm{q_d}\notag\\
   \implies \delta \bm{q}_d &= -(\nabla_{\bm{q}}\bm{f}_{c} P_{qd})^{-1}
   (\nabla_{\bm{q}}\bm{f}_{c} P_{qi}) \delta \bm{q}_i \notag\\
-  \implies \delta \bm{q} &= \left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
-    \bm{f}_{c} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{c} \right] P_{qi} \delta
-    \bm{q}_i\\
   \label{eq:delta_q}
-  \delta \bm{q} &= C_0 \delta \bm{q}_i
+  \implies \delta \bm{q} &= \underbrace{\left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
+  \bm{f}_{c} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{c} \right]
+  P_{qi}}_{\triangleq C_0} \delta \bm{q}_i
 \end{align}
-
-Applying the same approach to (\ref{eq:velocity_expansion}), we obtain
+Making use of $P_q$, $P_u$, the assumption that equation
+(\ref{eq:velocity_expansion}) is zero, and taking equation (\ref{eq:delta_q})
+into account gives
 \begin{align}
-  \bm{0} &= \nabla_{\bm{q}}\bm{f}_{v} \delta \bm{q} +
-  \nabla_{\bm{u}}\bm{f}_{v} \delta \bm{u}\notag\\
-  &= \nabla_{\bm{q}} \bm{f}_{v}
-\delta \bm{q} + \nabla_{\bm{u}} \bm{f}_{v} P_{ui} \delta \bm{u}_i +
+\nabla_{\bm{q}}\bm{f}_{v} \delta \bm{q} + \nabla_{\bm{u}}\bm{f}_{v} \delta \bm{u}
+  &= \nabla_{\bm{q}} \bm{f}_{v} C_0 \delta \bm{q}_i +\nabla_{\bm{u}} \bm{f}_{v}
+  \delta P_u \bm{\tilde{u}} \notag \\
+  &=\nabla_{\bm{q}} \bm{f}_{v} C_0 \delta \bm{q}_i + \nabla_{\bm{u}} \bm{f}_{v} P_{ui} \delta \bm{u}_i +
 \nabla_{\bm{u}} \bm{f}_{v} P_{ud} \delta \bm{u}_d \notag\\
+%
 \implies \delta \bm{u}_d &= -\left(\nabla_{\bm{u}} \bm{f}_{v}
-P_{ud}\right)^{-1}\left[\nabla_{\bm{q}}\bm{f}_{v} \delta\bm{q} +
+P_{ud}\right)^{-1}\left[\nabla_{\bm{q}}\bm{f}_{v} C_0 \delta \bm{q}_i +
   \nabla_{\bm{u}} \bm{f}_{v} P_{ui} \delta \bm{u}_i \right]\notag\\
-  \implies \delta \bm{u} &= -P_{ud}(\nabla_{\bm{u}} \bm{f}_{v} P_{ud})^{-1}
-  \nabla_{\bm{q}} \bm{f}_{v} \delta \bm{q}\notag\\
-  &+ \left[I - P_{ud} (\nabla_{\bm{u}}\bm{f}_{v} P_{ud})^{-1} \nabla_{\bm{u}}
-    \bm{f}_{v} \right] P_{ui} \delta \bm{u}_i\\
-  \delta \bm{u} &= C_1 \delta \bm{q} + C_2 \delta \bm{u}_i\notag\\
+  \implies \delta \bm{u} &= \underbrace{-P_{ud}(\nabla_{\bm{u}} \bm{f}_{v} P_{ud})^{-1}
+  \nabla_{\bm{q}} \bm{f}_{v}}_{\triangleq C_1} C_0 \delta \bm{q}_i \notag\\
   \label{eq:delta_u}
-  \delta \bm{u} &= C_1 C_0 \delta \bm{q}_i + C_2 \delta \bm{u}_i
+  &+ \underbrace{\left[I - P_{ud} (\nabla_{\bm{u}}\bm{f}_{v} P_{ud})^{-1} \nabla_{\bm{u}}
+  \bm{f}_{v} \right] P_{ui}}_{\triangleq C_2} \delta \bm{u}_i
 \end{align}
 
-By making use of equations (\ref{eq:delta_q}) and (\ref{eq:delta_u}), we can
-rewrite equation (\ref{eq:state_space_unconstrained}).  This gives Equation
-\ref{eq:state_space_constrained}, a linear system of equations which relates
-the time derivatives of all states (dependent and independent) to the
-independent states and exogenous inputs.
-
-
-The linearized equations of motion are
+Making use of equations (\ref{eq:delta_q}) and (\ref{eq:delta_u}), we can
+rewrite equation (\ref{eq:state_space_unconstrained}) as
 \begin{align}
   \label{eq:state_space_constrained}
   \left[
@@ -1043,8 +1033,8 @@ The linearized equations of motion are
         \delta \bm{u}_i
       \end{array}
     \right]
-    +
-    \left[
+    \notag \\
+    &+\left[
       \begin{array}{c}
         \bm{0}_{(n+m) \times s} \\
         \tilde{B}_{u}
@@ -1052,40 +1042,50 @@ The linearized equations of motion are
     \right]
     \delta \bm{r}
 \end{align}
+This definitively establishes how the first time derivatives of coordinates and
+speeds (independent \textit{and} dependent) depend, to first order, upon a
+selection of independent coordinates and independent speeds, for an arbitrary
+point of linearization. Note that the only requirement on this point of
+linearization is that it satisfy all the equations in Table
+\ref{table:assumptions}; it may or may not be an equilibrium point.
 
-where
+%Table \ref{table:assumptions} provides the form in which the nonlinear
+%equations of motion and constraints must be arranged in order to carry out the
+%linearization procedure.  Equations (\ref{eq:quant_to_compute}) provides the
+%bulk of the terms in equation (\ref{eq:state_space_constrained}); these terms
+%are Jacobian matrices of the differential equations.
+%
+%The linearized equations of motion are
+%
+%where
+%
+%\begin{align}
+%  \label{eq:C_0}
+%  C_0 &\triangleq \left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
+%    \bm{f}_{c} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{c} \right] P_{qi}\\
+%  \label{eq:C_1}
+%  C_1 &\triangleq -P_{ud}(\nabla_{\bm{u}} \bm{f}_{v} P_{ud})^{-1}
+%  \nabla_{\bm{q}} \bm{f}_{v} \\
+%  \label{eq:C_2}
+%  C_2 &\triangleq \left[I_{o \times o} - P_{ud} (\nabla_{\bm{u}}\bm{f}_{v} P_{ud})^{-1} \nabla_{\bm{u}}
+%    \bm{f}_{v} \right] P_{ui}\\
+%  \label{eq:Pq}
+%  \bm{q} &= P_{qi} \bm{q}_{i} + P_{qd} \bm{q}_{d} \\
+%  \label{eq:Pu}
+%  \bm{u} &= P_{ui} \bm{u}_{i} + P_{ud} \bm{u}_{d}
+%\end{align}
 
-\begin{align}
-  \label{eq:C_0}
-  C_0 &\triangleq \left[ I_{n \times n} - P_{qd}(\nabla_{\bm{q}}
-    \bm{f}_{c} P_{qd})^{-1} \nabla_{\bm{q}} \bm{f}_{c} \right] P_{qi}\\
-  \label{eq:C_1}
-  C_1 &\triangleq -P_{ud}(\nabla_{\bm{u}} \bm{f}_{v} P_{ud})^{-1}
-  \nabla_{\bm{q}} \bm{f}_{v} \\
-  \label{eq:C_2}
-  C_2 &\triangleq \left[I_{o \times o} - P_{ud} (\nabla_{\bm{u}}\bm{f}_{v} P_{ud})^{-1} \nabla_{\bm{u}}
-    \bm{f}_{v} \right] P_{ui}\\
-  \label{eq:Pq}
-  \bm{q} &= P_{qi} \bm{q}_{i} + P_{qd} \bm{q}_{d} \\
-  \label{eq:Pu}
-  \bm{u} &= P_{ui} \bm{u}_{i} + P_{ud} \bm{u}_{d}
-\end{align}
-
-Table \ref{table:assumptions} provides the form in which the nonlinear
-equations of motion and constraints must be arranged in order to carry out the
-linearization procedure.  Equations (\ref{eq:quant_to_compute}) provides the
-bulk of the terms in equation (\ref{eq:state_space_constrained}); these terms
-are Jacobian matrices of the differential equations. Equations
-(\ref{eq:C_0})-(\ref{eq:C_2}) provide the terms $C_0$, $C_1$, and $C_2$ which
-embed the constraints into (\ref{eq:state_space_constrained}). Finally, the
-permutation matrices in equations (\ref{eq:Pq}) and (\ref{eq:Pu}) separate the
-independent and dependent speeds.
-
-The matrices in (\ref{eq:state_space_constrained}) are evaluated at the point
-of linearization $\bm{q}=\bm{q}^*, \bm{\dot{q}}=\bm{\dot{q}}^*,
-\bm{u}=\bm{u}^*, \bm{\dot{u}}=\bm{\dot{u}}^*, \bm{r}=\bm{r}^*$; this point must
-satisfy the equations in Table \ref{table:assumptions}, and may or may not be
-an equilibrium point.
+%Equations
+%(\ref{eq:C_0})-(\ref{eq:C_2}) provide the terms $C_0$, $C_1$, and $C_2$ which
+%embed the constraints into (\ref{eq:state_space_constrained}). Finally, the
+%permutation matrices in equations (\ref{eq:Pq}) and (\ref{eq:Pu}) separate the
+%independent and dependent speeds.
+%
+%The matrices in (\ref{eq:state_space_constrained}) are evaluated at the point
+%of linearization $\bm{q}=\bm{q}^*, \bm{\dot{q}}=\bm{\dot{q}}^*,
+%\bm{u}=\bm{u}^*, \bm{\dot{u}}=\bm{\dot{u}}^*, \bm{r}=\bm{r}^*$; this point must
+%satisfy the equations in Table \ref{table:assumptions}, and may or may not be
+%an equilibrium point.
 
 \section{Dynamics Example, Revisited}
 \label{sec:example_revisited}
@@ -1096,9 +1096,9 @@ that our linearization procedure yields eigenvalues which match published
 results~\cite{Schwab2003,Kane1985,Neimark1972}. The first step in the procedure
 is to form the matrices in Equation (\ref{eq:quant_to_compute}). Once obtained,
 these matrices can be evaluated at the equilibrium conditions and parameters of
-interest.  The standard approach to finding the equilibrium conditions is to
-\textit{choose} the independent quantities and solve the constraint equations
-for the dependent quantities.
+interest. We follow the standard approach to finding the equilibrium conditions
+by \textit{choosing} the independent quantities and solving the constraint
+equations for the dependent quantities.
 
 We first consider the case of upright steady cruise and begin by choosing the
 independent coordinates to be zero ($q_i^* = 0$, $i = 1,\dots,5$), which
@@ -1107,9 +1107,9 @@ implies (by appealing to the configuration constraint) that $q_6^* = -r
 disc in contact with the ground, and the disk heading aligned with the
 $\hat{n}_x$ unit vector.  Next, we solve the velocity constraint equations for
 the dependent speeds in terms of the independent ones, and substitute these
-expression into the kinematic differential equations. This yields six equations
-with nine unknowns: $u_i (i=1,2,3)$ and $\dot{q}_i (i=1,\dots6)$. We choose yaw
-rate $\dot{q}_1^* = 0$ and lean rate $\dot{q}_2^* = 0$, and let spin rate
+into the kinematic differential equations. This yields six equations with nine
+unknowns: $u_i (i=1,2,3)$ and $\dot{q}_i (i=1,\dots6)$. We \textit{choose} yaw
+rate $\dot{q}_1^* = 0$, lean rate $\dot{q}_2^* = 0$, let spin rate
 $\dot{q}_3^*$ be a free variable, and solve for the remaining six unknowns.
 This yields $u_1^* = u_3^* = 0$, $u_2^* = \dot{q}_3^*$, $\dot{q}_4^* =
 -r\dot{q}_3^*$, $\dot{q}_5^* = \dot{q}_6^* = 0$. Back substituting the first
@@ -1123,17 +1123,15 @@ in terms of the disc spin rate $\dot{q}_3$; for this upright configuration
 ($q_2 = 0$) it is convenient to introduce the forward speed $v \triangleq
 -r\dot{q}_3^*$.
 
-Evaluating the matrices in Equations (\ref{eq:quant_to_compute}) and
-(\ref{eq:C_0}-\ref{eq:C_2}) at these equilibrium conditions permits the
-matrices in the linearized equations of motion
-(\ref{eq:state_space_constrained}) to be computed. Solving these equations for
+Evaluating the matrices in equations (\ref{eq:state_space_constrained}) at
+these equilibrium conditions and subsequently solving these equations for
 $\delta\dot{\mathbf{q}}$ and $\delta\dot{\mathbf{u}}$ yields the linearized
 relationship between the time derivatives of all state variables and the
 independent state variables. By taking only the rows associated with the
 independent states, the linear relationship between the independent states and
-their time derivatives are formed. The eigenvalues, parameterized by forward
-speed $v$, of this coefficient matrix may be computed symbolically. Six of the
-eight eigenvalues of this matrix are zero, and the remaining two are
+their time derivatives are formed. The eigenvalues of this coefficient matrix
+may be computed symbolically. Six of the eight eigenvalues of this matrix are
+zero, and the remaining two are
 \begin{align}
 \label{eq:upright_evals}
   \lambda_{1,2} &= \pm \frac{2\sqrt{1 - 3v^2}}{\sqrt{5}}
@@ -1142,7 +1140,7 @@ which has critical points at $v^*=\pm\frac{1}{\sqrt{3}}$ and matches previously
 published results~\cite{Schwab2003,Kane1985,Neimark1972}. For $|v| < v^*$,
 the disk is unstable, but for $|v| \geq v^*$, the eigenvalues are purely
 imaginary and are hence marginally stable. We omit the details of these
-calculation and direct the reader to the electronic supplementary material.
+calculations and direct the reader to the electronic supplementary material.
 
 A more general analysis of the stability of the rolling disk equilibria
 considers the case where the disk lean $q_2$ is constant but not necessarily
@@ -1161,8 +1159,8 @@ To be physically meaningful, these roots must be real, which gives rise to the f
 \begin{align}
   \dot{q}_3^2 &\geq \frac{20g}{9r}\sin{(q_2)} \tan{(q_2)}
 \end{align}
-For a given set of parameters the eigenvalues of the linearized dynamics can be
-parameterized by three quantities lean $q_2$, yaw rate $\dot{q}_1$, and spin
+For a given set of parameters, the eigenvalues of the linearized dynamics can be
+parameterized by three quantities: lean $q_2$, yaw rate $\dot{q}_1$, and spin
 rate $\dot{q}_3$ (though only two can be independent because of the above
 restrictions). For this more general equilibrium condition, there are still six
 zero eigenvalues, while the two non-zero eigenvalues are
@@ -1228,40 +1226,67 @@ $A^\prime$ and $B^\prime$ which correspond to dependent states can be used in
 output or measurement equations of a linear state space model (e.g.,
 measurements from an accelerometer, or measurements of dependent speeds).
 
-It is notable that there is a second opportunity (after constraining the
-nonlinear equations of motion) to determine which speeds are dependent.
-Now that the equations are linear, the choice of which state variables are
-taken to be independent may determine whether $\nabla_{\bm{q}}\bm{f}_{c}
-P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_{v} P_{ud}$ are nonsingular.
-These matrices depend upon the configuration $\bm{q}$ and constant parameters;
-for certain configurations or parameters, it may be that the choice of
-independent state variables cannot be arbitrary.
-While some systems may permit a choice of independent state variables which are
-valid for all configurations of interest, others may not.
-Methods for automatically selecting the ``best'' choice of independent state
-variables are discussed in \cite{Reckdahl1996}; they involve computing the SVD
-of the Jacobian of the constraint matrices to determine a set of independent
+Kane's dynamical equations are typically formulated for one particular choice
+of dependent speeds, and computer code is generated for that single choice of
+dependent speeds. It is possible, however, to output computer code for the
+unconstrained equations of motion (equation (\ref{eq:kanes_eq})), along with
+the velocity constraint coefficient matrix (equation (\ref{eq:constraint_B})),
+such that the independent choice of speeds and the constrained equations of
+motion (equation (\ref{eq:kanes_eq_nonholonomic})) are formed at the time of
+numerical evaluation (as opposed to choosing a particular set of dependent
+speeds during symbolic derivation). There are several reasons why this can be
+desirable: 1) the configuration of the system in question changes significantly
+enough during simulation that no single choice of independent speeds will work
+for all regions of the configuration space; 2) the choice of parameters greatly
+affects which states should be selected to be dependent; and 3) to choose the
+dependent states which minimize the effect of numerical round off. This
+approach can also be applied to computation of the linearized dynamics. A task
+where the ability to switch the choice of dependent states ``on the fly'' is
+extremely helpful is in the computation of Lyapunov characteristic exponents
+(LCE's). When computing LCE's, time simulation of the nonlinear dynamics
+\textit{and} linearization at each point along the trajectory a
+required~\cite{Benettin1980a,Benettin1980b,Udwadia2001};
+having a computer code that makes it easy to switch choice of dependent states
+at the time of numerical evaluation is of great benefit in this case. The
+matrices which must be used to determine the best choice of coordinates and
+speeds are $\nabla_{\bm{q}} \bm{f}_c P_{qd}$ and $\nabla_{\bm{u}} \bm{f}_v P_{ud}$;
+these matrices appear in equations (\ref{eq:delta_q}) and (\ref{eq:delta_u}).
+If for some choice of dependent coordinates or dependent speeds either of these
+matrices are singular or nearly singular, a different set of dependent
+coordinates and dependent speeds should be chosen. These matrices generally
+depend only upon parameters and coordinates (not speeds). While some systems
+may permit a choice of independent state variables which are valid for all
+configurations of interest, others may not. Methods for automatically selecting
+the ``best'' choice of independent state variables are discussed in
+\cite{Reckdahl1996}; they involve computing the singular value decomposition
+$\nabla_q \bm{f}_c$ and $\nabla_u \bm{f}_v$  to determine a set of independent
 states which will ensure the non-singularity of the aforementioned matrices.
 
 \section{Conclusions}
 A procedure for forming linearized equations of motion for constrained
-multi-body systems has been presented.  This procedure can be implemented
+multi-body systems has been presented. This procedure can be implemented
 symbolically or numerically, and handles configuration, velocity, and
-acceleration level constraints.
-
+acceleration level constraints. The coefficient matrices in equation
+(\ref{eq:state_space_constrained}) can generally be computed symbolically and
+output as efficient C/C++/Fortran routines which may be compiled into highly
+efficient machine code. This permits library routines which are both highly
+efficient (no finite differences) and very general (arbitrary system parameters
+and linearization point).
 %TODO: mention if it is compatible with other procedures.
 
 The procedure has been implemented symbolically in the
-\texttt{physics.mechanics} sub-module of the open source symbolic
-manipulator SymPy\cite{SymPy2012}. In addition to applying it on the rolling
-disk example, we have also applied it to the Whipple bicycle model and found
-that it matches eigenvalues published for a benchmark set of
-parameters~\cite{Meijaard2007}.
+\texttt{physics.mechanics} sub-module of the open source symbolic manipulator
+SymPy\cite{SymPy2012}. In addition to the rolling disk example, we have also
+applied it to the Whipple bicycle model (and extensions of this model) and
+found that it matches (to at least 14 digits) the eigenvalues published for a
+benchmark set of parameters~\cite{Meijaard2007}. This latter example provides a
+challenging and rigorous test of the procedure which strongly indicates both
+its utility and its correctness.
 
 \begin{acknowledgements}
  This material is based upon work partially supported by the National Science
  Foundation under award 0928339 and three Google Summer of Code projects (2009,
- 2011, 2012).  Jason Moore, Thomas Johnston, Evan Sperber, and Andrew Kickertz
+ 2011, 2012). Jason Moore, Thomas Johnston, Evan Sperber, and Andrew Kickertz
  provided valuable feedback during discussions of multibody dynamics and
  control.
 \end{acknowledgements}

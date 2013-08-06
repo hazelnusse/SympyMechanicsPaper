@@ -67,22 +67,22 @@ independent, this process is not as straightforward.
 For a system system with constraints, Kane's dynamical equations\cite{Kane1985}
 are first order ODE's (in the generalized speeds) which include both the
 independent and dependent states (assuming the dependents states have not been
-algebraically eliminated). The dynamical equations and the kinematical
-differential equations can be solved for the time derivatives of the
-generalized coordinates and generalized speeds, respectively. Taken together,
-it is tempting to think that this system of first order differential equations
-could be linearized in the same fashion as an unconstrained system.
-Unfortunately, this is not the case. Linearizing these equations in the same
-manner as one would for an unconstrained system (by directly computing the
-Jacobian) is incorrect and will yield incorrect linearized equations (and
-subsequently incorrect eigenvalues, in the case of a stability analysis). We
-illustrate this by means of a familiar example, the rolling disk, formulated
-with a non-traditional set of coordinates and generalized speeds which are not
-all independent. We provide a systematic method to correctly generate the
-linear equations of motion for constrained systems which have been found using
-Kane's method (or any other method which results in equations with the same
-form). We apply this method to the rolling disk example to illustrate that
-it yields eigenvalues that match previously published results.
+algebraically eliminated). The kinematical and dynamical differential equations
+can be solved for the time derivatives of the generalized coordinates and
+generalized speeds, respectively. Taken together, it is tempting to think that
+this system of first order differential equations could be linearized in the
+same fashion as an unconstrained system.  Unfortunately, this is not the case.
+Linearizing these equations in the same manner as one would for an
+unconstrained system (by directly computing the Jacobian) is incorrect and will
+yield incorrect linearized equations (and subsequently incorrect eigenvalues,
+in the case of a stability analysis). We illustrate this by means of a familiar
+example, the rolling disk, formulated with a non-traditional set of coordinates
+and generalized speeds which are not all independent. We provide a systematic
+method to correctly generate the linear equations of motion for constrained
+systems which have been found using Kane's method (or any other method which
+results in equations with the same form). We apply this method to the rolling
+disk example to illustrate that it yields eigenvalues that match previously
+published results.
 
 We consider three types of constraints: configuration, velocity, and
 acceleration. Configuration constraints limit the location or orientation of
@@ -110,14 +110,21 @@ of these papers lack a discussion of basic concepts such as how many quantities
 are independent, and in the case of eigenvalue computation, how many
 eigenvalues should be present. Minaker and Rieveley \cite{Minaker2010} and
 Schwab and Meijaard \cite{Schwab2003} both have developed techniques for
-generating equations of motion (and linear forms thereof), however both
-techniques are numerical in nature -- they do not provide symbolic equations of
-motion or symbolic linearized equations. While Neuman presents a symbolic (as
-opposed to numeric) formulation for linearization of the Q-matrix formulation
-of the Lagrangian\cite{Neuman1984}, his work makes no mention of constrained
-systems and attempts to contact the author regarding the software (algebraic
-robot modeler -- Arm) as well as internet searches for the software have been
-fruitless.
+generating equations of motion (and linear forms thereof) using Lagrange's
+method; the work of Schwab and Meijaard can be applied symbolically while
+Minaker and Reiveley's approach is numeric in nature. Neither discuss the
+choice of generalized speeds as in Kane's method: both form the equations of
+motion in terms of second time derivatives of the coordinates.  Further,
+neither of these works address constraints which cannot be eliminated (i.e.,
+nonlinear configuration constraints), nor do they address what approach should
+be taken when a single choice of dependent states may not suffice. While
+Neuman presents a symbolic (as opposed to numeric) formulation for
+linearization of the Q-matrix formulation of the Lagrangian\cite{Neuman1984},
+his work makes no mention of constrained systems and attempts to contact the
+author regarding the software (algebraic robot modeler -- Arm) as well as
+internet searches for the software have been fruitless.
+
+% What does it mean for the equations to be symbolic/analytic in nature?
 
 % TODO:reiterate limitations of model
 The goal of this paper is to definitively establish how the first time
@@ -767,7 +774,7 @@ for the ($\dot{q}_i$, $\dot{u}_i$) terms to construct the right-hand side of
     \mathbf{f}(\mathbf{q}, \mathbf{u}, t)
 \end{align}
 and take the Jacobian of $\mathbf{f}$ with respect to $[\mathbf{q} \quad
-\mathbf{u}]^T$. However, this will give the incorrect results. As discussed in
+\mathbf{u}]^T$. However, this will give incorrect results. As discussed in
 \cite{Schwab2003}, when $m, r,$ and $g$ are taken to be unity, and the system
 is linearized about the upright steady rolling condition, the critical speed is
 $v \triangleq -r\dot{q}_3 =\pm\frac{1}{\sqrt{3}}$. When following the naive approach, and

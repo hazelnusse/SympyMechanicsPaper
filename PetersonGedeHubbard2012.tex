@@ -802,19 +802,23 @@ and take the Jacobian of $\mathbf{f}$ with respect to $[\mathbf{q} \quad
 is linearized about the upright steady rolling condition, the critical speed is
 $v \triangleq -r\dot{q}_3 =\pm\frac{1}{\sqrt{3}}$. When following the naive approach, and
 evaluating the Jacobian at the same operating conditions and parameters, eight
-of the twelve eigenvalues are identically zero while the remaining four are
+of the twelve eigenvalues are identically zero while the remaining four are:
 \begin{align}
   \label{eq:evals_incorrect}
   \lambda_{1,2}=\pm\frac{\sqrt{6}}{3}\sqrt{-v^2},
 %  \quad \lambda_{3,4} = \pm\sqrt{\frac{4}{5} - \frac{12}{5} v^2}
   \quad \lambda_{3,4} &= \pm \frac{2\sqrt{1 - 3v^2}}{\sqrt{5}}
 \end{align}
-which demonstrates the incorrectness of this naive approach (since
-$v=\pm\frac{1}{\sqrt{3}}$ is not a critical point of these eigenvalues).
+
+At the critical speed, all eigenvalues must be zero, and that is clearly not
+the case here; one pair of non-zero eigenvalues exist at what should be the
+critical speed. This indicates the presence of oscillatory modes that are not
+present in the correct derivation.
+
 Further, the fact that twelve eigenvalues are obtained should be an alert that
-something is incorrect since the number of independent quantities is only eight
-(five coordinates and three speeds). We now outline a linearization procedure
-which addresses this issue; we revisit this example in Section
+something is incorrect, since the number of independent quantities is only
+eight (five coordinates and three speeds). We now outline a linearization
+procedure which addresses this issue; we revisit this example in Section
 \ref{sec:example_revisited}.
 
 \section{Derivation of linearization procedure}

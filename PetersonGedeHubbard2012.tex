@@ -547,7 +547,15 @@ associated with the first two intermediate rotations in the sequence; we refer
 to these as the instantaneous yaw and lean frames, respectively. The unit
 vector, $\hat{b}_z$ fixed in the $B$ frame, is parallel to the disk plane and
 aligned with the position vector from the disk center $C^*$ to the lowest point
-of the disk $P^*$.
+of the disk $P^*$. Figure \ref{fig:rolling_disc} shows how the generalized
+coordinates are used to configure the disc.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{disk_drawing_cropped.pdf}
+    \caption{Configuration of rolling disc using non-minimal coordinates.}
+    \label{fig:rolling_disc}
+\end{figure}
 
 Traditionally, to locate the center of the disk $C^*$ relative to the inertial
 origin $N^*$, two coordinates are used to locate the contact point in the
@@ -760,7 +768,7 @@ $\mathbf{f}_3$ vectors.
     \underbrace{\left[\begin{matrix}- \frac{m r}{4} \left(r \dot{u}_{1} + 4
                 \dot{u}_{5}\right)\\\frac{m r}{2} \left(- r \dot{u}_{2} + 2
                 s_3\right) \dot{u}_{6} + 2 c_3
-                \dot{u}_{4}\right)\\- \frac{m r^{2}}{4}
+                \dot{u}_{4}\\- \frac{m r^{2}}{4}
                 \dot{u}_{3}\end{matrix}\right]}_{\mathbf{f}_2} + \notag\\
     &\underbrace{\left[\begin{matrix}
                 m r \left( g s_2 - u_1 u_4 s_3 + u_1 u_6 c_3
@@ -1185,7 +1193,8 @@ $\dot{q}_3$ must be chosen to satisfy
 \end{align}
 which is a quadratic equation in the yaw rate $\dot{q}_1$ with roots
 \begin{align}
-\dot{q}_1 &= \frac{2}{5 c_2 s_2 \left( - \frac{3}{2} \dot{q}_{3} c_2 \pm \sqrt{- \frac{5 g}{r} s^2_2 c_2 + \frac{9}{4} \dot{q}_{3}^{2} c^2_2 \right)
+\dot{q}_1 &= \frac{2}{5 c_2 s_2} \left( - \frac{3}{2} \dot{q}_{3} c_2 \pm
+\sqrt{\frac{9}{4} \dot{q}_{3}^{2} c^2_2 - \frac{5 g}{r} s^2_2 c_2} \right)
 \end{align}
 To be physically meaningful, these roots must be real, which gives rise to the following additional requirement
 \begin{align}

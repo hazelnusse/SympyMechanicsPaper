@@ -116,7 +116,7 @@ method; the work of Schwab and Meijaard can be applied symbolically while
 Minaker and Reiveley's approach is numeric in nature. Neither discuss the
 choice of generalized speeds as in Kane's method: both form the equations of
 motion in terms of second time derivatives of the coordinates.  Further,
-neither of these works address constraints which cannot be eliminated (i.e.,
+neither of these works address constraints which cannot be eliminated (e.g.,
 nonlinear configuration constraints), nor do they address what approach should
 be taken when a single choice of dependent states may not suffice. While
 Neuman presents a symbolic (as opposed to numeric) formulation for
@@ -130,14 +130,13 @@ internet searches for the software have been fruitless.
 % TODO:reiterate limitations of model
 This paper presents linear, first order differential equations relating the
 time derivatives of \textit{all} speeds and coordinates to the independent
-speeds and coordinates, for any point of linearization.
-A provided example demonstrates the necessity of these equations.
-We demonstrate how a reduced portion of these linearized equations can be used
-to perform standard stability analysis (i.e., for control system design or
-linear stability analysis).
-The formalism presented here is generic enough to cover most
-examples of time-varying constrained multibody systems with arbitrary external
-inputs and arbitrary specified quantities.
+speeds and coordinates, for any point of linearization.  A provided example
+demonstrates the necessity of these equations.  We demonstrate how a reduced
+portion of these linearized equations can be used to perform standard stability
+analysis (i.e., for control system design or linear stability analysis).  The
+formalism presented here is generic enough to cover most examples of
+time-varying constrained multibody systems with arbitrary external inputs and
+arbitrary specified quantities.
 % TODO: electronic supplementary material with examples for other methods
 % TODO: rewrite following sentences after e.s.m.
 The procedure was created for systems whose equations of motion have been
@@ -182,8 +181,7 @@ complicated; it also requires a velocity constraint. Using generalized speeds
 allows for the angular velocity to be expressed more simply as
 \begin{align}
 \label{eq:ex1}
-{^N}\bar{\omega}^B = \it{\omega}_1 \hat{b}_1 + \it{\omega}_2 \hat{b}_2 +
-\it{\omega}_3 \hat{b}_3
+{^N}\bar{\omega}^B = u_1 \hat{b}_1 + u_2 \hat{b}_2 + u_3 \hat{b}_3
 \end{align}
 or, the angular velocity of rigid body $B$ in the reference frame $N$ is the
 defined as the sum of three generalized--speed basis--vector products.
@@ -204,9 +202,9 @@ generalized speeds. For example, for the angular velocity in equation
 (\ref{eq:ex1}), the partial angular velocities of body $B$ in reference frame
 $N$ are
 \[
-{^N}\bar{\omega}^B_{\omega_1} = \hat{b}_1 \quad \quad
-{^N}\bar{\omega}^B_{\omega_2} = \hat{b}_2 \quad \quad
-{^N}\bar{\omega}^B_{\omega_3} = \hat{b}_3
+{^N}\bar{\omega}^B_{1} = \hat{b}_1 \quad \quad
+{^N}\bar{\omega}^B_{2} = \hat{b}_2 \quad \quad
+{^N}\bar{\omega}^B_{3} = \hat{b}_3
 \]
 and it can be seen that the partial velocities represent the direction of
 motion associated with each generalized speed. The geometric interpretations of
@@ -235,39 +233,40 @@ follows. Consider a system composed of particles $P_1,...,P_h$, rigid bodies
 $B_1,...,B_g$, with points of force application $Q_1,...,Q_k$, and reference
 frames of torque application $E_1,...,E_c$, all defined relative to the
 inertial reference frame $N$. This system has generalized coordinates
-$q_1,...,q_n$ and generalized speeds $u_1,...,u_o$. Additionally, there are $l$
-configuration constraints and $m$ velocity constraints.
+$q_1,...,q_n$ and generalized speeds $u_1,...,u_o$.  While it common that $n =
+o$, this is not a requirement when using Kane's method. Additionally, there are
+$l$ configuration constraints and $m$ velocity constraints.
 
 In order to properly apply Kane's method, the velocities of each component in
 the system need to be written as linear combinations of the generalized speeds.
 The translational velocity of the particles are
 \begin{align}
 \label{eq:particle_translational}
-{^N}\bar{v}^{P_i} = \sum^o_{j=1} {^N}\bar{v}^{P_i}_{u_j} u_j + {^N}\bar{v}^{P_i}_t
+{^N}\bar{v}^{P_i} = \sum^o_{j=1} {^N}\bar{v}^{P_i}_{j} u_j + {^N}\bar{v}^{P_i}_t
 \quad \quad i=1,...,g
 \end{align}
 while the translational velocity of rigid body mass centers are
 \begin{align}
 \label{eq:rb_translational}
-{^N}\bar{v}^{B_i^*} = \sum_{j=1}^o {^N}\bar{v}^{B_i^*}_{u_j} u_j +
+{^N}\bar{v}^{B_i^*} = \sum_{j=1}^o {^N}\bar{v}^{B_i^*}_{j} u_j +
 {^N}\bar{v}^{B_i^*}_t \quad \quad i=1,...,h
 \end{align}
 and finally the translational velocity of points which have applied forces are
 \begin{align}
 \label{eq:points_translational}
-{^N}\bar{v}^{Q_i} = \sum_{j=1}^o {^N}\bar{v}^{Q_i}_{u_j} u_j + {^N}\bar{v}^{Q_i}_t
+{^N}\bar{v}^{Q_i} = \sum_{j=1}^o {^N}\bar{v}^{Q_i}_{j} u_j + {^N}\bar{v}^{Q_i}_t
 \quad \quad i=1,...,k
 \end{align}
 Next, the angular velocity of rigid bodies are
 \begin{align}
 \label{eq:rb_rotational_bodies}
-{^N}\bar{\omega}^{B_i} = \sum_{j=1}^o {^N}\bar{\omega}^{B_i}_{u_j} u_j +
+{^N}\bar{\omega}^{B_i} = \sum_{j=1}^o {^N}\bar{\omega}^{B_i}_{j} u_j +
 {^N}\bar{\omega}^{B_i}_t \quad \quad i=1,...,h
 \end{align}
 and the angular velocity of reference frames which have applied torques are
 \begin{align}
 \label{eq:rb_rotational_frames}
-{^N}\bar{\omega}^{E_i} = \sum_{j=1}^o {^N}\bar{\omega}^{E_i}_{u_j} u_j +
+{^N}\bar{\omega}^{E_i} = \sum_{j=1}^o {^N}\bar{\omega}^{E_i}_{j} u_j +
 {^N}\bar{\omega}^{E_i}_t \quad \quad i=1,...,c
 \end{align}
 
@@ -498,10 +497,10 @@ For convenience, we summarize the critical equations in Table
     \multicolumn{3}{c}{ } \\
     \multicolumn{2}{c}{Equation} & Description \\
     \hline
-    $\bm{f}_{c}(\bm{q}, t)$ & $\bm{0}_{l \times 1}$ & Configuration constraints \\
-    $\bm{f}_{v}(\bm{q}, \bm{u}, t)$ & $\bm{0}_{m \times 1}$ & Velocity constraints \\
+    $\bm{f}_{c}(\bm{q}, t)$ & $\bm{0}_{l \times 1}$ & Configuration level constraints \\
+    $\bm{f}_{v}(\bm{q}, \bm{u}, t)$ & $\bm{0}_{m \times 1}$ & Velocity level constraints \\
     $\bm{f}_{a}(\bm{q}, \bm{\dot{q}}, \bm{u}, \bm{\dot{u}}, t)$ & $\bm{0}_{m
-    \times 1}$ & Acceleration constraints \\
+    \times 1}$ & Acceleration level constraints \\
     $\bm{f}_{0}(\bm{q}, \bm{\dot{q}}, t) + \bm{f}_{1}(\bm{q}, \bm{u}, t)$ &
     $\bm{0}_{n \times 1}$ & Kinematic differential equations \\
     $\bm{f}_{2}(\bm{q}, \bm{\dot{u}}, t) + \bm{f}_{3}(\bm{q}, \bm{\dot{q}},
@@ -509,14 +508,26 @@ For convenience, we summarize the critical equations in Table
   \end{tabular}
 \end{table}
 
-The only new terms are $\mathbf{f}_0$, $\mathbf{f}_1$, $\mathbf{f}_2$, and
-$\mathbf{f}_3$.  The kinematic differential equations are split up into the
-quantities $\mathbf{f}_0$ and $\mathbf{f}_1$, depending on whether each term
-has a $\mathbf{u}$ or $\dot{\mathbf{q}}$ present.  The same is true for
-$\mathbf{f}_2$ and $\mathbf{f}_3$; if a term contains a $\dot{\mathbf{u}}$ it
-is placed into $\mathbf{f}_2$ and if not it is placed into $\mathbf{f}_3$. The
-motivation for this organizational scheme will be made apparent in Section
-\ref{sec:derivations}.
+Not all of the $n$ generalized coordinates are independent due to the $l$
+configuration level constraints (e.g., holonomic constraints resulting from
+closed kinematic loops). Similarly, not all of the $o$ generalized speeds are
+independent due to the $m$ velocity level constraints.  Velocity level
+constraints result from time differentiated configuration constraints or
+nonholonomic constraints (e.g., no-slip rolling).  The $m$ acceleration level
+constraints are assumed to be obtained by time differentiating the $m$ velocity
+level constraints.  Just as Kane's method does not require $n = o$,
+neither does our linearization procedure. The $s$ exogenous inputs include
+control system inputs and/or external disturbance forces or torques applied to
+the system.
+
+The kinematic differential equations are organized into the quantities
+$\mathbf{f}_0$ and $\mathbf{f}_1$; terms depending upon $\dot{\mathbf{q}}$ are
+placed into $\mathbf{f}_0$, all other terms are placed into $\mathbf{f}_1$.
+Similarly, the dynamic differential equations are organized into the
+quantities $\mathbf{f}_2$ and $\mathbf{f}_3$; terms depending upon
+$\dot{\mathbf{u}}$ are placed into $\mathbf{f}_2$, all other terms are placed
+into $\mathbf{f}_3$. The motivation for this organizational scheme will be made
+apparent in Section \ref{sec:derivations}.
 
 
 \section{Dynamics Example}
@@ -538,12 +549,12 @@ vector, $\hat{b}_z$ fixed in the $B$ frame, is parallel to the disk plane and
 aligned with the position vector from the disk center $C^*$ to the lowest point
 of the disk $P^*$.
 
-Traditionally, to locate the center of the disk $C^*$
-relative to the inertial origin $N^*$, two coordinates are used to locate the
-contact point in the ground plane; these two coordinates and the lean angle
-and yaw angles determine the location of the center of the disk. The advantage of this
-approach is that the choice of coordinates guarantees that the disk remain in
-contact with the ground plane.
+Traditionally, to locate the center of the disk $C^*$ relative to the inertial
+origin $N^*$, two coordinates are used to locate the contact point in the
+ground plane; these two coordinates and the lean angle and yaw angles determine
+the location of the center of the disk. The advantage of this approach is that
+by using a minimal set of coordinates, the holonomic ground contact constraint
+is always satisfied and hence no holonomic constraint equation is needed.
 
 To illustrate how dependent coordinates must be
 accounted for when linearizing the equations of motion, we purposefully locate
@@ -666,13 +677,23 @@ that all terms appear to the left of the equality sign, we obtain
 \underbrace{\left[\begin{matrix}\dot{q}_{2}\\\sin\left(q_{2}\right)
     \dot{q}_{1} + \dot{q}_{3}\\\cos\left(q_{2}\right)
     \dot{q}_{1}\\\dot{q}_{4}\\\dot{q}_{5}\\\dot{q}_{6}\end{matrix}\right]}_{\mathbf{f}_0}
-    + 
-\underbrace{\left[\begin{matrix}- u_{1}\\- u_{2}\\- u_{3}\\r u_{1}
-    \sin\left(q_{1}\right) \cos\left(q_{2}\right) +
-    r u_{2} \cos\left(q_{1}\right)\\- r u_{1}
-    \cos\left(q_{1}\right) \cos\left(q_{2}\right) +
-    r u_{2} \sin\left(q_{1}\right)\\- r u_{1}
-    \sin\left(q_{2}\right)\end{matrix}\right]}_{\mathbf{f}_1}
+    +
+\underbrace{\left[\begin{matrix}- u_{1}\\- u_{2}\\- u_{3}\\
+%
+%[ sin(q1)*sin(q2)*sin(q3) - cos(q1)*cos(q3),  sin(q1)*cos(q2), -sin(q1)*sin(q2)*cos(q3) - sin(q3)*cos(q1)],
+%[-sin(q1)*cos(q3) - sin(q2)*sin(q3)*cos(q1), -cos(q1)*cos(q2), -sin(q1)*sin(q3) + sin(q2)*cos(q1)*cos(q3)],
+%[                           sin(q3)*cos(q2),         -sin(q2),                           -cos(q2)*cos(q3)]]
+\left(\sin(q_1)\sin(q_2)\sin(q_3) - \cos(q_1)\cos(q_3)\right)u_4 +
+\left(\sin(q_1)\cos(q_2)\right)u_5 + \left(-\sin(q_1)\sin(q_2)\cos(q_3) -
+\sin(q_3)\cos(q_1)\right)u_6 \\
+%
+\left(-\sin(q_1)\cos(q_3) - \sin(q_2)\sin(q_3)\cos(q_1)\right)u_4 +
+\left(-\cos(q_1)\cos(q_2)\right)u_5 +
+\left(-\sin(q_1)\sin(q_3) + \sin(q_2)\cos(q_1)\cos(q_3)\right)u_6
+\\
+%
+\sin(q_3)\cos(q_2)u_4  - \sin(q_2)u_5 - \cos(q_2)\cos(q_3)u_6
+\end{matrix}\right]}_{\mathbf{f}_1}
     = \left[\begin{matrix} 0\\ 0\\ 0\\ 0\\ 0\\ 0\end{matrix}\right]
 \end{align}
 The translation acceleration of $C^*$ and the angular acceleration of $C$,
@@ -760,8 +781,8 @@ The twelve unknown quantities appearing in the nine kinematic and dynamic
 differential equations are $\dot{q}_{1-6}$ and $\dot{u}_{1-6}$. The three
 acceleration constraint equations provide the final three equations which allow
 for all twelve unkowns to be solved. Combining (\ref{rd:f_0_f_1}),
-(\ref{rd:f_2_f_3}), and (\ref{rd:f_a}), the complete second order differential
-equations can be written.
+(\ref{rd:f_2_f_3}), and (\ref{rd:f_a}), the complete set of motion equations
+can be written.
 \begin{align}
 \label{rd:ode}
 \begin{bmatrix} \mathbf{f}_0 + \mathbf{f}_1\\
@@ -785,7 +806,8 @@ of the twelve eigenvalues are identically zero while the remaining four are
 \begin{align}
   \label{eq:evals_incorrect}
   \lambda_{1,2}=\pm\frac{\sqrt{6}}{3}\sqrt{-v^2},
-  \quad \lambda_{3,4} = \pm\sqrt{\frac{4}{5} - \frac{12}{5} v^2}
+%  \quad \lambda_{3,4} = \pm\sqrt{\frac{4}{5} - \frac{12}{5} v^2}
+  \quad \lambda_{3,4} &= \pm \frac{2\sqrt{1 - 3v^2}}{\sqrt{5}}
 \end{align}
 which demonstrates the incorrectness of this naive approach (since
 $v=\pm\frac{1}{\sqrt{3}}$ is not a critical point of these eigenvalues).
@@ -1163,7 +1185,7 @@ $\dot{q}_3$ must be chosen to satisfy
 \end{align}
 which is a quadratic equation in the yaw rate $\dot{q}_1$ with roots
 \begin{align}
-\dot{q}_1 &= \frac{r}{2 g \sin\left(q_{2}\right)} \left( - \frac{3}{2} \dot{q}_{3}\cos\left(q_{2}\right) \pm \sqrt{- \frac{5 g}{r} \sin^{2}\left(q_{2}\right) \cos\left(q_{2}\right) + \frac{9}{4} \dot{q}_{3}^{2} \cos^{2}\left(q_{2}\right)} \right)
+\dot{q}_1 &= \frac{2}{5\cos\left(q_{2}\right) \sin\left(q_{2}\right)} \left( - \frac{3}{2} \dot{q}_{3}\cos\left(q_{2}\right) \pm \sqrt{- \frac{5 g}{r} \sin^{2}\left(q_{2}\right) \cos\left(q_{2}\right) + \frac{9}{4} \dot{q}_{3}^{2} \cos^{2}\left(q_{2}\right)} \right)
 \end{align}
 To be physically meaningful, these roots must be real, which gives rise to the following additional requirement
 \begin{align}
@@ -1187,10 +1209,19 @@ Most modern control techniques assume a system can be written as
 \begin{align}
 \dot{\mathbf{x}} = \mathbf{A}\mathbf{x} + \mathbf{B}\mathbf{u}
 \end{align}
-but equation (\ref{eq:state_space_constrained}) doesn't fit into the standard
-linear system framework because it is non-square.
-To obtain a square system we define
+where $\mathbf{x}$ are the system states and $\mathbf{u}$ are the control
+inputs (the $\mathbf{u}$ used in control literature is analagous to the
+$\mathbf{r}$ we use in this paper).  To transform equation
+(\ref{eq:state_space_constrained}) into this standard form, we define
 \begin{align}
+\tilde{M} &=
+\left[
+\begin{array}{cc}
+  \tilde{M}_{qq} & \bm{0}_{n \times o} \\
+  \tilde{M}_{uqc} & \tilde{M}_{uuc} \\
+  \tilde{M}_{uqd} & \tilde{M}_{uud}
+\end{array}
+\right]\\
 \tilde{A} &=
    \left[
      \begin{array}{cc}

@@ -69,8 +69,7 @@ f_v_du = f_v.jacobian(u)
 
 # Kinematic differential equations
 kindiffs = Matrix([dot(w_c_n_qd - C.ang_vel_in(N), uv) for uv in B] +
-                  [dot(v_co_n_qd - cross(C.ang_vel_in(N), CO.pos_from(P)),
-                       uv) for uv in N])
+                  [dot(v_co_n_qd - CO.vel(N), uv) for uv in N])
 qdots = solve(kindiffs, qd)
 
 B.set_ang_vel(N, w_b_n_qd.subs(qdots))
@@ -221,6 +220,7 @@ f_v_eq = f_v.subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
 f_a_eq = f_a.subs(eq_ud).subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv).expand()
 f_a_eq.simplify()
 f_0_eq_plus_f_1_eq = (f_0 + f_1).subs(eq_qd).subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv)
+f_0_eq_plus_f_1_eq.simplify()
 f_2_eq_plus_f_3_eq = (f_2 + f_3).subs(eq_ud).subs(eq_u).subs(qd_sym).subs(eq_q).subs(qd_sym_inv).expand()
 f_2_eq_plus_f_3_eq.simplify()
 
@@ -326,8 +326,16 @@ print([i.subs(upright_check).n() for i in evals_bad.keys()])
 
 # Steady equilibrium
 steady = f_3[0].subs(eq_u).subs(qd_sym).subs({q1:0,q3:0}).subs(qd_sym_inv)/(m*r*r)
+print("steady equations of motion:")
+mprint(steady.expand().simplify())
 p = Poly(steady, q1d)
-c, b, a = p.coeffs()
+a, b, c = p.coeffs()
+print("a:")
+mprint(a)
+print("b:")
+mprint(b)
+print("c:")
+mprint(c)
 discriminant = b*b - 4*a*c
 root1 = (-b + sqrt(discriminant))/(2*a)
 root2 = (-b - sqrt(discriminant))/(2*a)

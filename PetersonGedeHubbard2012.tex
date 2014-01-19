@@ -566,7 +566,7 @@ non-minimal choice of coordinates
 which results in the configuration constraint $\mathbf{f}_c$
 \begin{equation}
   \label{rd:f_c}
-  r\cos{q_2} + q_6 = 0
+  rc_2 + q_6 = 0
 \end{equation}
 which must be satisfied for the disk to remain in contact with the ground.
 While this constraint is easily avoided by appropriate choice of coordinates,
@@ -597,8 +597,8 @@ the lowest point of the disk $P^*$ is
     {^N}\bm{v}^{P^*} &= \bm{v}^{C^*} + \bm{\omega}^{C} \times r^{P^*/C^*} \\
                      &= u_4\hat{c}_x + u_5\hat{c}_y + u_6\hat{c}_z + r u_2
                         \hat{b}_x - r u_1 \hat{b}_y \\
-                     &= (r u_2 \cos(q_3) + u_4) \hat{c}_x + (-r
-                        u_1 + u_5)\hat{c}_y + r u_2 \sin(q_3) +
+                     &= (r u_2 c_3 + u_4) \hat{c}_x + (-r
+                        u_1 + u_5)\hat{c}_y + r u_2 s_3 +
                         u6) \hat{c}_z
 \end{align*}
 where we have made use of the fact that $\bm{r}^{P^*/C^*} = r\bm{b}_z$.
@@ -607,9 +607,9 @@ constraint equations which make up $\mathbf{f}_v = \mathbf{0}$
 \begin{subequations}
 \label{rd:f_v}
 \begin{align}
-    r u_2 \cos(q_3) + u_4 &= 0\\
+    r u_2 c_3 + u_4 &= 0\\
             -r u_1 + u_5 &= 0\\
-    r u_2 \sin(q_3) + u_6 &= 0
+    r u_2 s_3 + u_6 &= 0
 \end{align}
 \end{subequations}
 These equations are linear in the $u_i$ terms, nonlinear in the $q_i$ terms,
@@ -643,10 +643,10 @@ constraint equations, $\mathbf{f}_a = \mathbf{0}$, written out as:
 \begin{subequations}
 \label{rd:f_a}
 \begin{align}
-    -r u_{2} \sin(q_{3}) \dot{q}_{3} + r \cos(q_{3}) \dot{u}_{2} + \dot{u}_{4} &=
+    -r u_{2} s_3 \dot{q}_{3} + r c_3 \dot{u}_{2} + \dot{u}_{4} &=
     0\\
     - r \dot{u}_{1} + \dot{u}_{5} &= 0\\
-    r u_{2} \cos(q_{3}) \dot{q}_{3} + r \sin(q_{3}) \dot{u}_{2} + \dot{u}_{6} &=
+    r u_{2} c_3 \dot{q}_{3} + r s_3 \dot{u}_{2} + \dot{u}_{6} &=
     0
 \end{align}
 \end{subequations}
@@ -674,40 +674,36 @@ and resolving these vector equations into the $B$ frame, and rearranging so
 that all terms appear to the left of the equality sign, we obtain
 \begin{align}
     \label{rd:f_0_f_1}
-\underbrace{\left[\begin{matrix}\dot{q}_{2}\\\sin\left(q_{2}\right)
-    \dot{q}_{1} + \dot{q}_{3}\\\cos\left(q_{2}\right)
+\underbrace{\left[\begin{matrix}\dot{q}_{2}\\s_2
+    \dot{q}_{1} + \dot{q}_{3}\\ c_2
     \dot{q}_{1}\\\dot{q}_{4}\\\dot{q}_{5}\\\dot{q}_{6}\end{matrix}\right]}_{\mathbf{f}_0}
     +
 \underbrace{\left[\begin{matrix}- u_{1}\\- u_{2}\\- u_{3}\\
+\left(s_1 s_2 s_3 - c_1c_3\right)u_4 +
+s_1 c_2 u_5 - \left(s_1 s_2c_3 +
+s_3c_1\right)u_6 \\
 %
-%[ sin(q1)*sin(q2)*sin(q3) - cos(q1)*cos(q3),  sin(q1)*cos(q2), -sin(q1)*sin(q2)*cos(q3) - sin(q3)*cos(q1)],
-%[-sin(q1)*cos(q3) - sin(q2)*sin(q3)*cos(q1), -cos(q1)*cos(q2), -sin(q1)*sin(q3) + sin(q2)*cos(q1)*cos(q3)],
-%[                           sin(q3)*cos(q2),         -sin(q2),                           -cos(q2)*cos(q3)]]
-\left(\sin(q_1)\sin(q_2)\sin(q_3) - \cos(q_1)\cos(q_3)\right)u_4 +
-\left(\sin(q_1)\cos(q_2)\right)u_5 + \left(-\sin(q_1)\sin(q_2)\cos(q_3) -
-\sin(q_3)\cos(q_1)\right)u_6 \\
-%
-\left(-\sin(q_1)\cos(q_3) - \sin(q_2)\sin(q_3)\cos(q_1)\right)u_4 +
-\left(-\cos(q_1)\cos(q_2)\right)u_5 +
-\left(-\sin(q_1)\sin(q_3) + \sin(q_2)\cos(q_1)\cos(q_3)\right)u_6
+\left(-s_1c_3 - s_2 s_3c_1\right)u_4 -
+c_1c_2 u_5 +
+\left(-s_1 s_3 + s_2c_1c_3\right)u_6
 \\
 %
-\sin(q_3)\cos(q_2)u_4  - \sin(q_2)u_5 - \cos(q_2)\cos(q_3)u_6
+s_3c_2u_4  - s_2u_5 - c_2c_3u_6
 \end{matrix}\right]}_{\mathbf{f}_1}
     = \left[\begin{matrix} 0\\ 0\\ 0\\ 0\\ 0\\ 0\end{matrix}\right]
 \end{align}
 The translation acceleration of $C^*$ and the angular acceleration of $C$,
 relative to $N$, are
 \begin{align}
-    {^N}\bar{a}^{C^*} =& (-(u_1 \sin(q_3) + u_3 \cos(q_3)) u_5 + u_2 u_6 +
+    {^N}\bar{a}^{C^*} =& (-(u_1 s_3 + u_3 c_3) u_5 + u_2 u_6 +
                          \dot{u}_4) \hat{c}_x \notag \\
-                      & + ((u_1 \sin(q_3) + u_3 \cos(q_3)) u_4 - (u_1
-                         \cos(q_3) - u_3 \sin(q_3)) u_6 + \dot{u}_5) \hat{c}_y
+                      & + ((u_1 s_3 + u_3 c_3) u_4 - (u_1
+                         c_3 - u_3 s_3) u_6 + \dot{u}_5) \hat{c}_y
                          \notag\\
-                      & + ((u_1 \cos(q_3) - u_3 \sin(q_3)) u_5 - u_2 u_4 +
+                      & + ((u_1 c_3 - u_3 s_3) u_5 - u_2 u_4 +
                          \dot{u}_6) \hat{c}_z \\
-    {^N}\bar{\alpha}^{C} =& (-u_2 u_3 + u_3^2 \tan(q_2) + \dot{u}_1) \hat{b}_x
-                         + \dot{u}_2 \hat{b}_y + (u_1 u_2 - u_1 u_3 \tan(q2) +
+    {^N}\bar{\alpha}^{C} =& (-u_2 u_3 + u_3^2 t_2 + \dot{u}_1) \hat{b}_x
+                         + \dot{u}_2 \hat{b}_y + (u_1 u_2 - u_1 u_3 t_2 +
                          \dot{u}_3) \hat{b}_z
 \end{align}
 
@@ -721,30 +717,30 @@ Using equations (\ref{eq:rb_translational_gen_inertia}) and
 (\ref{eq:rb_rotational_gen_inertia}), $\bar{R}^*_{C^*}$ and $\bar{T}^*_C$ can be
 written.
 \begin{align}
-    \bar{R}^*_{C^*} =& - m (- (u_{1} \sin(q_{3}) + u_{3}
-                       \cos(q_{3})) u_{5} + u_{2} u_{6} +
+    \bar{R}^*_{C^*} =& - m (- (u_{1} s_3 + u_{3}
+                       c_3) u_{5} + u_{2} u_{6} +
                        \dot{u}_{4}) \hat{c}_x \notag \\
-                     & - m ((u_{1} \sin(q_{3}) + u_{3}
-                       \cos(q_{3})) u_{4} - (u_{1}
-                       \cos(q_{3}) - u_{3}
-                       \sin(q_{3})) u_{6} + \dot{u}_{5})
+                     & - m ((u_{1} s_3 + u_{3}
+                       c_3) u_{4} - (u_{1}
+                       c_3 - u_{3}
+                       s_3) u_{6} + \dot{u}_{5})
                        \hat{c}_y \notag \\
-                     & - m ((u_{1} \cos(q_{3}) - u_{3}
-                       \sin(q_{3})) u_{5} - u_{2} u_{4} +
+                     & - m ((u_{1} c_3 - u_{3}
+                       s_3) u_{5} - u_{2} u_{4} +
                    \dot{u}_{6}) \hat{c}_z \\
-    \bar{T}^*_C =& \frac{m r^{2}}{4} (2 u_{1} u_{2} \sin(q_{3})
-                   - u_{1} u_{3} \sin(q_{3}) \tan(q_{2})
-                   + 2 u_{2} u_{3} \cos(q_{3}) \notag\\&\quad\quad- u_{3}^2
-                   \cos(q_{3}) \tan(q_{2}) +
-                   \sin(q_{3}) \dot{u}_{3} - \cos(q_{3})
+    \bar{T}^*_C =& \frac{m r^{2}}{4} (2 u_{1} u_{2} s_3
+                   - u_{1} u_{3} s_3 t_2
+                   + 2 u_{2} u_{3} c_3 \notag\\&\quad\quad- u_{3}^2
+                   c_3 t_2 +
+                   s_3 \dot{u}_{3} - c_3
                    \dot{u}_{1}) \hat{c}_x \notag \\
                  & - \frac{m r^{2}}{2} \dot{u}_{2} \hat{c}_y \notag \\
                  & + \frac{m r^{2}}{4} (- 2 u_{1} u_{2}
-                   \cos(q_{3}) + u_{1} u_{3} \cos(q_{3})
-                   \tan(q_{2}) + 2 u_{2} u_{3}
-                   \sin(q_{3}) \notag\\&\quad\quad - u_{3}^2 \sin(q_{3})
-                   \tan(q_{2}) - \sin(q_{3}) \dot{u}_{1}
-                   - \cos(q_{3}) \dot{u}_{3}) \hat{c}_z
+                   c_3 + u_{1} u_{3} c_3
+                   t_2 + 2 u_{2} u_{3}
+                   s_3 \notag\\&\quad\quad - u_{3}^2 s_3
+                   t_2 - s_3 \dot{u}_{1}
+                   - c_3 \dot{u}_{3}) \hat{c}_z
 \end{align}
 
 The generalized active forces for this example are
@@ -763,17 +759,17 @@ $\mathbf{f}_3$ vectors.
     & \left[\begin{matrix} 0\\ 0\\ 0\end{matrix}\right] =
     \underbrace{\left[\begin{matrix}- \frac{m r}{4} \left(r \dot{u}_{1} + 4
                 \dot{u}_{5}\right)\\\frac{m r}{2} \left(- r \dot{u}_{2} + 2
-                \sin\left(q_{3}\right) \dot{u}_{6} + 2 \cos\left(q_{3}\right)
+                s_3\right) \dot{u}_{6} + 2 c_3
                 \dot{u}_{4}\right)\\- \frac{m r^{2}}{4}
                 \dot{u}_{3}\end{matrix}\right]}_{\mathbf{f}_2} + \notag\\
     &\underbrace{\left[\begin{matrix}
-                m r \left( g \sin(q_2) - u_1 u_4 \sin(q_3) + u_1 u_6 \cos(q_3)
-                    + (\frac{r u_2}{2} - \frac{r u_3}{4} \tan(q_2) - u_4
-                \cos(q_3) - u_6 \sin(q_3)) u_3 \right)
+                m r \left( g s_2 - u_1 u_4 s_3 + u_1 u_6 c_3
+                    + (\frac{r u_2}{2} - \frac{r u_3}{4} t_2 - u_4
+                c_3 - u_6 s_3) u_3 \right)
                 \\m r \left(- u_{2} u_{4}
-                \sin\left(q_{3}\right) + u_{2} u_{6}
-                \cos\left(q_{3}\right) - u_{3} u_{5}\right)\\\frac{m r^{2}}{4}
-                \left(- 2 u_{2} + u_{3} \tan\left(q_{2}\right)\right)
+                s_3 + u_{2} u_{6}
+                c_3 - u_{3} u_{5}\right)\\\frac{m r^{2}}{4}
+                \left(- 2 u_{2} + u_{3} t_2\right)
                 u_{1}\end{matrix}\right]}_{\mathbf{f}_3} 
 \end{align}
 
@@ -1179,17 +1175,17 @@ considers the case where the disk lean $q_2$ is constant but not necessarily
 zero. To satisfy the dynamics, the yaw rate $\dot{q}_1$ and spin rate
 $\dot{q}_3$ must be chosen to satisfy
 \begin{align}
-  \frac{g}{r}\sin{(q_2)}  + \frac{3}{2}\cos{(q_2)} \dot{q}_3 \dot{q}_1 +
-  \frac{5}{4}\cos{(q_2)}\sin{(q_2)} \dot{q}_1^2
+  \frac{g}{r} s_2  + \frac{3}{2}c_2 \dot{q}_3 \dot{q}_1 +
+  \frac{5}{4}c_2 s_2 \dot{q}_1^2
  &= 0
 \end{align}
 which is a quadratic equation in the yaw rate $\dot{q}_1$ with roots
 \begin{align}
-\dot{q}_1 &= \frac{2}{5\cos\left(q_{2}\right) \sin\left(q_{2}\right)} \left( - \frac{3}{2} \dot{q}_{3}\cos\left(q_{2}\right) \pm \sqrt{- \frac{5 g}{r} \sin^{2}\left(q_{2}\right) \cos\left(q_{2}\right) + \frac{9}{4} \dot{q}_{3}^{2} \cos^{2}\left(q_{2}\right)} \right)
+\dot{q}_1 &= \frac{2}{5 c_2 s_2 \left( - \frac{3}{2} \dot{q}_{3} c_2 \pm \sqrt{- \frac{5 g}{r} s^2_2 c_2 + \frac{9}{4} \dot{q}_{3}^{2} c^2_2 \right)
 \end{align}
 To be physically meaningful, these roots must be real, which gives rise to the following additional requirement
 \begin{align}
-  \dot{q}_3^2 &\geq \frac{20g}{9r}\sin{(q_2)} \tan{(q_2)}
+  \dot{q}_3^2 &\geq \frac{20g}{9r} s_2 t_2
 \end{align}
 For a given set of parameters, the eigenvalues of the linearized dynamics can be
 parameterized by three quantities: lean $q_2$, yaw rate $\dot{q}_1$, and spin
@@ -1197,7 +1193,7 @@ rate $\dot{q}_3$ (though only two can be independent because of the above
 restrictions). For this more general equilibrium condition, there are still six
 zero eigenvalues, while the two non-zero eigenvalues are
 \begin{align}
-\lambda_{1,2} = \pm\sqrt{\frac{4}{5} \cos\left(q_{2}\right) - \dot{q}_{1}^{2} -\frac{14}{5} \sin\left(q_{2}\right) \dot{q}_{1} \dot{q}_{3} - \frac{12}{5}\dot{q}_{3}^{2}}
+\lambda_{1,2} = \pm\sqrt{\frac{4}{5} c_2 - \dot{q}_{1}^{2} -\frac{14}{5} s_2 \dot{q}_{1} \dot{q}_{3} - \frac{12}{5}\dot{q}_{3}^{2}}
 \end{align}
 which can be easily shown to reduce to Equation (\ref{eq:upright_evals}) when
 $q_2 = \dot{q}_1 = 0$. For a more detailed stability of steadily rolling disks,

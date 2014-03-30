@@ -285,15 +285,13 @@ constraints have the form
 \label{eq:velocity_constraints}
 \mathbf{f}_v(\mathbf{q}, \mathbf{u}, t) = \mathbf{0}
 \end{align}
-where $\mathbf{f}_v$ and $\mathbf{0}$ have shape $m \times 1$,
-and $\mathbf{f}_v$ depends linearly on $\mathbf{u}$.  It is important that the
-velocity constraints include the time-differentiated configuration constraints
-or equivalent constraints which produce the same behavior. Furthermore,
-velocity constraints should be written such that generalized speeds and
-coordinates appear, but $\dot{\mathbf{q}}$ terms do not.  Finally, acceleration
-constraints are typically time-differentiated velocity constraints (or
-similarly formed from kinematic considerations) and are assumed to have the
-form
+where $\mathbf{f}_v$ and $\mathbf{0}$ have shape $m \times 1$, and
+$\mathbf{f}_v$ depends linearly on $\mathbf{u}$.  It is assumed that
+$\mathbf{f}_v$ includes time-differentiated configuration constraints as well
+as truly nonholonomic constraints. Further, it is assumed that the kinematic
+differential equations have been used to eliminate $\dot{\mathbf{q}}$ from
+$\mathbf{f}_v$. Finally, acceleration constraints are time-differentiated
+velocity constraints and are assumed to have the form
 \begin{align}
 \label{eq:acceleration_constraints}
 \mathbf{f}_a(\mathbf{q}, \dot{\mathbf{q}}, \mathbf{u}, \dot{\mathbf{u}}, t) =
@@ -320,7 +318,7 @@ the velocity constraints. These typically arise from specified quantities whose
 dynamics are being ignored (e.g., a motor spinning at constant speed).
 
 With these definitions established, Kane's method can be applied. In vector
-form, Kane's dynamical equations are
+form, Kane's holonomic dynamical equations are
 \begin{align}
 \label{eq:kanes_eq}
 \mathbf{F} + \mathbf{F}^* = \mathbf{0}
@@ -341,7 +339,7 @@ reference frame. Distance forces do not need to be transformed into a resultant
 force/torque pair for any components of the system; they only need to be
 considered at the point of application (e.g., if a force $\bar{f}$ is the only
 force applied to body $B$ at point $Q$, then $\bar{R}_{B^*}=0$ and
-$\bar{T}_B=0$ but $\bar{R}_Q=\bar{f}$). The generalized active forces are
+$\bar{T}_B=0$ but $\bar{R}_Q=\bar{f}$). The holonomic generalized active forces are
 \begin{equation}
 \label{eq:definition_F}
 \mathbf{F} =
@@ -381,7 +379,7 @@ while the inertia force and inertia torque for rigid body $B$ is
 {^N}\bar{\omega}^B \times \bar{\bar{I}}^{B/B^*} \cdot {^N}\bar{\omega}^B
 \end{align}
 Where $\bar{\bar{I}}^{B/B^*}$ is the central inertia dyadic of the rigid body
-$B$ about its mass center $B^*$ \cite{Kane1985}. The generalized inertia forces
+$B$ about its mass center $B^*$ \cite{Kane1985}. The holonomic generalized inertia forces
 are
 \begin{equation}
 \label{eq:definition_Fstar}
@@ -400,19 +398,18 @@ are
 \end{bmatrix}
 \end{equation}
 
-All the terms in (\ref{eq:kanes_eq}) are now defined, but this equation is
-valid only if there are no velocity constraints. If there are velocity
-constraints, the equations must be transformed. As we present them, Kane's
-nonholonomic dynamical equations will be of dimension $o - m$, where $o$ is the
+If there are velocity constraints, we must used Kane's nonholonomic dynamical
+equations
+%which allows Kane's nonholonomic dynamical equations to be written as
+\begin{align}
+\label{eq:kanes_eq_nonholonomic}
+\tilde{\mathbf{F}} + \tilde{\mathbf{F}}^* = \mathbf{0}
+\end{align}
+where $\tilde{\mathbf{F}}$ and $\tilde{\mathbf{F}}^*$ are the nonholonomic
+generalized active forces and noholonomic generalized inertia forces.  Equation
+(\ref{eq:kanes_eq_nonholonomic}) will be of dimension $o - m$, where $o$ is the
 total number of generalized speeds and $m$ is the number of velocity
-constraints. However, these $o-m$ equations generally involve all $o$ speeds
-(we assume the dependent speeds and their time derivatives have \textit{not}
-been algebraically eliminated). To obtain the nonholonomic dynamical equations,
-however, a choice must be made as to which speeds will be dependent.  The
-methods for doing this are beyond the scope of this paper, but it is important
-that whatever selection is made avoids singularities which can occur in certain
-configurations or sets of system parameters. For a careful treatment , we
-encourage the reader to examine the work of Reckdahl \cite{Reckdahl1996}.
+constraints.
 
 We assume the $o$ generalized speeds are ordered $\mathbf{u} = [\mathbf{u}_i,
 \mathbf{u}_d]^T$, where $\mathbf{u}_i\in\mathbf{R}^{o-m}$ and
@@ -446,11 +443,7 @@ allowing the nonholonomic generalized forces to be written:
 \tilde{\mathbf{F}} = \mathbf{F}_i + \mathbf{A}^T \mathbf{F}_d \quad \quad
 \tilde{\mathbf{F}}^* = \mathbf{F}_i^* + \mathbf{A}^T \mathbf{F}_d^*
 \end{align}
-which allows Kane's nonholonomic dynamical equations to be written as
-\begin{align}
-\label{eq:kanes_eq_nonholonomic}
-\tilde{\mathbf{F}} + \tilde{\mathbf{F}}^* = \mathbf{0}
-\end{align}
+
 This process of constraining the equations of motion reduces the number of
 equations from $o$ to $o-m$. However, eqns. (\ref{eq:kanes_eq_nonholonomic}) still
 contain $o$ unknowns ($\dot{\mathbf{u}}_1,...,\dot{\mathbf{u}}_o$). By
@@ -466,6 +459,16 @@ augmented system of equations is
 \mathbf{f}_a (\mathbf{q}, \dot{\mathbf{q}}, \mathbf{u}, \dot{\mathbf{u}}, t)
 \end{bmatrix} = \mathbf{0}
 \end{align}
+
+The $o-m$ equations in (\ref{eq:kanes_eq_nonholonomic}) generally involve $o$
+speeds (we assume the dependent speeds and their time derivatives have
+\textit{not} been algebraically eliminated). To obtain
+(\ref{eq:kanes_eq_nonholonomic}) one must choose which speeds will be
+dependent.  The methods for doing this are beyond the scope of this paper, but
+it is important that whatever selection is made avoids singularities which can
+occur in certain configurations or sets of system parameters. For a careful
+treatment, we encourage the reader to examine the work of Reckdahl
+\cite{Reckdahl1996}.
 
 For convenience, we summarize the critical equations in Table
 \ref{table:assumptions}.

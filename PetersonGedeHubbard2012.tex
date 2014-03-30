@@ -228,12 +228,13 @@ This generally results in simple equations of motion, which are easier to form.
 
 The mathematical formalism for applying Kane's method to multibody systems
 follows. Consider a system composed of particles $P_1,...,P_h$, rigid bodies
-$B_1,...,B_g$, with points of force application $Q_1,...,Q_k$, and reference
-frames of torque application $E_1,...,E_c$, all defined relative to the
-inertial reference frame $N$. This system has generalized coordinates
-$q_1,...,q_n$ and generalized speeds $u_1,...,u_o$.  While it common that $n =
-o$, this is not a requirement when using Kane's method. Additionally, there are
-$l$ configuration constraints and $m$ velocity constraints.
+$B_1,...,B_g$, with mass centers $B_1^*,...,B_g^*$ and points of force
+application $Q_1,...,Q_k$, and reference frames of torque application
+$E_1,...,E_c$, all defined relative to the inertial reference frame $N$. This
+system has generalized coordinates $q_1,...,q_n$ and generalized speeds
+$u_1,...,u_o$.  While it common that $n = o$, this is not a requirement when
+using Kane's method. Additionally, there are $l$ configuration constraints and
+$m$ velocity constraints.
 
 In order to properly apply Kane's method, the velocities of each component in
 the system need to be written as linear combinations of the generalized speeds.
@@ -326,10 +327,10 @@ form, Kane's holonomic dynamical equations are
 where $\mathbf{F}$ are the generalized active forces and $\mathbf{F}^*$ are the
 generalized inertia forces. If Newton's second law is written as $f - ma = 0$,
 $\mathbf{F}$ is the multibody generalization of $f$ and $\mathbf{F}^*$ is the
-multibody generalization of $-ma$. As will be shown, these forces are obtained
-by taking the dot product of the partial velocities/angular-velocities, as
-defined in (\ref{eq:particle_translational}) - (\ref{eq:rb_rotational_frames}),
-with the resultant forces/torques ($\bar{R}$/ $\bar{T}$) and with inertial
+multibody generalization of $-ma$. As will be shown, these forces are the dot
+product of the partial velocities/angular-velocities, as defined in
+(\ref{eq:particle_translational}) - (\ref{eq:rb_rotational_frames}), with the
+resultant forces/torques ($\bar{R}$/ $\bar{T}$) and with inertial
 forces/torques ($\bar{R}^*$/$\bar{T}^*$).
 
 The resultant force at a point is defined as the sum of all force vectors
@@ -339,7 +340,7 @@ reference frame. Distance forces do not need to be transformed into a resultant
 force/torque pair for any components of the system; they only need to be
 considered at the point of application (e.g., if a force $\bar{f}$ is the only
 force applied to body $B$ at point $Q$, then $\bar{R}_{B^*}=0$ and
-$\bar{T}_B=0$ but $\bar{R}_Q=\bar{f}$). The holonomic generalized active forces are
+$\bar{T}_B=0$ but $\bar{R}_Q=\bar{f}$). The $o$ holonomic generalized active forces are
 \begin{equation}
 \label{eq:definition_F}
 \mathbf{F} =
@@ -363,9 +364,8 @@ $\bar{T}_B=0$ but $\bar{R}_Q=\bar{f}$). The holonomic generalized active forces 
 \end{bmatrix}
 \end{equation}
 
-We now define the inertia forces and torques, $\bar{R}^*$ and $\bar{T}^*$. We
-leave out the inertial frame $N$ from the expressions; it is assumed to be $N$.
-The inertia force for particle $P$ is
+We now define inertia forces and torques, $\bar{R}^*$ and $\bar{T}^*$.
+For an inertial frame $N$, the inertia force for particle $P$ is
 \begin{align}
 \label{eq:particle_gen_inertia}
 \bar{R}^*_P \triangleq -m_P {^N}\bar{a}^P
@@ -379,8 +379,8 @@ while the inertia force and inertia torque for rigid body $B$ is
 {^N}\bar{\omega}^B \times \bar{\bar{I}}^{B/B^*} \cdot {^N}\bar{\omega}^B
 \end{align}
 Where $\bar{\bar{I}}^{B/B^*}$ is the central inertia dyadic of the rigid body
-$B$ about its mass center $B^*$ \cite{Kane1985}. The holonomic generalized inertia forces
-are
+$B$ about its mass center $B^*$ \cite{Kane1985}. The $o$ holonomic generalized
+inertia forces are
 \begin{equation}
 \label{eq:definition_Fstar}
 \mathbf{F}^* =
@@ -678,7 +678,7 @@ angular velocity, the angular velocity of $C$ is
 while time differentiating $\bar{r}^{C^*}$ in $N$ yields
 \begin{equation}
   \label{v_qdot}
-  \bar{v}^{C^*} = \dot{q}_4 \hat{n}_x + \dot{q}_5 \hat{n}_y + \dot{q}_6 \hat{n}_z
+  {^N}\bar{v}^{C^*} = \dot{q}_4 \hat{n}_x + \dot{q}_5 \hat{n}_y + \dot{q}_6 \hat{n}_z
 \end{equation}
 Equating (\ref{w_u}) with (\ref{w_qdot}) and (\ref{v_u}) with (\ref{v_qdot}),
 and resolving these vector equations into the $B$ frame, and rearranging so

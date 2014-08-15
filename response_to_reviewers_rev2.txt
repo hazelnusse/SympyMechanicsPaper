@@ -1,0 +1,74 @@
+Response to Reviewer #1 comments:
+
+1. Change in revised abstract.
+
+2. Changed in revised abstract to read: "(i.e. no DAE’s, dependent variables
+are not substituted away)". We simply mean that algebraic elimination has not
+been used to eliminate dependent variables.
+
+3. We have removed the word "familiar".
+
+4. We erased the duplicated word "system". The constraint equations are
+involved as the reviewer mentions.
+
+5. We replaced the word "types" with "levels".  Clarified
+holonomic/nonholonomic and the use of time differentiated constraints at the
+velocity and acceleration level.
+
+6. We have clarified the text here.  Lagrange's method can be used for
+nonoholonomic systems.  See Nonholonomic Mechanics and Control by Anthony Bloch
+for extensive discussion of Lagrange's method applied to nonholonomic systems.
+The two approaches (Kane's vs. Lagrange) are comparable but Kane's method
+offers more flexibility on the choice of generalized speeds (i.e., u_i != dq_i
+/ dt). The quoted sentence has been rewritten for clarity.
+
+7. We have changed this equation for clarity.
+
+8. Quoted text rewritten for clarity.  n and o are not required to be equal in
+our approach, though this is commonly the case for simple holonomic systems.
+
+9. ...
+
+10. We have added a figure.
+
+11.  The text has been clarified.
+
+12.  We have revised this section to fix the reviewers comments and make the
+section more clear. We do not consider the implementation/performance of a
+symbolic matrix inversion.  The Jacobian of the right hand side of (44) can be
+performed symbolically or numerically.  In this example, we obtained (44) by
+symbolically separating and inverting terms in (43).  We symbolically obtained
+(45) by computing the Jacobian using SymPy (www.sympy.org). The "steady rolling
+condition" is exactly what it sounds like: the disk is rolling at a constant
+spin rate, either in a straight line or along a circular path of constant
+radius. See reference [14] by Oliver O'Reilly for a more detailed treatment of
+rolling disks.
+
+13. ...
+
+14. ...
+
+
+Response to Reviewer #3
+
+1. The notation has been fixed in these equations.
+
+2. The input description was clarified in the text following the table.
+
+3. We have clarified this in the revised manuscript in the second paragraph
+after Table 1.
+
+4. Figure added.
+
+5. Unnecessary step removed.
+
+6. We have improved the discussion in the text. Having any incorrect
+eigenvalues will result in an incorrect linear system response.  We do not
+explore these incorrect results due to space limitations.
+
+7. Thank you for catching this. The equation has been corrected.
+
+8. This discrepancy has been clarified.
+
+9. Thank you for catching this.  We added a definition for matrix M.
+

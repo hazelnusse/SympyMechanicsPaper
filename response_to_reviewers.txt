@@ -1,0 +1,69 @@
+To all reviewers:
+The manuscript has been drastically revised and polished. In particular, the
+order of presentation and the motivation for the work has been expanded upon
+greatly. Additionally, the example has been expanded upon significantly and the
+steps shown more explicitly.
+
+The electronic supplementary material should now be available and should be
+executable by installing Python and SymPy (both free and open source, no other
+dependencies). The simplest way to do this is to install one of the many
+free scientific Python distributions which include both of these (and a number
+of other useful tools). We recommend any of the following:
+1) Enthought's Canopy: https://www.enthought.com/products/canopy/
+2) Python XY: https://code.google.com/p/pythonxy/
+3) Anacond Python: https://store.continuum.io/cshop/anaconda/
+All are open source, well documented, and have free versions (and paid ones as
+well with support), and have a userbase in the 10's-100's of thousands so
+finding help online is generally quite easy.
+
+To reviewer #1:
+The new organization of the paper should address the concern you raised about
+the presentation of linearized equations of motion without any deeper
+motivation or introduction to the terms used.
+
+Regarding the use of both independent states and dependent states, we address
+this more in the introduction, the example, and the discussion of the revised
+manuscript. Briefly, we formulate the equations which include both independent
+and dependent states to allow for the possibility that which states are chosen
+to be dependent/independent can be changed without having to redo the whole
+symbolic formulation.
+
+To reviewer #3:
+Thank you for the references. We have since read all of them and highlighted in
+the introduction the distinction between those works and our own.
+Interestingly, we contacted Arend Schwab during the preparation of our
+manuscript regarding references to linearization of constrained systems; his
+response helpful, but did not include his own 2003 paper which you reference.
+That aside, none of references you list employ Kane's method, nor do any
+include discussion of allowing for non-trivial generalized speeds to be
+selected (i.e., something other than d/dt(q_i) = u_i), nor are any of the
+software packages to which the various authors refer open source -- with the
+exception of the work by Minaker. The work by Minaker uses Lagrange's method,
+and hence we feel is significantly distinct from our own; further he gives no
+reference to the software which he refers to in his paper (Section 6),
+presumably it is the software "EoM": http://137.207.14.230/vdc/index.html, but
+we cannot be sure. If this is the software, it has no mailing list, uses no
+source version control with a history of commits and contributions, and has no
+automated test suite to verify it's correctness; it is essentially the project
+of a single lab group and has no mechanism for participation by a wider
+community. In contrast, the software we use to derive the equations of motion,
+SymPy (sympy.org), is open source, has an extremely active mailing with
+contributors from all over the world, and has been funded (through paying
+students a small summer stipend) by Google for the last 6 years under the
+Google Summer of Code program; it also has automated software tests for unit
+tests a number example systems including the rolling disk.
+
+Regarding the choice of independent speeds, the motivation for allowing the
+choice of dependent speeds to be changed in the linearization procedure (even
+though the dynamic equations, as you astutely observed, must be formed with
+respect to a particular choice of dependent speeds) is so that the choice of
+dependent speeds can be changed at the time of numerical evaluation rather than
+at the time of symbolic derivation. We expand upon this more in the last
+paragraph of the discussion, as well as provide an example of when it is useful
+(computation of Lyapunov characteristic exponents for a system which a single
+choice of dependent coordinates/speeds may be infeasible). Essentially, rather
+than symbolically outputting the constrained equations of motion for every
+possible choice of dependent states, it is possible to only output the
+unconstrained equations of motion and the constraint Jacobian matrices, and
+compute the "best" choice of dependent states (at runtime) and then
+appropriately form the constrained dynamic equations (again, at runtime).

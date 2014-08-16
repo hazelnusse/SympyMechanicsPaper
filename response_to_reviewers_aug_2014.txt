@@ -1,0 +1,190 @@
+Response to Editor.
+
+Dear Editor(s),
+We feel that in this revision, as in the previous revisions, we have made an
+effort to address as many of Reviewer #1's comments as possible. We have valued
+a number of the comments provided by Reviewer #1, agreeing that the suggested
+changes help to clarify the motivation and methods in the paper.
+
+Unfortunately, there are 2 comments from Reviewer #1 we do not feel are
+reasonable to address, comments 7 and 12.
+
+Comment 7 simply states that the reviewer finds our presentation frustrating,
+without offering specific faults, mistakes, unclear sections, areas that could
+use improvement, etc.  Additionally, some of the other comments (comment 3) are
+the reason we have included such a thorough description of Kane's method. There
+seems to be a breakdown where the reviewer is not understanding how we are
+applying this method, and it is not clear on our end which part of Section 2
+needs to be improved to address the reviewer's difficulties.
+
+Comment 12 states that the reviewer found the parts of the manuscript that they
+understood confusing, and then admits to being unable to follow the derivations
+we have presented. While we cannot simplify the math in the derivations, one
+can always attempt to provide more clarification, but only if the reviewer
+states which areas they had trouble with or where throughout the derivation
+they became lost. This comment as given to us, does not allow us to do
+anything.
+
+In summary, we have addressed as many of the comments as possible, but feel
+that the other comments are not reasonable, and suggest that Reviewer #1 has
+not made a good faith effort to either comprehend the paper, or communicate
+where they had difficulty comprehending the paper. As Reviewer #2 seems to
+approve of the manuscript, we would ask that you overlook Reviewer #1's
+concerns when making the decision to publish or reject this work.
+
+Thank you,
+Luke Peterson
+Gilbert Gede
+Mont Hubbard
+
+
+
+Response to Reviewer #1.
+
+1. Abstract. “...but is compatible with any method as long as only ordinary
+    differential equations are required to describe the system, and independent
+    and dependent states remain in the final equations (i.e. no DAE's,
+    dependent variables are not substituted away)”. The sentence, and
+    especially its end, is still not clear to me.
+
+Author Response: We have changed the sentence for clarity. It now more clearly
+specifies the types of differential equations which can be used.  It also
+clarifies that it was developed for use with Kane's Method when dependent
+quantities have not been algebraically eliminated.
+
+
+2. 1. 36-37 (page 1, lines 36-37). “Design of linear state feedback controllers
+    and first order stability analysis of equilibria are two of the most common
+    uses of multibody system dynamics models”. I am not sure about these are
+    the most common uses.
+
+Author Response: We removed the words which suggested that these were the most
+common uses, instead stating that they are just common uses.
+
+
+3. 2. 21-19. The paragraph is still unclear to me. Kane’s equations are the
+   projections of the initial (expressed in dependent velocities and as such
+   constraint reaction-induced) dynamic equations into the directions of
+   generalized speeds, which are by assumption independent for a constrained
+   system, and with these projections the constraint reactions are excluded
+   from evidence. If the projected dynamic equations are still expressed in the
+   dependent velocities (not in the generalized speeds), the number of the
+   projected dynamic equations is smaller than the number of the velocities. In
+   this context I do not understand the remark that “The kinematical and
+   dynamical differential equations can be solved for the time derivatives of
+   the generalized coordinates and generalized speeds, ...” as well as most of
+   the content of the paragraph. My reservations raised in the previous review
+   were not clarified.
+
+Author Response: We believe you have some confusion regarding the different
+possible ways to apply Kane's method, which is why we Section 2 clarifies how
+we use Kane's method. One possible way to apply the method is when a
+non-minimal set of speeds are used to define the velocities of the system; in
+this case, the velocity constraint matrix B (equation 11 in the paper) can be
+reworked into matrix A (equation 21). This A matrix is used to reduce the
+number of equations for generalized speeds by the number of constrained speeds.
+This is also outlined by Kane in [Kane 1985], in equations 4.4.3 and 4.4.11,
+which shows the reduction in size of the equations for the generalized speeds
+and that _all_ the speeds (dependent and independent) are still present.
+
+
+4. 2. 20-27. I am not totally satisfied with the changes/clarifications made by
+    the Authors. For example, the remark “Velocity constraints often appear
+    where there is rolling without slip or there are closed kinematic loops” is
+    unclear (if correct at all). Velocity constraints, or, better, constraint
+    equations at the velocity level, are either nonholonomic constraints (often
+    consequent to the rolling without slip) or differentiated with respect to
+    time holonomic constraint equations (one source of such constraints are
+    closed kinematic loops).
+
+Author Response: We have rewritten this entire paragraph to ensure that the
+description of each level of constraints is consistent, and more clear. We have
+reworked the sentence in question to more clearly state that things like
+rolling without slip lead to nonholonomic constraints and closed kinematic
+loops lead to time differentiated holonomic constraints, both of which are
+velocity level constraints.
+
+
+5. 5. 25-50. The velocity constraints are introduced in Eq. (8) in a general
+    (nonlinear) form f_v (q,u,t) = 0 . It is then said that “By assumption (why
+    “by assumption”?), the velocity constraints are linear with respect to u,
+    ... which implies Bu + fvt(q,t) = 0”. Firstly, in general, the constraint
+    matrix B is not constant, i.e.  B(q) or even B(q,t). Then, why the velocity
+    constraints were not introduced from the beginning in this “linear” form?
+
+Author Response: We have clarified that the B matrix is a function of the
+coordinates and time, even though it is written as only a single symbol (a
+format which we use throughout the paper).
+
+
+6. 8. 15 and 831. The meaning of the “exogenous inputs” is not well
+    motivated/explained.
+
+Author Response: We believe that the sentence "The s exogenous inputs include
+control system inputs and/or external disturbance forces or torques applied to
+the system." explains that the exogenous inputs include forces/torques which
+are not internal to the system (e.g. a reaction force), but instead applied
+from outside the system (a motor driving a body in the system).
+
+
+7. A general remark to Section 2. While Kane’s method is generally well
+    understood, the Authors presentation of its formulation is rather
+    “frustrating”.
+
+
+8. 10. 32-34. One of the velocity constraint equations introduced in Eq. (30)
+    should be a time differentiated form of the configuration constraint of Eq.
+    (25). It seems that it is Eq. (30c).  If so, it should rather read 
+    r u2 s2 + u6  = 0 (not r u2 s3 + u6 = 0). Can you explain this?
+
+Author Response: While it could be written this way, what we have presented is
+correct. The method you are suggesting requires ^N v ^P* to be expressed in N.
+Then, the N_x and N_y components would be 2 of the motion constraints, and the
+time differentiated configuration constraint will equal the N_z component. This
+can be simply verified by time differentiating the configuration constraint and
+utilizing equation 34 to elimante the q_dots, so only u's are present. In
+comparing this to the projection of ^N v ^P* in the N_z direction, you will
+find these are equivalent. We believe what we have presented is simpler.
+
+
+9. 10. 36-38. It is written: “These equations are linear in the ui terms,
+    nonlinear in the qi terms, involve geometric system parameters (but not
+    mass or inertial parameters), and do not explicitly involve \dot{qi}
+    terms”. The remark that constraint equations do not involve inertial
+    parameters is a cliché. According to Eq. (11), \dot{qi} terms are neither
+    involved.
+
+Author Response: Although it might be cliché, we feel explicitness is valuable,
+and we do not wish to remove a sentence which might help a reader avoid
+confusion.
+
+
+10. 10. 39-118. The paragraph is unintelligible. The “diabolical set of
+    coordinates and speeds” is just a set of dependent coordinates and speeds,
+    resulted in one configuration constraint of Eq. (25) and three velocity
+    constraints of Eq. (30) (one holonomic constraint of Eq.  (25) and two
+    nonholonomic constraints of Eq. (30a) and (30b)). There are then five
+    independent coordinates and three independent speeds. By choosing the
+    independent coordinates and speeds, which may in general not be subsets of
+    qi and ui, respectively, the constraint equations (25) and (30) are
+    satisfied by identity.
+
+Author Response: We have changed "diabolical" to "purposefully nonminimal".
+That should clairfy that the example exists to show the technique on a
+tractable system with a nonminimal set of coordinates and speeds, and to
+highlight the approach, rather than suggest that we should be using these
+coordinates and speeds on the rolling disk example.
+
+
+11. 11. 14. Is Eq. (31c) correct? (see Remark 8).
+
+Author Response: Yes it is correct, our response to comment 8 addresses this.
+The code in the electronic supplementary material can be used to verify this.
+
+
+12. A general remark. The complexity of the followed parts of the manuscript is
+    not appealing to me. In fact, I was unable to follow the derivations. I may
+    suppose that the same difficulties will have most of the potential readers
+    of the paper, not mentioning those who would like to follow the procedures.
+
+

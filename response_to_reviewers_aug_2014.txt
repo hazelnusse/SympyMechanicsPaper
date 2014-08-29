@@ -17,23 +17,32 @@ seems to be a breakdown where the reviewer is not understanding how we are
 applying this method, and it is not clear on our end which part of Section 2
 needs to be improved to address the reviewer's difficulties.
 
-Comment 12 states that the reviewer found the parts of the manuscript that they
-understood confusing, and then admits to being unable to follow the derivations
+Comment 12 states that the reviewer is confused by the parts of the manuscript
+that they understood, and then admits to being unable to follow the derivations
 we have presented. While we cannot simplify the math in the derivations, one
 can always attempt to provide more clarification, but only if the reviewer
-states which areas they had trouble with or where throughout the derivation
-they became lost. This comment as given to us, does not allow us to do
-anything.
+states which areas they had trouble with or where in the derivation they became
+lost. This comment as given to us, does not allow us to do anything.
+
+We would also like to add that many of Reviewer #1's comments seem to indicate
+a shortage of effort to understand the paper. As an example, one of the authors
+has advised a masters student in a summer project to implement this method in a
+symbolic computer algebra system and within 2 months the student had
+implemented the entirety of the algorithm, complete with examples, software
+tests to verify mathematical correctness, and documentation. This student was
+able to understand the mathematics presented in the paper with very little
+guidance; fundamentally there is nothing in the derivation that is more
+complicated than a partial derivative and a few matrix multiplications.
 
 In summary, we have addressed as many of the comments as possible, but feel
-that the other comments are not reasonable, and suggest that Reviewer #1 has
-not made a good faith effort to either comprehend the paper, or communicate
-where they had difficulty comprehending the paper. As Reviewer #2 seems to
+that the other comments not addressable, and suggest that Reviewer #1 has
+not made enough of an effort to either comprehend the paper, or communicate
+where they had difficulty comprehending it. As Reviewer #2 seems to
 approve of the manuscript, we would ask that you overlook Reviewer #1's
 concerns when making the decision to publish or reject this work.
 
 Thank you,
-Luke Peterson
+Dale Peterson
 Gilbert Gede
 Mont Hubbard
 
@@ -62,7 +71,7 @@ Author Response: We removed the words which suggested that these were the most
 common uses, instead stating that they are just common uses.
 
 
-3. 2. 21-19. The paragraph is still unclear to me. Kane’s equations are the
+3. 2. 1-19. The paragraph is still unclear to me. Kane’s equations are the
    projections of the initial (expressed in dependent velocities and as such
    constraint reaction-induced) dynamic equations into the directions of
    generalized speeds, which are by assumption independent for a constrained
@@ -76,12 +85,45 @@ common uses, instead stating that they are just common uses.
    the content of the paragraph. My reservations raised in the previous review
    were not clarified.
 
-Author Response: We believe you have some confusion regarding the different
-possible ways to apply Kane's method, which is why we Section 2 clarifies how
-we use Kane's method. One possible way to apply the method is when a
-non-minimal set of speeds are used to define the velocities of the system; in
-this case, the velocity constraint matrix B (equation 11 in the paper) can be
-reworked into matrix A (equation 21). This A matrix is used to reduce the
+We do not use 'generalized coordinates' or 'generalized speeds' to imply that
+either set is minimal. In other words 'generalized' only implies that the
+coordinates/speeds are for the entire system and are not Cartesian or
+spherical coordinates necessarily.  The number of Kane's dynamical equations in our
+formulation is o - m, where o is the number of generalized speeds and m is the
+number of velocity (nonholonomic and time differentiated holonomic)
+constraints. These o - m dynamical equations will in general involve 1) all n
+coordinates and their time derivatives and 2) all o speeds and their time
+derivatives. So despite the fact that the Newton-Euler equations have been
+projected in the direction of the nonholonomic partial velocities (what you
+refer to as 'the direction of the generalized speeds'), there are still more
+unknowns (o generalized speed time derivatives) than there are equations (o -
+m).  This issue can be addressed by 1) algebraically eliminating dependent
+speed time derivatives to obtain o-m equations in o-m unknowns, or 2)
+augmenting the o-m dynamical equations with the m acceleration constraint
+equations to obtain o equations in o unknowns. Either way is mathematically
+equivalent but dependent upon the specific problem at hand one may be
+preferable to the other.
+
+We have revised manuscript to be more explicit about what we mean by solving
+the kinematical and dynamical differential equations for the time derivatives
+of the coordinates and time derivatives of the generalize speeds. For this
+dynamical differential equation:
+
+-m*du/dt + f = 0
+
+then by "solve the dynamical differential equations for the time derivatives of
+the generalized speeds" we mean:
+
+du/dt = f / m
+
+We welcome specific suggestions about how this can be made more clear.
+
+Section 2 was introduced specifically to clarify how we use Kane's method since
+some of our notation deviates from his presentation in his 1985 book. When the
+system has velocity constraints (i.e., a non-minimal set of generalized speeds
+are introducted, or the system has time differentiated holonomic constraints),
+the velocity constraint matrix B (equation 11 in the paper) can manipulated to
+form matrix A (equation 21 in the paper). This A matrix is used to reduce the
 number of equations for generalized speeds by the number of constrained speeds.
 This is also outlined by Kane in [Kane 1985], in equations 4.4.3 and 4.4.11,
 which shows the reduction in size of the equations for the generalized speeds
@@ -134,7 +176,7 @@ from outside the system (a motor driving a body in the system).
 
 8. 10. 32-34. One of the velocity constraint equations introduced in Eq. (30)
     should be a time differentiated form of the configuration constraint of Eq.
-    (25). It seems that it is Eq. (30c).  If so, it should rather read 
+    (25). It seems that it is Eq. (30c).  If so, it should rather read
     r u2 s2 + u6  = 0 (not r u2 s3 + u6 = 0). Can you explain this?
 
 Author Response: While it could be written this way, what we have presented is
@@ -142,7 +184,7 @@ correct. The method you are suggesting requires ^N v ^P* to be expressed in N.
 Then, the N_x and N_y components would be 2 of the motion constraints, and the
 time differentiated configuration constraint will equal the N_z component. This
 can be simply verified by time differentiating the configuration constraint and
-utilizing equation 34 to elimante the q_dots, so only u's are present. In
+utilizing equation 34 to eliminate the q_dots, so only u's are present. In
 comparing this to the projection of ^N v ^P* in the N_z direction, you will
 find these are equivalent. We believe what we have presented is simpler.
 
@@ -154,9 +196,9 @@ find these are equivalent. We believe what we have presented is simpler.
     parameters is a cliché. According to Eq. (11), \dot{qi} terms are neither
     involved.
 
-Author Response: Although it might be cliché, we feel explicitness is valuable,
-and we do not wish to remove a sentence which might help a reader avoid
-confusion.
+Author Response: Although it might be a cliché, we feel explicitness is
+valuable, and we do not wish to remove a sentence which might help a reader
+avoid confusion.
 
 
 10. 10. 39-118. The paragraph is unintelligible. The “diabolical set of
@@ -170,8 +212,8 @@ confusion.
     satisfied by identity.
 
 Author Response: We have changed "diabolical" to "purposefully nonminimal".
-That should clairfy that the example exists to show the technique on a
-tractable system with a nonminimal set of coordinates and speeds, and to
+That should clarfy that the example exists to show the technique on a
+tractable system with a non-minimal set of coordinates and speeds, and to
 highlight the approach, rather than suggest that we should be using these
 coordinates and speeds on the rolling disk example.
 

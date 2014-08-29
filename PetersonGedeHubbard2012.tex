@@ -53,31 +53,36 @@ example of the rolling disk.
 \label{sec:intro}
 Design of linear state feedback controllers and first order stability analysis
 are common uses of multibody system dynamics models. Both require linearized
-equations of motion. For unconstrained systems, obtaining the linearized
-equations of motion is as simple as arranging them  in first order form
-($\dot{x} = f(x, t)$) and evaluating $\frac{\partial f}{\partial x}}$ at the
-point of interest.  However, when the system has constraints not all the states
-are independent, and this process is not as straightforward.
+equations of motion.  We define a constrained system to be one whose
+configuration has been described by a non-minimal set of generalized
+coordinates or whose motion has been described by a non-minimal set of
+generalized speeds.  For unconstrained systems (with a minimal set of
+generalized coordinates and speeds), obtaining the linearized equations of
+motion is as simple as arranging them in first order form ($\dot{x} = f(x, t)$)
+and evaluating $\frac{\partial f}{\partial x}}$ at the point of interest.
+However, when the system has constraints not all the states (coordinates and
+speeds) are independent, and this process is not as straightforward.
 
 For a system with constraints, Kane's dynamical equations\cite{Kane1985} are
-first order ODEs (in the generalized speeds) which include both the
-independent and dependent states (assuming the dependent states have not been
-algebraically eliminated). The kinematical and dynamical differential equations
-can be solved for the time derivatives of the generalized coordinates and
-generalized speeds, respectively. Taken together, it is tempting to think that
-this system of first order differential equations could be linearized in the
-same fashion as an unconstrained system.  Unfortunately, this is not the case.
-Linearizing these equations in the same manner as one would for an
-unconstrained system (by directly computing the Jacobian) is incorrect and will
-yield incorrect linearized equations (and subsequently incorrect eigenvalues,
-in the case of a stability analysis). We illustrate this by means of a familiar
-example, the rolling disk, formulated with a non-traditional set of coordinates
-and generalized speeds which are not all independent. We then provide a
-systematic method to correctly generate the linear equations of motion for
-constrained systems which have been found using Kane's method (or any other
-method that results in equations with the same form). We apply this method to
-the rolling disk example to illustrate that it yields eigenvalues that match
-previously published results.
+first order ODEs (in the generalized speeds) which include both the independent
+and dependent states (assuming the dependent states have not been algebraically
+eliminated). The kinematical differential equations can be solved for the time
+derivatives of the generalized coordinates and the dynamical differential
+equations can be solved for the time derivatives of the generalized speeds.
+Taken together, it is tempting to think that this system of first order
+differential equations could be linearized in the same fashion as an
+unconstrained system.  Unfortunately, this is not the case.  Linearizing these
+equations in the same manner as one would for an unconstrained system (by
+directly computing the Jacobian) is incorrect and will yield incorrect
+linearized equations (and subsequently incorrect eigenvalues, in the case of a
+stability analysis). We illustrate this by means of a familiar example, the
+rolling disk, formulated with a non-traditional set of coordinates and
+generalized speeds which are not all independent. We then provide a systematic
+method to correctly generate the linear equations of motion for constrained
+systems which have been found using Kane's method (or any other method that
+results in equations with the same form). We apply this method to the rolling
+disk example to illustrate that it yields eigenvalues that match previously
+published results.
 
 We consider three levels of constraints: configuration, velocity, and
 acceleration. Constraints at the configuration level (holonomic) limit the
@@ -98,7 +103,7 @@ they \textit{could} be applied correctly, the details of how to do so, as far
 as the authors are aware, have not been explicitly presented. Kang et al.
 \cite{Kang2003} and Negrut and Ortiz \cite{Negrut2006} have both explored
 linearization, but their methods have been developed for equations of motion
-found using Lagrange's method, which contain Lagrange multipliers ( not present
+found using Lagrange's method, which contain Lagrange multipliers (not present
 in equations of motion generated using Kane's method). Further, both of these
 papers lack a discussion of basic concepts such as how many quantities are
 independent, and in the case of eigenvalue computation, how many eigenvalues
@@ -154,13 +159,13 @@ its use, as well as directions for future work.
 To familiarize the reader with Kane's method, several concepts relating to its
 use are discussed: the use of generalized speeds in addition to generalized
 coordinates; how these generalized speeds can be used to project permissible
-motions of the system, and how this removes the need to consider
+motions of the system; and how this removes the need to consider
 non-contributing (internal constraint) forces.  Then, the mathematical steps
 required to use Kane's method are illustrated.
 
 In Lagrange's method, generalized coordinates describe the configuration of a
 system while time derivatives of the generalized coordinates characterize the
-velocities of a system.  Kane's method allows velocities to be written in terms
+velocities.  Kane's method allows velocities to be written in terms
 of generalized speeds, which are not required to be the time derivatives of
 coordinates (although such a definition is permitted).
 
@@ -208,17 +213,18 @@ second law, $\bar{F}=m\bar{a}$ (or the rotational equivalent), only terms that
 are parallel to the partial velocities remain; one scalar equation is generated
 for each generalized speed. An important byproduct is that internal constraint forces
 (non-contributing forces) imposed by objects such as pin or sliding joints no
-longer need to be considered. The reason for this is that partial velocities
+longer need be considered. The reason for this is that partial velocities
 are \textit{by construction} perpendicular to forces of constraint. Constraint
 forces can be included in the formulation, but will not appear in the final
 equations of motion because of this very desirable property.
 
-In summary, Kane's method allows for velocities to be defined in terms of
-generalized speeds, allowing for simpler velocity expressions.  The dot product
-of each partial velocity (the direction of motion associated with each
-generalized speed) with Newton's second law (or Euler's equations) removes all
-terms which are not related to the rate of change of each generalized speed.
-This generally results in simple equations of motion, which are easier to form.
+In summary, Kane's method allows velocities to be defined in terms of
+generalized speeds, leading to simpler velocity expressions and equations of
+motion expressed in first order form.  The dot product of each partial velocity
+(the direction of motion associated with each generalized speed) with Newton's
+second law (or Euler's equations) removes all terms which are not related to
+the rate of change of each generalized speed.  This generally results in simple
+equations of motion, which are easier to form.
 
 The mathematical formalism for applying Kane's method to multibody systems
 follows. Consider a system composed of particles $P_1,...,P_h$, rigid bodies
@@ -543,16 +549,16 @@ which persist after the first two intermediate rotations in the sequence; we
 refer to these as the instantaneous yaw and lean frames, respectively. The unit
 vector, $\hat{b}_z$ fixed in the $B$ frame, is parallel to the disk plane and
 aligned with the position vector from the disk center $C^*$ to the lowest point
-of the disk $P^*$. Figure \ref{fig:rolling_disc} shows how the generalized
-coordinates are used to configure the disc.
+of the disk $P^*$. Figure \ref{fig:rolling_disk} shows how the generalized
+coordinates are used to configure the disk.
 
 For brevity, we use $c_i=\cos{q_i}$ and $s_i=\sin{q_i}$.
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=0.8\textwidth]{disk_drawing_cropped.pdf}
-    \caption{Configuration of rolling disc using non-minimal coordinates.}
-    \label{fig:rolling_disc}
+    \caption{Configuration of rolling disk using non-minimal coordinates.}
+    \label{fig:rolling_disk}
 \end{figure}
 
 Traditionally, to locate the center of the disk $C^*$ relative to the inertial
@@ -623,19 +629,21 @@ involve geometric system parameters (but not mass or inertial parameters), and
 do not explicitly involve $\dot{q}_i$ terms. This structure will be taken
 advantage of in Section \ref{sec:derivations}.
 
-At this point, the reader familiar with the rolling disk problem may wondering
-why we have purposefully chosen a non-minimal set of coordinates and speeds.
-In this simple example, there is an {\bf \textit{obvious and minimal}} choice
-of coordinates and speeds ($q_6, u_4, u_5, u_6$, should be dependent; this
-choice will be valid for all parameters and configurations; further, the
-derivation of the equations of motion can be done without ever introducing
-these quantities), for some systems this is not the case (e.g., Stewart's
-platform, bicycle). The numeric values of system parameters and the
-configurations in which the system will operate will determine which
+At this point, the reader familiar with the rolling disk problem may be
+wondering why we have purposefully chosen a non-minimal set of coordinates and
+speeds.  In this simple example, there is an {\bf \textit{obvious and minimal}}
+choice of coordinates and speeds ($q_1, q_2, q_3, q_4, q_5, u_1, u_2, u_3$
+should be independent as this choice will be valid for all parameters and
+configurations.  The equations of motion can be formed without ever introducing
+$q_6, u_4, u_5, u_6$).
+
+For some systems there is not an obvious and minimal choice of coordinates and
+speeds (e.g., Stewart's platform, bicycle).  The values of system parameters
+and the configurations in which the system will operate determine which
 coordinates and speeds can be taken to be dependent (and hence potentially
 eliminated by algebraic manipulations).  However, it may not be possible
 \textit{a priori} to determine easily which coordinates and speeds should be
-taken as dependent; further, some systems may operate in distinct enough
+taken as dependent. Further, some systems may operate in distinct enough
 regions of the configuration space that one \textit{must} use different choices
 of dependent coordinates and/or speeds as the system moves from one region to
 another. The purpose of our complex choice of coordinates and speeds is to
@@ -676,8 +684,8 @@ while time differentiating $\bar{r}^{C^*}$ in $N$ yields
   \label{v_qdot}
   {^N}\bar{v}^{C^*} = \dot{q}_4 \hat{n}_x + \dot{q}_5 \hat{n}_y + \dot{q}_6 \hat{n}_z
 \end{equation}
-Equating (\ref{w_u}) with (\ref{w_qdot}) and (\ref{v_u}) with (\ref{v_qdot}),
-and resolving these vector equations into the $B$ frame, and rearranging so
+Equating (\ref{w_u}) with (\ref{w_qdot}) and (\ref{v_u}) with (\ref{v_qdot})
+and expressing these vector equations in the $B$ frame, and rearranging so
 that all terms appear to the left of the equality sign, we obtain
 \begin{align}
     \label{rd:f_0_f_1}
@@ -750,7 +758,7 @@ written.
                    - c_3 \dot{u}_{3}) \hat{c}_z
 \end{align}
 
-The generalized active forces for this example are
+The generalized active forces and torques for this example are
 \begin{align}
     \bar{R}_{C^*} &= m g \hat{n}_z \\
     \bar{T}_C &= 0
@@ -783,7 +791,7 @@ $\mathbf{f}_3$ vectors.
 The twelve unknown quantities appearing in the nine kinematic and dynamic
 differential equations are $\dot{q}_{1-6}$ and $\dot{u}_{1-6}$. The three
 acceleration constraint equations provide the final three equations which allow
-for all twelve unknowns to be solved. Combining (\ref{rd:f_0_f_1}),
+all twelve unknowns to be determined. Combining (\ref{rd:f_0_f_1}),
 (\ref{rd:f_2_f_3}), and (\ref{rd:f_a}), the complete set of motion equations
 can be written.
 \begin{align}
@@ -799,13 +807,15 @@ for the ($\dot{q}_i$, $\dot{u}_i$) terms to construct the right-hand side of
 \begin{bmatrix}\dot{\mathbf{q}} \\ \dot{\mathbf{u}}\end{bmatrix} =
     \mathbf{f}(\mathbf{q}, \mathbf{u}, t)
 \end{align}
-and take the Jacobian of $\mathbf{f}$ with respect to $[\mathbf{q} \quad
-\mathbf{u}]^T$. However, this will give incorrect results. As discussed in
-\cite{Schwab2003}, when $m, r,$ and $g$ are taken to be unity, and the system
-is linearized about the upright steady rolling condition, the critical speed is
-$v \triangleq -r\dot{q}_3 =\pm\frac{1}{\sqrt{3}}$. When following the naive approach, and
-evaluating the Jacobian at the same operating conditions and parameters, eight
-of the twelve eigenvalues are identically zero while the remaining four are:
+and calculate the Jacobian of $\mathbf{f}$ with respect to $[\mathbf{q} \quad
+\mathbf{u}]^T$. However, this will give incorrect results.
+
+As discussed in \cite{Schwab2003}, when $m, r,$ and $g$ are taken to be unity,
+and the system is linearized about the upright steady rolling condition, the
+critical speed is $v \triangleq -r\dot{q}_3 =\pm\frac{1}{\sqrt{3}}$. When
+following the naive approach, and evaluating the Jacobian at the same operating
+conditions and parameters, eight of the twelve eigenvalues are identically zero
+while the remaining four are:
 \begin{align}
   \label{eq:evals_incorrect}
   \lambda_{1,2}=\pm\frac{\sqrt{6}}{3}\sqrt{-v^2},
@@ -819,20 +829,21 @@ critical speed. This indicates the presence of oscillatory modes that are not
 present in the correct derivation.
 
 Further, the fact that twelve eigenvalues are obtained should be an alert that
-something is incorrect, since the number of independent quantities is only
-eight (five coordinates and three speeds). We now outline a linearization
-procedure which addresses this issue; we revisit this example in Section
+something is procedurally incorrect, since the number of independent quantities
+is only eight (five coordinates and three speeds). We now outline a
+linearization procedure which addresses this issue; we revisit this example in
+Section
 \ref{sec:example_revisited}.
 
 \section{Derivation of linearization procedure}
 \label{sec:derivations}
 In response to the need we have demonstrated, we present a linearization
 procedure that properly accounts for system constraints. Computing the Jacobian
-of the right hand side of the ODE's as we did at the end of the previous
+of the right hand side of the ODEs as we did at the end of the previous
 section is incorrect because it fails to apply the chain rule and thereby
 properly account for the relationships imposed by configuration, velocity, and
 acceleration constraints. That it isn't immediately obvious that the chain rule
-needs to be applied is a byproduct of the commonly use notation which doesn't
+needs to be applied is a byproduct of the commonly used notation which doesn't
 make it explicitly clear that dependent coordinates and dependent speeds are not
 only functions of time, but also functions of the independent coordinates and
 independent speeds. These dependent terms should in fact be written as
@@ -1142,23 +1153,23 @@ equations for the dependent quantities.
 We first consider the case of upright steady rolling and begin by choosing the
 independent coordinates to be zero ($q_i^* = 0$, $i = 1,\dots,5$), which
 implies (by appealing to the configuration constraint) that $q_6^* = -r
-\cos{q_2} = -r$.  This corresponds to the disk upright, the lowest point of the
-disc in contact with the ground, and the disk heading aligned with the
-$\hat{n}_x$ unit vector.  Next, we solve the velocity constraint equations for
-the dependent speeds in terms of the independent ones, and substitute these
-into the kinematic differential equations. This yields six equations with nine
-unknowns: $u_i (i=1,2,3)$ and $\dot{q}_i (i=1,\dots6)$. We \textit{choose} yaw
-rate $\dot{q}_1^* = 0$, lean rate $\dot{q}_2^* = 0$, let spin rate
-$\dot{q}_3^*$ be a free variable, and solve for the remaining six unknowns.
-This yields $u_1^* = u_3^* = 0$, $u_2^* = \dot{q}_3^*$, $\dot{q}_4^* =
--r\dot{q}_3^*$, $\dot{q}_5^* = \dot{q}_6^* = 0$. Back substituting the first
-three of these results into the velocity constraint equations yields $u_4^* =
+\cos{q_2^*} = -r$.  This corresponds to the disk in a vertical plane, the
+lowest point of the disk in contact with the ground, and the disk plane
+parallel to the $\hat{n}_x$ unit vector.  Next, we solve the velocity
+constraint equations for the dependent speeds in terms of the independent ones,
+and substitute these into the kinematic differential equations. This yields six
+equations with nine unknowns: $u_i (i=1,2,3)$ and $\dot{q}_i (i=1,\dots6)$. We
+\textit{choose} yaw rate $\dot{q}_1^* = 0$, lean rate $\dot{q}_2^* = 0$, let
+spin rate $\dot{q}_3^*$ be a free variable, and solve for the remaining six
+unknowns.  This yields $u_1^* = u_3^* = 0$, $u_2^* = \dot{q}_3^*$, $\dot{q}_4^*
+= -r\dot{q}_3^*$, $\dot{q}_5^* = \dot{q}_6^* = 0$. Substituting the first three
+of these results into the velocity constraint equations yields $u_4^* =
 -r\dot{q}_3^*$, $u_5^* = u_6^* = 0$. Finally, by evaluating the acceleration
 constraints $f_a$ and the dynamic equations $f_2 + f_3$ at these conditions, we
 can solve for $\dot{u}_i^*$, $i = 1,\dots6$. We obtain $\dot{u}_1^* =
 \dot{u}_2^* = \dot{u}_3^* = \dot{u}_4^* = \dot{u}_5^* = 0$, and $\dot{u}_6^* =
 -r \dot{q}_3^{*2}$. The upright equilibrium conditions are thus parameterized
-in terms of the disc spin rate $\dot{q}_3$; for this upright configuration
+in terms of the disk spin rate $\dot{q}_3$; for this upright configuration
 ($q_2 = 0$) it is convenient to introduce the forward speed $v \triangleq
 -r\dot{q}_3^*$.
 

@@ -123,6 +123,7 @@ from outside the system (a motor driving a body in the system).
     understood, the Authors presentation of its formulation is rather
     "frustrating".
 
+We welcome specific suggestions about how this can be made more clear.
 
 8. 10. 32-34. One of the velocity constraint equations introduced in Eq. (30)
     should be a time differentiated form of the configuration constraint of Eq.
@@ -179,4 +180,5 @@ The code in the electronic supplementary material can be used to verify this.
     suppose that the same difficulties will have most of the potential readers
     of the paper, not mentioning those who would like to follow the procedures.
 
+We welcome specific suggestions to make the paper more appealing to you.
 

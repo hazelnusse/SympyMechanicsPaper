@@ -1,0 +1,48 @@
+Response to Editor.
+
+Dear Editor(s),
+We feel that in this revision, as in the previous revisions, we have made an
+effort to address as many of Reviewer #1's comments as possible. We have valued
+a number of the comments provided by Reviewer #1, agreeing that the suggested
+changes help to clarify the motivation and methods in the paper.
+
+Unfortunately, there are 2 comments from Reviewer #1 we do not feel are
+reasonable to address, comments 7 and 12.
+
+Comment 7 simply states that the reviewer finds our presentation frustrating,
+without offering specific faults, mistakes, unclear sections, areas that could
+use improvement, etc.  Additionally, some of the other comments (comment 3) are
+the reason we have included such a thorough description of Kane's method. There
+seems to be a breakdown where the reviewer is not understanding how we are
+applying this method, and it is not clear on our end which part of Section 2
+needs to be improved to address the reviewer's difficulties.
+
+Comment 12 states that the reviewer is confused by the parts of the manuscript
+that they understood, and then admits to being unable to follow the derivations
+we have presented. While we cannot simplify the math in the derivations, one
+can always attempt to provide more clarification, but only if the reviewer
+states which areas they had trouble with or where in the derivation they became
+lost. This comment as given to us, does not allow us to do anything.
+
+We would also like to add that many of Reviewer #1's comments seem to indicate
+a shortage of effort to understand the paper. As an example, one of the authors
+has advised a masters student in a summer project to implement this method in a
+symbolic computer algebra system and within 2 months the student had
+implemented the entirety of the algorithm, complete with examples, software
+tests to verify mathematical correctness, and documentation. This student was
+able to understand the mathematics presented in the paper with very little
+guidance; fundamentally there is nothing in the derivation that is more
+complicated than a partial derivative and a few matrix multiplications.
+
+In summary, we have addressed as many of the comments as possible, but feel
+that the other comments not addressable, and suggest that Reviewer #1 has
+not made enough of an effort to either comprehend the paper, or communicate
+where they had difficulty comprehending it. As Reviewer #2 seems to
+approve of the manuscript, we would ask that you overlook Reviewer #1's
+concerns when making the decision to publish or reject this work.
+
+Thank you,
+Dale Peterson
+Gilbert Gede
+Mont Hubbard
+

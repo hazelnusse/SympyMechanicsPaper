@@ -50,10 +50,10 @@ Mont Hubbard
 
 Response to Reviewer #1.
 
-1. Abstract. “...but is compatible with any method as long as only ordinary
+1. Abstract. "...but is compatible with any method as long as only ordinary
     differential equations are required to describe the system, and independent
     and dependent states remain in the final equations (i.e. no DAE's,
-    dependent variables are not substituted away)”. The sentence, and
+    dependent variables are not substituted away)". The sentence, and
     especially its end, is still not clear to me.
 
 Author Response: We have changed the sentence for clarity. It now more clearly
@@ -62,9 +62,9 @@ clarifies that it was developed for use with Kane's Method when dependent
 quantities have not been algebraically eliminated.
 
 
-2. 1. 36-37 (page 1, lines 36-37). “Design of linear state feedback controllers
+2. 1. 36-37 (page 1, lines 36-37). "Design of linear state feedback controllers
     and first order stability analysis of equilibria are two of the most common
-    uses of multibody system dynamics models”. I am not sure about these are
+    uses of multibody system dynamics models". I am not sure about these are
     the most common uses.
 
 Author Response: We removed the words which suggested that these were the most
@@ -79,9 +79,9 @@ common uses, instead stating that they are just common uses.
    from evidence. If the projected dynamic equations are still expressed in the
    dependent velocities (not in the generalized speeds), the number of the
    projected dynamic equations is smaller than the number of the velocities. In
-   this context I do not understand the remark that “The kinematical and
+   this context I do not understand the remark that "The kinematical and
    dynamical differential equations can be solved for the time derivatives of
-   the generalized coordinates and generalized speeds, ...” as well as most of
+   the generalized coordinates and generalized speeds, ..." as well as most of
    the content of the paragraph. My reservations raised in the previous review
    were not clarified.
 
@@ -131,8 +131,8 @@ and that _all_ the speeds (dependent and independent) are still present.
 
 
 4. 2. 20-27. I am not totally satisfied with the changes/clarifications made by
-    the Authors. For example, the remark “Velocity constraints often appear
-    where there is rolling without slip or there are closed kinematic loops” is
+    the Authors. For example, the remark "Velocity constraints often appear
+    where there is rolling without slip or there are closed kinematic loops" is
     unclear (if correct at all). Velocity constraints, or, better, constraint
     equations at the velocity level, are either nonholonomic constraints (often
     consequent to the rolling without slip) or differentiated with respect to
@@ -149,10 +149,10 @@ velocity level constraints.
 
 5. 5. 25-50. The velocity constraints are introduced in Eq. (8) in a general
     (nonlinear) form f_v (q,u,t) = 0 . It is then said that “By assumption (why
-    “by assumption”?), the velocity constraints are linear with respect to u,
-    ... which implies Bu + fvt(q,t) = 0”. Firstly, in general, the constraint
+    "by assumption”?), the velocity constraints are linear with respect to u,
+    ... which implies Bu + fvt(q,t) = 0". Firstly, in general, the constraint
     matrix B is not constant, i.e.  B(q) or even B(q,t). Then, why the velocity
-    constraints were not introduced from the beginning in this “linear” form?
+    constraints were not introduced from the beginning in this "linear" form?
 
 Author Response: We have clarified that the B matrix is a function of the
 coordinates and time, even though it is written as only a single symbol (a
@@ -171,7 +171,7 @@ from outside the system (a motor driving a body in the system).
 
 7. A general remark to Section 2. While Kane’s method is generally well
     understood, the Authors presentation of its formulation is rather
-    “frustrating”.
+    "frustrating".
 
 
 8. 10. 32-34. One of the velocity constraint equations introduced in Eq. (30)
